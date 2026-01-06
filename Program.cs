@@ -13,7 +13,7 @@ using ProyectoIdentity.Servicios;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuración adicional para archivos de configuración
-builder.Configuration.AddJsonFile("appsettings.Production.json", optional: true, reloadOnChange: true);
+builder.Configuration.AddJsonFile("appsettings.Development.json", optional: true, reloadOnChange: true);
 builder.Configuration.AddJsonFile("appsettings.Local.json", optional: true, reloadOnChange: true);
 
 // Configuración de la base de datos
@@ -115,15 +115,9 @@ builder.Logging.SetMinimumLevel(LogLevel.Information);
 var app = builder.Build();
 
 // Configuración del pipeline de middleware
-if (!app.Environment.IsDevelopment())
-{
-    app.UseExceptionHandler("/Home/Error");
-    app.UseHsts();
-}
-else
-{
-    app.UseDeveloperExceptionPage();
-}
+app.UseDeveloperExceptionPage(); // ⚠️ Temporal para ver el error real
+app.UseHsts();                   // Mantén esto si estás en HTTPS
+
 
 // Inicialización de la base de datos
 using (var scope = app.Services.CreateScope())
