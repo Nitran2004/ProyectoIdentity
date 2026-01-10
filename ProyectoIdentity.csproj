@@ -8,18 +8,16 @@
 	<ItemGroup>
 		<Compile Remove="Views\Alineamientos\**" />
 		<Compile Remove="Views\Modelos\**" />
+		<Compile Remove="wwwroot\NewFolder\**" />
 		<Content Remove="Views\Alineamientos\**" />
 		<Content Remove="Views\Modelos\**" />
+		<Content Remove="wwwroot\NewFolder\**" />
 		<EmbeddedResource Remove="Views\Alineamientos\**" />
 		<EmbeddedResource Remove="Views\Modelos\**" />
+		<EmbeddedResource Remove="wwwroot\NewFolder\**" />
 		<None Remove="Views\Alineamientos\**" />
 		<None Remove="Views\Modelos\**" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<None Include="Views\Productos\Detalle.cshtml" />
-		<None Include="Views\Productos\Index.cshtml" />
-		<None Include="Views\Productos\Menu.cshtml" />
+		<None Remove="wwwroot\NewFolder\**" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -34,14 +32,5 @@
 		<PackageReference Include="OpenAI" Version="2.2.0" />
 		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="6.0.1" />
 		<PackageReference Include="System.Windows.Extensions" Version="8.0.0" />
-	</ItemGroup>
-
-	<ItemGroup>
-		<Content Update="wwwroot\models3d\aguasingas.jpg">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
-		<Content Update="wwwroot\models3d\pizza1.glb">
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</Content>
 	</ItemGroup>
 </Project>

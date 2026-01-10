@@ -64,11 +64,6 @@ namespace ProyectoIdentity.Migrations
                 type: "nvarchar(max)",
                 nullable: true);
 
-            migrationBuilder.AddColumn<string>(
-                name: "Url",
-                table: "AspNetUsers",
-                type: "nvarchar(max)",
-                nullable: true);
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -109,9 +104,6 @@ namespace ProyectoIdentity.Migrations
                 name: "Telefono",
                 table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "Url",
-                table: "AspNetUsers");
         }
     }
 }

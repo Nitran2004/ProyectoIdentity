@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ProyectoIdentity.Models.Escuela>
+
+@{
+    var region = ViewData["RegionSeleccionada"]?.ToString();
+    ViewData["Title"] = "Escuelas - " + region;
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Escuelas de Fútbol</h1>
+        <h2 class="text-danger text-uppercase">Región @region</h2>
+        <hr class="mx-auto" style="width: 100px; height: 5px; background-color: #DA291C; opacity: 1;">
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-light text-center border shadow-sm">
+            <p class="mb-0 text-muted">No hay escuelas registradas para la región @region actualmente.</p>
+        </div>
+    }
+
+    @foreach (var escuela in Model)
+    {
+        <div class="mb-5 p-4 bg-white shadow-sm border-start border-danger border-4">
+            <h3 class="fw-bold mb-4 text-dark text-uppercase">@escuela.Nombre</h3>
+
+            <div class="row g-4">
+                @foreach (var sede in escuela.Sedes)
+                {
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 border-0 shadow-sm" style="background-color: #f9f9f9;">
+                            <div class="card-body">
+                                <span class="badge bg-primary mb-2">@sede.Ciudad</span>
+                                <p class="mb-2"><strong><i class="fas fa-map-marker-alt"></i> Dirección:</strong><br> @sede.Direccion</p>
+                                <p class="mb-2"><strong><i class="fas fa-clock"></i> Horarios:</strong><br> @sede.Horarios</p>
+                                <p class="mb-2"><strong><i class="fas fa-user"></i> Coord:</strong> @(sede.Responsable ?? "N/A")</p>
+                                <p class="mb-0"><strong><i class="fas fa-phone"></i> Telf:</strong> @(sede.Telefono ?? "N/A")</p>
+                            </div>
+                            @if (!string.IsNullOrEmpty(sede.MapaLink))
+                            {
+                                <div class="card-footer bg-transparent border-0 pt-0">
+                                    <a href="@sede.MapaLink" target="_blank" class="btn btn-outline-danger btn-sm w-100 mt-2">Ver en Mapa</a>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    }
+</div>

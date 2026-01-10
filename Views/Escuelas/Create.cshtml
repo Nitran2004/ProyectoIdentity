@@ -1,0 +1,83 @@
+﻿@model ProyectoIdentity.Models.Escuela
+
+<div class="container mt-4">
+    <h2>Registrar Nueva Escuela</h2>
+    <form asp-action="Create">
+        <div class="card p-4 mb-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <label asp-for="Nombre" class="form-label font-weight-bold"></label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Ej: Escuela El Pintado" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Region" class="form-label"></label>
+                    <select asp-for="Region" class="form-select">
+                        <option value="Sierra">Sierra</option>
+                        <option value="Costa">Costa</option>
+                        <option value="Oriente">Oriente</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <h4>Sedes de la Escuela</h4>
+        <div id="contenedor-sedes">
+            <div class="sede-item card p-3 mb-3 shadow-sm">
+                <h5>Sede #1</h5>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <input name="Sedes[0].Direccion" class="form-control" placeholder="Dirección *" required />
+                    </div>
+                    <div class="col-md-4">
+                        <input name="Sedes[0].Horarios" class="form-control" placeholder="Días y Horarios *" required />
+                    </div>
+                    <div class="col-md-4">
+                        <input name="Sedes[0].Ciudad" class="form-control" placeholder="Ciudad (Opcional)" />
+                    </div>
+                    <div class="col-md-4">
+                        <input name="Sedes[0].Telefono" class="form-control" placeholder="Teléfono" />
+                    </div>
+                    <div class="col-md-4">
+                        <input name="Sedes[0].Responsable" class="form-control" placeholder="Coordinador" />
+                    </div>
+                    <div class="col-md-4">
+                        <input name="Sedes[0].MapaLink" class="form-control" placeholder="Link Google Maps" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="button" onclick="agregarSede()" class="btn btn-outline-primary mb-4">
+            <i class="fas fa-plus"></i> Añadir otra Sede
+        </button>
+
+        <div class="form-group">
+            <button type="submit" class="btn btn-danger btn-lg">Guardar Escuela</button>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    <script>
+        let contadorSedes = 1;
+        function agregarSede() {
+            const contenedor = document.getElementById('contenedor-sedes');
+            const nuevaSede = document.createElement('div');
+            nuevaSede.className = 'sede-item card p-3 mb-3 shadow-sm border-primary';
+            nuevaSede.innerHTML = `
+                        <h5>Sede #${contadorSedes + 1}</h5>
+                        <div class="row g-3">
+                            <div class="col-md-4"><input name="Sedes[${contadorSedes}].Direccion" class="form-control" placeholder="Dirección *" required /></div>
+                            <div class="col-md-4"><input name="Sedes[${contadorSedes}].Horarios" class="form-control" placeholder="Días y Horarios *" required /></div>
+                            <div class="col-md-4"><input name="Sedes[${contadorSedes}].Ciudad" class="form-control" placeholder="Ciudad" /></div>
+                            <div class="col-md-4"><input name="Sedes[${contadorSedes}].Telefono" class="form-control" placeholder="Teléfono" /></div>
+                            <div class="col-md-4"><input name="Sedes[${contadorSedes}].Responsable" class="form-control" placeholder="Coordinador" /></div>
+                            <div class="col-md-4"><input name="Sedes[${contadorSedes}].MapaLink" class="form-control" placeholder="Link Google Maps" /></div>
+                        </div>
+                    `;
+            contenedor.appendChild(nuevaSede);
+            contadorSedes++;
+        }
+    </script>
+}

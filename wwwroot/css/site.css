@@ -36,27 +36,6 @@ body {
         border-color: #2ecc71;
     }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-    text-shadow: 2px 2px 4px rgba(0,0,0,0.5); /* Sombra en el texto para mejor legibilidad */
-}
-
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"],
-.carousel-inner .item img[src$=".jpeg"],
-.carousel-inner .item img[src$=".jpg"] {
-    width: 100%; /* Ajusta imágenes al 100% del contenedor */
-}
-
-/* Hide/rearrange for smaller screens */
-@media screen and (max-width: 767px) {
-    /* Hide captions */
-    .carousel-caption {
-        display: none;
-    }
-}
 
 .highlight {
     background-color: #f39c12; /* Color de fondo más brillante para resaltar */
@@ -65,20 +44,6 @@ body {
     border-radius: 5px;
 }
 
-.card {
-    background-color: white;
-    padding: 20px; /* Añade relleno a toda la tarjeta */
-    border-radius: 10px; /* Bordes redondeados opcionales */
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra opcional para dar un efecto de profundidad */
-}
-
-.card-body {
-    padding: 20px; /* Ajusta el relleno en el cuerpo de la tarjeta */
-}
-
-.card-img-top {
-    margin-bottom: 15px; /* Espacio entre la imagen y el contenido */
-}
 
 /* Estilo para el botón "Salir" */
 #logoutForm .btn {
@@ -97,40 +62,11 @@ body {
         background-color: #c0392b !important; /* Rojo oscuro para el efecto hover */
     }
 
-.card-crema {
-    background-color: #f5f5dc; /* Color crema */
-}
-
-/* Archivo CSS (por ejemplo, site.css) */
-.nav-link {
-    color: white !important; /* Asegúrate de que el texto sea blanco */
-}
-
-    .nav-link:hover {
-        color: #ddd !important; /* Opcional: cambiar el color del texto al pasar el ratón */
-    }
-
-.dropdown-menu .nav-link {
-    color: white !important; /* Asegúrate de que el texto en el menú desplegable sea blanco */
-}
-
-    .dropdown-menu .nav-link:hover {
-        color: #ddd !important; /* Opcional: cambiar el color del texto en el menú desplegable al pasar el ratón */
-    }
 
 .btn {
     color: white; /* Hacer que el texto del botón sea blanco */
 }
-/* Estilo para el texto en el menú desplegable */
-.dropdown-menu .nav-link {
-    color: black !important; /* Cambia el color del texto a negro */
-}
 
-    .dropdown-menu .nav-link:hover {
-        color: #333 !important; /* Opcional: cambiar el color del texto al pasar el ratón */
-    }
-
-/* site.css */
 
 /* Ajustes generales para hacer que el contenido sea responsive */
 @media (max-width: 768px) {

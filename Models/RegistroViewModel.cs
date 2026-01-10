@@ -29,11 +29,10 @@ namespace ProyectoIdentity.Models
         [StringLength(20, ErrorMessage = "El nombre no puede tener más de 20 caracteres")]
         [RegularExpression(@"^([A-ZÁÉÍÓÚÑ][a-záéíóúñ]*(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]*)*)*$", ErrorMessage = "El nombre debe empezar con mayúscula y solo puede contener letras")]
         public string Nombre { get; set; }
-        [Required(ErrorMessage = "El nombre de usuario es obligatorio")]
-        [StringLength(20, ErrorMessage = "El nombre de usuario no puede tener más de 20 caracteres")]
-        [RegularExpression(@"^[A-Z][a-z]*[0-9]*$", ErrorMessage = "El nombre de usuario debe comenzar con una mayúscula seguido de letras minúsculas y puede terminar con números")]
-        [Display(Name = "Usuario")]
-        public string Url { get; set; }
+        [Required(ErrorMessage = "La cédula es obligatoria")]
+        [StringLength(10, MinimumLength = 10, ErrorMessage = "La cédula debe tener 10 dígitos")]
+        [RegularExpression(@"^[0-9]*$", ErrorMessage = "La cédula solo debe contener números")] // <--- ESTO BLOQUEA LAS LETRAS
+        public string Cedula { get; set; }
         [Display(Name = "Codigo de país")]
         public int CodigoPais { get; set; }
         [Required(ErrorMessage = "El teléfono es obligatorio")]

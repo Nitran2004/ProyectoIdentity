@@ -176,7 +176,7 @@ namespace ProyectoIdentity.Controllers
             {
                 var usuario = await _contexto.AppUsuario.FindAsync(appUsuario.Id);
                 usuario.Nombre = appUsuario.Nombre;
-                usuario.Url = appUsuario.Url;
+                usuario.Cedula = appUsuario.Cedula;
                 usuario.CodigoPais = appUsuario.CodigoPais;
                 usuario.Telefono = appUsuario.Telefono;
                 usuario.Ciudad = appUsuario.Ciudad;

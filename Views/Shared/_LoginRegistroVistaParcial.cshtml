@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<IdentityUser> SignInManager
-@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<AppUsuario> SignInManager
+@inject UserManager<AppUsuario> UserManager
 
 <ul class="navbar-nav ms-auto">
     @if (SignInManager.IsSignedIn(User))
@@ -66,23 +66,6 @@
                 <!-- PARA ADMIN Y REGISTRADO - Más opciones -->
                 @if (User.IsInRole("Administrador") || User.IsInRole("Registrado"))
                 {
-                    <!-- Mostrar puntos -->
-                    <li>
-                        <div class="dropdown-item-text bg-success text-white text-center" style="border-radius: 5px; margin: 5px;">
-                            <i class="fas fa-coins"></i> <span id="puntos-usuario">--- pts</span>
-                        </div>
-                    </li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <a class="dropdown-item" asp-controller="Fidelizacion" asp-action="MisPuntos">
-                            <i class="fas fa-star text-warning"></i> Ver Mis Puntos
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-controller="Fidelizacion" asp-action="Historial">
-                            <i class="fas fa-history text-secondary"></i> Historial Completo
-                        </a>
-                    </li>
                     <li><hr class="dropdown-divider"></li>
                     <li>
                         <a class="dropdown-item" asp-controller="Usuarios" asp-action="EditarPerfil"

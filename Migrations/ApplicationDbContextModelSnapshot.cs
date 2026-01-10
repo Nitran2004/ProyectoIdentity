@@ -226,220 +226,28 @@ namespace ProyectoIdentity.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("ProyectoIdentity.Models.CollectionPoint", b =>
+            modelBuilder.Entity("ProyectoIdentity.Models.Escuela", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<double>("Latitude")
-                        .HasColumnType("float");
-
-                    b.Property<double>("Longitude")
-                        .HasColumnType("float");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("SucursalId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("SucursalId");
-
-                    b.ToTable("CollectionPoints");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Cupon", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<bool>("Activo")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("CodigoQR")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Descripcion")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DiasAplicables")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime?>("FechaExpiracion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("MontoMinimo")
-                        .HasColumnType("decimal(10,2)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<bool>("OtorgaPuntos")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("ProductosAplicables")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TipoDescuento")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<decimal>("ValorDescuento")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<int>("VecesUsado")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CodigoQR")
-                        .IsUnique();
-
-                    b.ToTable("Cupones");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.CuponCanjeado", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("CodigoQR")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("CuponId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("DescuentoAplicado")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<DateTime>("FechaCanje")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ProductosCanjeados")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<decimal>("TotalConDescuento")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<decimal>("TotalOriginal")
-                        .HasColumnType("decimal(10,2)");
-
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CuponId");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("CuponesCanjeados");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.DetallePedido", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IngredientesRemovidos")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("NotasEspeciales")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("DetallePedido");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.HistorialCanje", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<DateTime>("FechaCanje")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("ProductoRecompensaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PuntosUtilizados")
-                        .HasColumnType("int");
-
-                    b.Property<string>("TipoServicio")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("UsuarioId")
+                    b.Property<string>("Region")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ProductoRecompensaId");
-
-                    b.ToTable("HistorialCanjes", (string)null);
+                    b.ToTable("Escuelas");
                 });
 
-            modelBuilder.Entity("ProyectoIdentity.Models.Pedido", b =>
+            modelBuilder.Entity("ProyectoIdentity.Models.SedeEscuela", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -447,364 +255,48 @@ namespace ProyectoIdentity.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int?>("Calificacion")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Comentario")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("ComentarioEnviado")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("EsCupon")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Estado")
-                        .ValueGeneratedOnAdd()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)")
-                        .HasDefaultValue("Preparándose");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int?>("PuntoRecoleccionId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("SucursalId")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<string>("TipoServicio")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<string>("UsuarioId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PuntoRecoleccionId");
-
-                    b.HasIndex("SucursalId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Pedidos");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.PedidoDetalle", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("IngredientesRemovidos")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("NotasEspeciales")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("PrecioUnitario")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("PedidoDetalle", (string)null);
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.PedidoProducto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int?>("Cantidad")
-                        .IsRequired()
-                        .HasColumnType("int");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal?>("Precio")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ProductoId1")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("ProductoId");
-
-                    b.HasIndex("ProductoId1");
-
-                    b.ToTable("PedidoProductos");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Producto", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Alergenos")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<int?>("Cantidad")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Categoria")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<byte[]>("Imagen")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("InfoNutricional")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<string>("Ingredientes")
+                    b.Property<string>("Ciudad")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("Precio")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<decimal?>("Total")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.ToTable("Productos");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.ProductoRecompensa", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Categoria")
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
-
-                    b.Property<byte[]>("Imagen")
-                        .HasColumnType("varbinary(max)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<decimal>("PrecioOriginal")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int?>("ProductoId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PuntosNecesarios")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductoId");
-
-                    b.ToTable("ProductosRecompensa", (string)null);
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Sucursal", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("Direccion")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Latitud")
-                        .HasColumnType("decimal(10,8)");
+                    b.Property<string>("EmailOrRedes")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<decimal>("Longitud")
-                        .HasColumnType("decimal(11,8)");
-
-                    b.Property<string>("Nombre")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Sucursales");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.TransaccionPuntos", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("EscuelaId")
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Horarios")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Descripcion")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                    b.Property<string>("MapaLink")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("Fecha")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETDATE()");
+                    b.Property<string>("Requisitos")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PedidoId")
-                        .HasColumnType("int");
+                    b.Property<string>("Responsable")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Puntos")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("RecompensaId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Tipo")
-                        .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UsuarioId", "Fecha");
-
-                    b.ToTable("TransaccionesPuntos", (string)null);
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.UsuarioPuntos", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("PuntosActuales")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PuntosGanados")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PuntosGastados")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("UltimaActualizacion")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
+                    b.Property<string>("Telefono")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("UsuarioPuntos", (string)null);
-                });
+                    b.HasIndex("EscuelaId");
 
-            modelBuilder.Entity("ProyectoIdentity.Models.Valoracion", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<string>("Comentarios")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<DateTime>("Fecha")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PedidoId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UsuarioId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("ValoracionCalidad")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ValoracionGeneral")
-                        .HasColumnType("int");
-
-                    b.Property<int>("ValoracionTiempo")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PedidoId");
-
-                    b.HasIndex("UsuarioId");
-
-                    b.ToTable("Valoraciones");
+                    b.ToTable("SedesEscuelas");
                 });
 
             modelBuilder.Entity("ProyectoIdentity.Models.AppUsuario", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Cedula")
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
 
                     b.Property<string>("Ciudad")
                         .HasMaxLength(50)
@@ -833,20 +325,9 @@ namespace ProyectoIdentity.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
-                    b.Property<int?>("PuntosFidelidad")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.Property<string>("Telefono")
                         .HasMaxLength(20)
                         .HasColumnType("nvarchar(20)");
-
-                    b.Property<string>("Url")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasIndex("PuntosFidelidad");
 
                     b.HasDiscriminator().HasValue("AppUsuario");
                 });
@@ -902,200 +383,20 @@ namespace ProyectoIdentity.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("ProyectoIdentity.Models.CollectionPoint", b =>
+            modelBuilder.Entity("ProyectoIdentity.Models.SedeEscuela", b =>
                 {
-                    b.HasOne("ProyectoIdentity.Models.Sucursal", "Sucursal")
-                        .WithMany()
-                        .HasForeignKey("SucursalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Sucursal");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.CuponCanjeado", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.Cupon", "Cupon")
-                        .WithMany()
-                        .HasForeignKey("CuponId")
+                    b.HasOne("ProyectoIdentity.Models.Escuela", "Escuela")
+                        .WithMany("Sedes")
+                        .HasForeignKey("EscuelaId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("ProyectoIdentity.Models.Pedido", "Pedido")
-                        .WithMany()
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("ProyectoIdentity.Models.AppUsuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Cupon");
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Usuario");
+                    b.Navigation("Escuela");
                 });
 
-            modelBuilder.Entity("ProyectoIdentity.Models.DetallePedido", b =>
+            modelBuilder.Entity("ProyectoIdentity.Models.Escuela", b =>
                 {
-                    b.HasOne("ProyectoIdentity.Models.Pedido", "Pedido")
-                        .WithMany("DetallesPedido")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoIdentity.Models.Producto", "Producto")
-                        .WithMany("DetallesPedido")
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.HistorialCanje", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.ProductoRecompensa", "ProductoRecompensa")
-                        .WithMany()
-                        .HasForeignKey("ProductoRecompensaId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ProductoRecompensa");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Pedido", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.CollectionPoint", "PuntoRecoleccion")
-                        .WithMany()
-                        .HasForeignKey("PuntoRecoleccionId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.HasOne("ProyectoIdentity.Models.Sucursal", "Sucursal")
-                        .WithMany()
-                        .HasForeignKey("SucursalId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoIdentity.Models.AppUsuario", null)
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("PuntoRecoleccion");
-
-                    b.Navigation("Sucursal");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.PedidoDetalle", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.Pedido", "Pedido")
-                        .WithMany("Detalles")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoIdentity.Models.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.PedidoProducto", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.Pedido", "Pedido")
-                        .WithMany("PedidoProductos")
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoIdentity.Models.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoIdentity.Models.Producto", null)
-                        .WithMany("PedidoProductos")
-                        .HasForeignKey("ProductoId1");
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Producto", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.Pedido", "Pedido")
-                        .WithMany("Productos")
-                        .HasForeignKey("PedidoId");
-
-                    b.Navigation("Pedido");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.ProductoRecompensa", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.Producto", "Producto")
-                        .WithMany()
-                        .HasForeignKey("ProductoId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
-                    b.Navigation("Producto");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.TransaccionPuntos", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.AppUsuario", null)
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Valoracion", b =>
-                {
-                    b.HasOne("ProyectoIdentity.Models.Pedido", "Pedido")
-                        .WithMany()
-                        .HasForeignKey("PedidoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("ProyectoIdentity.Models.AppUsuario", "Usuario")
-                        .WithMany()
-                        .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Pedido");
-
-                    b.Navigation("Usuario");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Pedido", b =>
-                {
-                    b.Navigation("Detalles");
-
-                    b.Navigation("DetallesPedido");
-
-                    b.Navigation("PedidoProductos");
-
-                    b.Navigation("Productos");
-                });
-
-            modelBuilder.Entity("ProyectoIdentity.Models.Producto", b =>
-                {
-                    b.Navigation("DetallesPedido");
-
-                    b.Navigation("PedidoProductos");
+                    b.Navigation("Sedes");
                 });
 #pragma warning restore 612, 618
         }

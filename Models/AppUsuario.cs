@@ -11,7 +11,7 @@ namespace ProyectoIdentity.Models
         public string? Nombre { get; set; }
 
         [StringLength(200)]
-        public string? Url { get; set; }
+        public string? Cedula { get; set; }
 
         [StringLength(10)]
         public string? CodigoPais { get; set; }
@@ -32,9 +32,6 @@ namespace ProyectoIdentity.Models
 
         [StringLength(50)]
         public string? Estado { get; set; }
-
-        // SOLO UNA definición de PuntosFidelidad
-        public int? PuntosFidelidad { get; set; } = 0;
 
         // Propiedades auxiliares para la UI (no se mapean a la base de datos)
         [NotMapped]

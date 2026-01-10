@@ -3,1228 +3,228 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Verace</title>
+    <title>@ViewData["Title"] - El Nacional</title>
 
-    <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/recompensas.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="~/ProyectoIdentity.styles.css" asp-append-version="true" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-
-    <!-- Toastr CSS para notificaciones -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
-
-    @RenderSection("Styles", required: false)
-
+    <link rel="icon" type="image/png" href="~/media/escudo.png" />
+    <link rel="apple-touch-icon" href="~/media/escudo.png" />
+    @await RenderSectionAsync("Styles", required: false)
     <style>
+        :root {
+            --nacional-rojo: #DA291C;
+            --nacional-azul: #0033A0;
+            --nacional-gris: #A2AAAD;
+        }
+
         body {
-            padding-bottom: 60px;
-            min-height: 100vh;
-            position: relative;
-            background-color: white;
-        }
-
-        /* Estilos para el navbar */
-        .navbar-dark .navbar-nav .nav-link {
-            color: white !important;
-            font-weight: 500;
-            text-decoration: none;
-        }
-
-            .navbar-dark .navbar-nav .nav-link:hover {
-                color: rgba(255, 255, 255, 0.8) !important;
-                background-color: rgba(255, 255, 255, 0.1);
-                border-radius: 4px;
-                text-decoration: none;
-            }
-
-            .navbar-dark .navbar-nav .nav-link.active {
-                color: white !important;
-                background-color: rgba(255, 255, 255, 0.2);
-                border-radius: 4px;
-                text-decoration: none;
-            }
-
-            /* Asegurar que no haya subrayado en los iconos */
-            .navbar-dark .navbar-nav .nav-link i {
-                text-decoration: none !important;
-            }
-
-        /* Estilos para dropdowns */
-        .dropdown-menu {
-            background-color: white;
-            border: 1px solid #dee2e6;
-            border-radius: 0.375rem;
-            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-            margin-top: 0.5rem;
-        }
-
-            .dropdown-menu .dropdown-item {
-                color: #212529;
-                padding: 0.75rem 1.25rem;
-                text-decoration: none;
-                display: flex;
-                align-items: center;
-                gap: 0.5rem;
-            }
-
-                .dropdown-menu .dropdown-item:hover {
-                    background-color: #f8f9fa;
-                    color: #212529;
-                    text-decoration: none;
-                }
-
-                .dropdown-menu .dropdown-item i {
-                    width: 20px;
-                    text-align: center;
-                }
-
-        /* Separadores en dropdowns */
-        .dropdown-divider {
-            margin: 0.5rem 0;
-        }
-
-        /* Estilos para secciones del menú */
-        .nav-section-title {
-            color: rgba(255, 255, 255, 0.6);
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin: 0 1rem;
-            padding: 0.5rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .footer {
-            position: absolute;
-            bottom: 0;
-            width: 100%;
-            white-space: nowrap;
-            line-height: 60px;
-        }
-
-        /* Navegación móvil */
-        .mobile-footer-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background-color: white;
-            border-top: 1px solid #e6e6e6;
-            z-index: 1000;
-        }
-
-        .nav-container {
-            display: flex;
-            justify-content: space-around;
-            align-items: center;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            list-style: none;
-        }
-
-        .nav-item-mobile {
-            flex: 1;
-            text-align: center;
-            padding: 8px 0;
-        }
-
-        .nav-link-mobile {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-decoration: none;
-            color: #6c757d;
-            font-size: 12px;
-        }
-
-            .nav-link-mobile.active {
-                color: black;
-            }
-
-            .nav-link-mobile i {
-                font-size: 22px;
-                margin-bottom: 4px;
-            }
-
-        /* Botón flotante QR */
-        .floating-qr-scanner {
-            position: fixed;
-            bottom: 90px;
-            right: 20px;
-            z-index: 1000;
-        }
-
-        .btn-scan-floating {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #6f42c1, #5a2d91);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 15px rgba(111, 66, 193, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-            .btn-scan-floating:hover {
-                background: linear-gradient(45deg, #5a2d91, #6f42c1);
-                color: white;
-                transform: scale(1.1);
-                box-shadow: 0 6px 20px rgba(111, 66, 193, 0.6);
-                text-decoration: none;
-            }
-
-        /* Botón flotante de chat */
-        .floating-chat-button {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 1000;
-            transition: all 0.3s ease;
-        }
-
-        .btn-chat-floating {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.4);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.3s ease;
-            text-decoration: none;
-        }
-
-            .btn-chat-floating:hover {
-                background: linear-gradient(45deg, #20c997, #28a745);
-                color: white;
-                transform: scale(1.1);
-                box-shadow: 0 6px 20px rgba(40, 167, 69, 0.6);
-                text-decoration: none;
-            }
-
-        /* Overlay de la tarjeta expandible */
-        .chat-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5);
-            z-index: 1060;
-            display: none;
-            backdrop-filter: blur(5px);
-            animation: fadeIn 0.3s ease;
-        }
-
-            .chat-overlay.active {
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-
-        /* Tarjeta del chat */
-        .chat-card {
-            background: white;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            width: 90%;
-            height: 85%;
-            max-width: 900px;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-            animation: slideUp 0.3s ease;
-        }
-
-        /* Header de la tarjeta */
-        .chat-header-modal {
-            background: linear-gradient(45deg, #28a745, #20c997);
-            color: white;
-            padding: 1rem 1.5rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-radius: 15px 15px 0 0;
-        }
-
-        .chat-title-modal {
-            margin: 0;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-        }
-
-        .btn-close-chat {
-            background: none;
-            border: none;
-            color: white;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-
-            .btn-close-chat:hover {
-                background: rgba(255, 255, 255, 0.2);
-                transform: scale(1.1);
-            }
-
-        /* Contenido del chat */
-        .chat-content-modal {
-            flex: 1;
-            padding: 0;
-            overflow-y: auto;
-            background: #f8f9fa;
-        }
-
-        .loading-chat {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100%;
-            color: #6c757d;
-        }
-
-        /* Animaciones */
-        @@keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @@keyframes pulse {
-            0%, 100% {
-                transform: scale(1);
-            }
-
-            50% {
-                transform: scale(1.1);
-            }
-        }
-
-        @@keyframes slideUp {
-            from {
-                transform: translateY(30px);
-                opacity: 0;
-            }
-
-            to {
-                transform: translateY(0);
-                opacity: 1;
-            }
-        }
-
-        @@media (max-width: 768px) {
-            body {
-                padding-bottom: 70px;
-            }
-
-            .footer {
-                display: none;
-            }
-
-            main {
-                padding-bottom: 70px;
-            }
-            /* Ajustar posición de botones flotantes en móvil */
-            .floating-qr-scanner {
-                bottom: 160px; /* QR más arriba */
-                right: 20px;
-            }
-
-            .floating-chat-button {
-                bottom: 90px; /* Chat debajo del QR */
-                right: 20px;
-            }
-
-            .btn-chat-floating,
-            .btn-scan-floating {
-                width: 50px;
-                height: 50px;
-            }
-
-            .chat-card {
-                width: 95%;
-                height: 90%;
-                border-radius: 10px;
-            }
-
-            .chat-header-modal {
-                padding: 0.75rem 1rem;
-                border-radius: 10px 10px 0 0;
-            }
-        }
-
-        @@media (min-width: 769px) {
-            .mobile-footer-nav {
-                display: none;
-            }
-            /* En desktop, botones en columna derecha */
-            .floating-qr-scanner {
-                bottom: 90px; /* QR más arriba */
-            }
-
-            .floating-chat-button {
-                bottom: 20px; /* Chat más abajo */
-            }
-        }
-
-        /*diseno del chat*/
-
-
-
-        /* Evitar que elementos del chat interfieran */
-        .chat-box,
-        .product-recommendation,
-        .alert.position-fixed {
-            z-index: 1040 !important;
-        }
-
-        .chat-container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        .chat-header {
-            text-align: center;
-            margin-bottom: 30px;
-            padding: 20px;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
-        }
-
-            .chat-header h1 {
-                margin: 0 0 10px 0;
-                font-size: 2rem;
-                font-weight: 600;
-            }
-
-            .chat-header p {
-                margin: 0;
-                font-size: 1.1rem;
-                opacity: 0.9;
-            }
-
-        .chat-box {
-            height: 400px;
-            border: 2px solid #e9ecef;
-            border-radius: 15px;
-            overflow-y: auto;
-            padding: 20px;
+            font-family: 'Montserrat', sans-serif;
             background-color: #f8f9fa;
-            margin-bottom: 20px;
-            box-shadow: inset 0 2px 10px rgba(0,0,0,0.05);
         }
 
-        .message {
-            margin-bottom: 15px;
-            animation: fadeIn 0.5s ease-in;
+        /* NAVBAR PREMIUM */
+        .navbar-custom {
+            background: rgba(0, 0, 0, 0.8) !important; /* Fondo oscuro traslúcido */
+            backdrop-filter: blur(15px); /* Efecto cristal esmerilado */
+            -webkit-backdrop-filter: blur(15px);
+            border-bottom: 2px solid var(--nacional-rojo);
+            padding: 15px 0;
+            transition: all 0.4s ease;
         }
 
-        .user-message {
-            text-align: right;
+        .navbar-brand img {
+            transition: transform 0.3s ease;
         }
 
-        .bot-message {
-            text-align: left;
+        .navbar-brand:hover img {
+            transform: scale(1.1);
         }
 
-        .message-content {
-            display: inline-block;
-            padding: 12px 18px;
-            border-radius: 20px;
-            max-width: 70%;
-            word-wrap: break-word;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-
-        .user-message .message-content {
-            background: linear-gradient(135deg, #007bff, #0056b3);
-            color: white;
-        }
-
-        .bot-message .message-content {
-            background: white;
-            border: 1px solid #dee2e6;
-            color: #333;
-        }
-
-        .product-recommendation {
-            margin-top: 15px;
-            padding: 20px;
-            background: linear-gradient(135deg, #fff3cd, #ffeaa7);
-            border-left: 4px solid #ffc107;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.2);
+        .nav-link {
+            color: white !important;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+            margin: 0 10px;
             position: relative;
-            overflow: hidden;
+            transition: color 0.3s ease;
         }
 
-            .product-recommendation::before {
+            /* Línea animada debajo de los links (EXCEPTO dropdown) */
+            .nav-link:not(.dropdown-toggle)::after {
                 content: '';
                 position: absolute;
-                top: 0;
+                width: 0;
+                height: 2px;
+                bottom: -5px;
                 left: 0;
-                right: 0;
-                height: 3px;
-                background: linear-gradient(90deg, #ffc107, #F2A900, #ffc107);
+                background-color: var(--nacional-rojo);
+                transition: width 0.3s ease;
             }
 
-        .product-name {
-            font-weight: 600;
-            color: #856404;
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-            .product-name i {
-                color: #ffc107;
-                animation: pulse 2s infinite;
+            .nav-link:not(.dropdown-toggle):hover::after {
+                width: 100%;
             }
 
-        .product-details {
-            font-size: 0.95rem;
-            color: #6c757d;
-            line-height: 1.5;
-            margin-bottom: 15px;
-        }
-
-        .product-price {
-            font-weight: 700;
-            color: #28a745;
-            font-size: 1.3rem;
-        }
-
-        .product-actions {
-            border-top: 1px solid #e9ecef;
-            padding-top: 15px;
-            text-align: center;
-        }
-
-            .product-actions .btn {
-                min-width: 120px;
-                font-weight: 600;
-                transition: all 0.3s ease;
-                margin: 0 5px;
+            .nav-link:hover {
+                color: var(--nacional-rojo) !important;
             }
 
-            .product-actions .btn-warning {
-                background: linear-gradient(135deg, #F2A900, #e09600);
-                border: none;
-                color: white;
-                box-shadow: 0 2px 8px rgba(242, 169, 0, 0.3);
+            /* Flecha del dropdown */
+            .nav-link.dropdown-toggle::after {
+                content: '' !important;
+                position: static !important;
+                display: inline-block !important;
+                margin-left: 0.5em !important;
+                vertical-align: 0.15em !important;
+                width: auto !important;
+                height: auto !important;
+                border-top: 0.4em solid white !important;
+                border-right: 0.4em solid transparent !important;
+                border-bottom: 0 !important;
+                border-left: 0.4em solid transparent !important;
+                background-color: transparent !important;
+                transition: border-top-color 0.3s ease !important;
             }
 
-                .product-actions .btn-warning:hover {
-                    transform: translateY(-2px);
-                    box-shadow: 0 4px 12px rgba(242, 169, 0, 0.4);
-                }
-
-            .product-actions .btn-outline-primary {
-                border-color: #007bff;
-                color: #007bff;
+            /* Cambiar color de flecha en hover - sin animación de línea */
+            .nav-link.dropdown-toggle:hover::after {
+                border-top-color: var(--nacional-rojo) !important;
+                width: auto !important;
             }
 
-                .product-actions .btn-outline-primary:hover {
-                    background-color: #007bff;
-                    border-color: #007bff;
-                    color: white;
-                    transform: translateY(-1px);
-                }
-
-        .input-group {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 20px;
+        /* Botón de Socio en el Nav */
+        .btn-nav-socio {
+            background-color: var(--nacional-rojo);
+            color: white !important;
+            border-radius: 50px;
+            padding: 8px 20px !important;
+            font-weight: 700 !important;
+            box-shadow: 0 4px 15px rgba(218, 41, 28, 0.3);
         }
 
-        .message-input {
-            flex: 1;
-            padding: 12px 18px;
-            border: 2px solid #dee2e6;
-            border-radius: 25px;
-            font-size: 1rem;
-            outline: none;
-            transition: border-color 0.3s ease;
-        }
-
-            .message-input:focus {
-                border-color: #28a745;
-                box-shadow: 0 0 0 3px rgba(40, 167, 69, 0.1);
-            }
-
-        .send-button {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, #28a745, #20c997);
-            color: white;
-            border: none;
-            border-radius: 25px;
-            cursor: pointer;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(40, 167, 69, 0.3);
-        }
-
-            .send-button:hover {
+            .btn-nav-socio:hover {
+                background-color: white;
+                color: var(--nacional-rojo) !important;
                 transform: translateY(-2px);
-                box-shadow: 0 4px 12px rgba(40, 167, 69, 0.4);
             }
 
-            .send-button:disabled {
-                background: #6c757d;
-                cursor: not-allowed;
-                transform: none;
-                box-shadow: none;
-            }
-
-        .suggestions {
-            margin-bottom: 20px;
+        /* Para que no haya saltos de diseño */
+        .main-content {
+            min-height: 80vh;
         }
 
-        .suggestion-btn {
-            padding: 8px 16px;
-            background: white;
-            border: 2px solid #28a745;
-            color: #28a745;
-            border-radius: 20px;
-            cursor: pointer;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
+        /* Estilo para los links dentro del partial de login */
+        .navbar-custom .login-partial-link {
+            color: white !important;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
             text-decoration: none;
-            margin: 5px;
+            transition: color 0.3s;
         }
 
-            .suggestion-btn:hover {
-                background: #28a745;
-                color: white;
-                transform: translateY(-2px);
-                box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
-                text-decoration: none;
+            .navbar-custom .login-partial-link:hover {
+                color: var(--nacional-rojo) !important;
             }
 
-        .mobile-footer-nav .nav-link-mobile,
-        .mobile-footer-nav .nav-link-mobile span {
-            color: black !important;
+        /* Separador visual entre Iniciar Sesión y Registro si están juntos */
+        .auth-separator {
+            color: rgba(255,255,255,0.3);
+            margin: 0 5px;
         }
 
-            .mobile-footer-nav .nav-link-mobile i {
-                color: black !important;
+        /* Estilo para el menú desplegable */
+        .dropdown-menu {
+            background-color: #0033A0; /* Azul Nacional */
+            border: none;
+            border-top: 3px solid #DA291C; /* Línea superior Roja */
+        }
+
+        .dropdown-item {
+            color: white !important;
+            font-weight: 500;
+            padding: 10px 20px;
+            transition: all 0.3s;
+        }
+
+            .dropdown-item:hover {
+                background-color: #DA291C; /* Fondo rojo al pasar el mouse */
+                color: white !important;
+                padding-left: 25px; /* Efecto sutil de movimiento */
             }
     </style>
 </head>
 <body>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark border-bottom box-shadow mb-3">
-            <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images1/logo_bar_verace.png" alt="Logo" class="logo" style="height: 78px; width: auto;">
-                </a>
-                <button class="navbar-toggler menu-button" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="text-menu">Menú</span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
 
-                        @if (User.IsInRole("Administrador"))
-                        {
-                            <!-- SECCIÓN ADMINISTRACIÓN DE SISTEMA -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="adminSystemDropdown" role="button" data-bs-toggle="dropdown">
-                                    Administración Sistema
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="Index">
-                                            <i class="fas fa-users"></i> Gestión de Usuarios
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Roles" asp-action="Index">
-                                            <i class="fas fa-user-tag"></i> Gestión de Roles
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("Index", "AdminCupones")">
-                                            <i class="fas fa-ticket-alt"></i> Admin Cupones
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="Personalizacion" asp-action="AdminProductos">
-                                            <i class="fas fa-utensils"></i> Admin Productos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="@Url.Action("AdminRecompensas", "Fidelizacion")">
-                                            <i class="fas fa-gift"></i> Admin Recompensas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-area="" asp-controller="AdminCollection" asp-action="Index">
-                                            <i class="fas fa-map-marker-alt"></i> Puntos de Recolección
-                                        </a>
-                                    </li>
-                                </ul>
-                            </li>
-                        }
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
+        <div class="container">
+            <a class="navbar-brand" asp-controller="Home" asp-action="Index">
+                <img src="~/media/escudo.png" height="50" alt="El Nacional">
+            </a>
 
-                        @if (User.IsInRole("Administrador") || User.IsInRole("Cajero"))
-                        {
-                            <!-- SECCIÓN OPERACIONES -->
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="operationsDropdown" role="button" data-bs-toggle="dropdown">
-                                    Operaciones
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Pedidos" asp-action="ResumenAdmin">
-                                            <i class="fas fa-shopping-cart"></i> Resumen de Pedidos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Fidelizacion" asp-action="AdminCanjesIndex">
-                                            <i class="fas fa-gift"></i> Resumen de Canjes
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Fidelizacion" asp-action="Historial">
-                                            <i class="fas fa-history"></i> Resumen Completo
-                                        </a>
-                                    </li>
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Cupones" asp-action="EscanearQR">
-                                            <i class="fas fa-qrcode"></i> Escanear Cupones QR
-                                        </a>
-                                    </li>
-                                    <a class="dropdown-item" href="@Url.Action("MargenPorProducto", "Personalizacion")">
-                                        <i class="fas fa-chart-line"></i> Análisis de Costos
-                                    </a>
-                                </ul>
-                            </li>
-                        }
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-                        <!-- PARA ADMINISTRADOR Y CAJERO - Dropdown -->
-                        @if (User.IsInRole("Administrador") || User.IsInRole("Cajero"))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarProductos" role="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-store"></i> Tienda
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Personalizacion" asp-action="Index">
-                                            <i class="fas fa-box"></i> Productos Personalizables
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Fidelizacion" asp-action="Recompensas">
-                                            <i class="fas fa-gift"></i> Ver Recompensas
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Cupones" asp-action="Index">
-                                            <i class="fas fa-ticket-alt"></i> Mis Cupones
-                                        </a>
-                                    </li>
-                                </ul>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto align-items-center">
+                    <li class="nav-item"><a class="nav-link" href="#">Noticias</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#">El Club</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or" target="_blank">
+                            Tienda
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-uppercase fw-bold" href="#" id="navbarEscuelas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Escuelas
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-dark shadow border-0" aria-labelledby="navbarEscuelas">
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Sierra">CDN SIERRA</a>
                             </li>
-                        }
+                            <li><hr class="dropdown-divider bg-secondary"></li>
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Costa">CDN COSTA</a>
+                            </li>
+                            <li><hr class="dropdown-divider bg-secondary"></li>
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Oriente">CDN ORIENTE</a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
 
-                        @if (User.IsInRole("Administrador") || User.IsInRole("Registrado"))
-                        {
-
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Personalizacion" asp-action="VerCarrito">
-                                    <i class="fas fa-shopping-cart"></i> Mi Carrito
-                                </a>
-                            </li>
-
-
-                        }
-
-                        <!-- PARA REGISTRADO - Menú normal como antes -->
-                        @if (User.IsInRole("Registrado"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Personalizacion" asp-action="Index">
-                                    Productos
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Home" asp-action="Chat">
-                                    Recomendaciones IA
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Fidelizacion" asp-action="Recompensas">
-                                    Ver Recompensas
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" asp-controller="Cupones" asp-action="Index">
-                                    Mis Cupones
-                                </a>
-                            </li>
-                        }
-                        @if (User.IsInRole("Registrado") || User.IsInRole("Administrador"))
-                        {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown">
-                                    <i class="fas fa-user-circle"></i> Mis Pedidos
-                                </a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Personalizacion" asp-action="UltimoPedido">
-                                            <i class="fas fa-shopping-cart"></i> Pedidos
-                                        </a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" asp-controller="Fidelizacion" asp-action="MisCanjes">
-                                            <i class="fas fa-exchange-alt"></i> Mis Canjes
-                                        </a>
-                                    </li>
-                                  
-                                </ul>
-                            </li>
-                        }
-                    </ul>
-
-                    <!-- Vista parcial para acceso (login y registro) -->
+                <div class="d-flex align-items-center gap-3">
+                    <a class="nav-link btn-nav-socio m-0" href="#">Hazte Socio</a>
                     <partial name="_LoginRegistroVistaParcial" />
                 </div>
             </div>
-        </nav>
-    </header>
-
-    <!-- Botón flotante QR para móviles (solo admin/cajero) -->
-    @if (User.IsInRole("Administrador") || User.IsInRole("Cajero"))
-    {
-        <div class="floating-qr-scanner d-lg-none">
-            <a href="@Url.Action("EscanearQR", "Cupones")" class="btn btn-scan-floating" title="Escanear QR">
-                <i class="fas fa-qrcode fa-2x"></i>
-            </a>
         </div>
+    </nav>
+
+    @{
+        bool esInicio = (ViewData["Title"]?.ToString()?.Contains("Inicio") ?? false);
     }
 
-    <!-- Botón flotante de Chat (parte inferior izquierda) -->
-    <div class="floating-chat-button" id="chatButton">
-        <button class="btn btn-chat-floating" title="Chat de Ayuda">
-            <i class="fas fa-comments fa-lg"></i>
-        </button>
-    </div>
-
-    <!-- Tarjeta expandible del Chat -->
-    <div class="chat-overlay" id="chatOverlay">
-        <div class="chat-card">
-            <!-- Header de la tarjeta con botón cerrar -->
-            <div class="chat-header-modal">
-                <h5 class="chat-title-modal">
-                    <i class="fas fa-comments me-2"></i>
-                    Chat de Ayuda
-                </h5>
-                <button class="btn-close-chat" id="closeChatButton" title="Cerrar Chat">
-                    <i class="fas fa-times"></i>
-                </button>
-            </div>
-
-            <!-- Contenido del chat (aquí se cargará Views/Home/Chat.cshtml) -->
-            <div class="chat-content-modal" id="chatContent">
-                <div class="loading-chat">
-                    <div class="spinner-border text-primary" role="status">
-                        <span class="visually-hidden">Cargando...</span>
-                    </div>
-                    <p class="mt-2">Cargando chat...</p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="container">
-        <main role="main" class="pb-3">
+    <div class="main-content">
+        <main role="main">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - Verace
+    <footer class="bg-dark text-white py-5 mt-5">
+        <div class="container text-center">
+            <img src="~/media/escudo.png" height="60" class="mb-3 grayscale" style="filter: brightness(0) invert(1); opacity: 0.5;">
+            <p class="small text-muted">&copy; 2026 Club Deportivo El Nacional - Todos los derechos reservados.</p>
         </div>
     </footer>
 
-    <!-- Modal para visualizar el carrito -->
-    <div class="modal fade" id="carrito-modal" tabindex="-1" aria-labelledby="carrito-modal-label" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="carrito-modal-label">Tu Carrito</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th>Producto</th>
-                                <th>Precio</th>
-                                <th>Cantidad</th>
-                                <th>Subtotal</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody id="carrito-items">
-                            <!-- Los items del carrito se cargarán aquí dinámicamente -->
-                        </tbody>
-                        <tfoot>
-                            <tr>
-                                <td colspan="3" class="text-end fw-bold">Total:</td>
-                                <td id="carrito-total" class="fw-bold">$0.00</td>
-                                <td></td>
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Seguir Comprando</button>
-                    <form asp-controller="Pedidos" asp-action="ProcesarCarrito" method="post">
-                        <input type="hidden" id="pedido-json" name="pedidoJson" value="" />
-                        <button type="submit" class="btn btn-success">Procesar Pedido</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-
-    <!-- Toastr JS para notificaciones -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-    <!-- Configuración global de Toastr -->
-    <script>
-        toastr.options = {
-            "closeButton": true,
-            "debug": false,
-            "newestOnTop": false,
-            "progressBar": true,
-            "positionClass": "toast-top-right",
-            "preventDuplicates": false,
-            "onclick": null,
-            "showDuration": "300",
-            "hideDuration": "1000",
-            "timeOut": "5000",
-            "extendedTimeOut": "1000",
-            "showEasing": "swing",
-            "hideEasing": "linear",
-            "showMethod": "fadeIn",
-            "hideMethod": "fadeOut"
-        };
-    </script>
-
-    <!-- Scripts para el carrito -->
-    <script>
-        // Función global para actualizar el contador del carrito
-        window.actualizarContadorCarrito = function () {
-            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            const cantidad = carrito.reduce((total, item) => total + parseInt(item.cantidad), 0);
-
-            const contadorElement = document.getElementById('carrito-contador');
-            if (contadorElement) {
-                contadorElement.textContent = cantidad;
-            }
-        }
-
-        // Función para mostrar el carrito
-        function mostrarCarrito() {
-            const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-            const tbody = document.getElementById('carrito-items');
-            tbody.innerHTML = '';
-
-            if (carrito.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="text-center">Tu carrito está vacío</td></tr>';
-                document.getElementById('carrito-total').textContent = '$0.00';
-                document.getElementById('pedido-json').value = '';
-            } else {
-                let total = 0;
-
-                carrito.forEach((item, index) => {
-                    const subtotal = item.precio * item.cantidad;
-                    total += subtotal;
-
-                    const tr = document.createElement('tr');
-                    tr.innerHTML = `
-                        <td>${item.nombre}</td>
-                        <td>${item.precio.toFixed(2)}</td>
-                        <td>
-                            <div class="d-flex align-items-center">
-                                <button type="button" class="btn btn-sm btn-outline-secondary decrease-qty" data-index="${index}">-</button>
-                                <span class="mx-2">${item.cantidad}</span>
-                                <button type="button" class="btn btn-sm btn-outline-secondary increase-qty" data-index="${index}">+</button>
-                            </div>
-                        </td>
-                        <td>${subtotal.toFixed(2)}</td>
-                        <td>
-                            <button type="button" class="btn btn-sm btn-danger remove-item" data-index="${index}">Eliminar</button>
-                        </td>
-                    `;
-
-                    tbody.appendChild(tr);
-                });
-
-                document.getElementById('carrito-total').textContent = '$' + total.toFixed(2);
-                document.getElementById('pedido-json').value = JSON.stringify(carrito);
-            }
-
-            const carritoModal = new bootstrap.Modal(document.getElementById('carrito-modal'));
-            carritoModal.show();
-
-            configurarBotonesCarrito();
-        }
-
-        // Configurar eventos para los botones del carrito
-        function configurarBotonesCarrito() {
-            document.querySelectorAll('.decrease-qty').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-                    if (carrito[index].cantidad > 1) {
-                        carrito[index].cantidad--;
-                        localStorage.setItem('carrito', JSON.stringify(carrito));
-                        actualizarContadorCarrito();
-                        mostrarCarrito();
-                    }
-                });
-            });
-
-            document.querySelectorAll('.increase-qty').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-                    carrito[index].cantidad++;
-                    localStorage.setItem('carrito', JSON.stringify(carrito));
-                    actualizarContadorCarrito();
-                    mostrarCarrito();
-                });
-            });
-
-            document.querySelectorAll('.remove-item').forEach(btn => {
-                btn.addEventListener('click', function () {
-                    const index = parseInt(this.getAttribute('data-index'));
-                    const carrito = JSON.parse(localStorage.getItem('carrito')) || [];
-
-                    carrito.splice(index, 1);
-                    localStorage.setItem('carrito', JSON.stringify(carrito));
-                    actualizarContadorCarrito();
-                    mostrarCarrito();
-                });
-            });
-        }
-
-        // JavaScript para manejar la funcionalidad del chat
-        document.addEventListener('DOMContentLoaded', function() {
-            // Inicializar contador del carrito al cargar la página
-            actualizarContadorCarrito();
-
-            // Si hay un mensaje para limpiar el carrito
-            if (@(TempData["LimpiarCarrito"] != null ? "true" : "false")) {
-                localStorage.removeItem('carrito');
-                actualizarContadorCarrito();
-            }
-
-            // Asegurar que los dropdowns funcionen
-            var dropdownElementList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-            var dropdownList = dropdownElementList.map(function (dropdownToggleEl) {
-                return new bootstrap.Dropdown(dropdownToggleEl);
-            });
-
-            // ============== FUNCIONALIDAD DEL CHAT ==============
-            const chatButton = document.getElementById('chatButton');
-            const chatOverlay = document.getElementById('chatOverlay');
-            const closeChatButton = document.getElementById('closeChatButton');
-            const chatContent = document.getElementById('chatContent');
-            let chatLoaded = false;
-
-            // Abrir chat
-            chatButton.addEventListener('click', function() {
-                chatOverlay.classList.add('active');
-                document.body.style.overflow = 'hidden'; // Prevenir scroll del body
-
-                // Cargar contenido del chat si no se ha cargado aún
-                if (!chatLoaded) {
-                    loadChatContent();
-                }
-            });
-
-            // Cerrar chat
-            function closeChat() {
-                chatOverlay.classList.remove('active');
-                document.body.style.overflow = 'auto'; // Restaurar scroll del body
-            }
-
-            closeChatButton.addEventListener('click', closeChat);
-
-            // Cerrar chat al hacer clic en el overlay (fuera de la tarjeta)
-            chatOverlay.addEventListener('click', function(e) {
-                if (e.target === chatOverlay) {
-                    closeChat();
-                }
-            });
-
-            // Cerrar chat con la tecla Escape
-            document.addEventListener('keydown', function(e) {
-                if (e.key === 'Escape' && chatOverlay.classList.contains('active')) {
-                    closeChat();
-                }
-            });
-
-            // Función para cargar el contenido del chat
-            function loadChatContent() {
-                fetch('@Url.Action("Chat", "Home")')
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('No se pudo cargar el chat');
-                        }
-                        return response.text();
-                    })
-                    .then(html => {
-                        // Crear un parser temporal para extraer el contenido
-                        const tempDiv = document.createElement('div');
-                        tempDiv.innerHTML = html;
-
-                        // Extraer y agregar los estilos CSS del chat
-                        const chatStyles = tempDiv.querySelector('style');
-                        if (chatStyles) {
-                            // Verificar si ya existen los estilos para evitar duplicados
-                            if (!document.querySelector('#chat-modal-styles')) {
-                                const styleElement = document.createElement('style');
-                                styleElement.id = 'chat-modal-styles';
-                                styleElement.innerHTML = chatStyles.innerHTML;
-                                document.head.appendChild(styleElement);
-                            }
-                        }
-
-                        // Buscar el contenido principal (todo lo que está dentro del body, excluyendo scripts al final)
-                        const bodyContent = tempDiv.querySelector('body') || tempDiv;
-
-                        // Crear el contenido completo manteniendo la estructura original
-                        let chatHtmlContent = '';
-
-                        // Si hay estilos, incluirlos
-                        if (chatStyles) {
-                            chatHtmlContent += chatStyles.outerHTML;
-                        }
-
-                        // Buscar el div chat-container o todo el contenido si no existe
-                        const chatContainer = tempDiv.querySelector('.chat-container');
-                        if (chatContainer) {
-                            chatHtmlContent += chatContainer.outerHTML;
-                        } else {
-                            // Si no encuentra chat-container, tomar todo el contenido del body
-                            const allContent = bodyContent.innerHTML;
-                            // Filtrar scripts que están al final
-                            const scriptRegex = /<script\b[^<]*(?:(?!<\/script>)<[^<]*)*<\/script>/gi;
-                            const contentWithoutFinalScripts = allContent.replace(scriptRegex, '');
-                            chatHtmlContent += contentWithoutFinalScripts;
-                        }
-
-                        // Insertar el contenido en el modal
-                        chatContent.innerHTML = chatHtmlContent;
-
-                        // Ejecutar los scripts del chat
-                        const scripts = tempDiv.querySelectorAll('script');
-                        scripts.forEach((script, index) => {
-                            try {
-                                // Crear un script tag único para evitar conflictos
-                                const newScript = document.createElement('script');
-                                newScript.id = `chat-script-${index}`;
-
-                                if (script.src) {
-                                    newScript.src = script.src;
-                                } else {
-                                    newScript.textContent = script.textContent;
-                                }
-
-                                // Solo agregar si no existe ya
-                                if (!document.querySelector(`#chat-script-${index}`)) {
-                                    document.head.appendChild(newScript);
-                                }
-                            } catch (error) {
-                                console.error('Error ejecutando script del chat:', error);
-                            }
-                        });
-
-                        chatLoaded = true;
-
-                        // Dar tiempo para que los scripts se ejecuten y luego enfocar el input si existe
-                        setTimeout(() => {
-                            const messageInput = chatContent.querySelector('#messageInput');
-                            if (messageInput) {
-                                messageInput.focus();
-                            }
-                        }, 100);
-
-                    })
-                    .catch(error => {
-                        console.error('Error al cargar el chat:', error);
-                        chatContent.innerHTML = `
-                            <div class="loading-chat" style="padding: 2rem; text-align: center;">
-                                <i class="fas fa-exclamation-triangle text-warning fa-3x mb-3"></i>
-                                <h5 class="text-muted mb-3">No se pudo cargar el chat</h5>
-                                <p class="text-muted mb-3">Por favor, verifica tu conexión e intenta nuevamente.</p>
-                                <button class="btn btn-primary" onclick="window.loadChatContent()">
-                                    <i class="fas fa-redo me-2"></i> Reintentar
-                                </button>
-                                <hr class="my-3">
-                                <a href="@Url.Action("Chat", "Home")" target="_blank" class="btn btn-outline-secondary">
-                                    <i class="fas fa-external-link-alt me-2"></i> Abrir en nueva pestaña
-                                </a>
-                            </div>
-                        `;
-                    });
-            }
-
-            // Hacer la función accesible globalmente para el botón de reintentar
-            window.loadChatContent = loadChatContent;
-        });
-    </script>
-
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
