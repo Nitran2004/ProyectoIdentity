@@ -7,7 +7,6 @@ using Microsoft.EntityFrameworkCore;
 using ProyectoIdentity.Datos;
 using ProyectoIdentity.Models;
 using ProyectoIdentity.Servicios;
-//using static ProyectoIdentity.Controllers.UsuariosController;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -42,7 +41,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddIdentity<AppUsuario, IdentityRole>(options => {
     options.SignIn.RequireConfirmedEmail = true;
 
-    // Mueve aquí tus configuraciones de password si las necesitas:
+
     options.Password.RequireDigit = false;
     options.Password.RequiredLength = 0;
 
@@ -51,7 +50,7 @@ builder.Services.AddIdentity<AppUsuario, IdentityRole>(options => {
 })
 .AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders()
-.AddErrorDescriber<CustomIdentityErrorDescriber>(); // Si tenías uno personalizado
+.AddErrorDescriber<CustomIdentityErrorDescriber>();
 
 // Configuración de cookies
 builder.Services.ConfigureApplicationCookie(options =>
@@ -81,42 +80,56 @@ builder.Services.AddSession(options =>
 
 // Servicios adicionales básicos
 builder.Services.AddHttpContextAccessor();
-// Registrar el servicio de Email para que el controlador pueda encontrarlo
 builder.Services.AddTransient<IEmailSender, ServicioEmail>();
-// DEJA SOLO ESTE Y AJUSTALO:
-
-//// builder.Services.AddTransient<IEmailSender, MailJetEmailSender>();
-
-// ========================================
-// SERVICIOS PARA IA Y RECOMENDACIONES (SIN OLLAMA)
-// ========================================
-
+builder.Services.AddHttpClient();
 
 // Configuración de logging
 builder.Logging.ClearProviders();
 builder.Logging.AddConsole();
 builder.Logging.AddDebug();
 builder.Logging.AddEventSourceLogger();
-
 builder.Logging.SetMinimumLevel(LogLevel.Information);
 
-// Construcción de la aplicación
+// ========================================
+// CONSTRUCCIÓN DE LA APLICACIÓN (AQUÍ SE CREA 'app')
+// ========================================
 var app = builder.Build();
 
-// Configuración del pipeline de middleware
-app.UseDeveloperExceptionPage(); // ⚠️ Temporal para ver el error real
-app.UseHsts();                   // Mantén esto si estás en HTTPS
+// ========================================
+// ENDPOINTS DE MERCADO PAGO (AHORA SÍ PUEDES USAR 'app')
+// ========================================
+app.MapGet("/callback", (string? code, string? state) =>
+{
+    if (string.IsNullOrEmpty(code))
+    {
+        return Results.BadRequest("No se recibió código");
+    }
 
+    Console.WriteLine($"✅ Código recibido: {code}");
+    Console.WriteLine($"State: {state}");
+    return Results.Ok("¡Autorización exitosa! Puedes cerrar esta ventana.");
+});
 
+app.MapPost("/webhook", async (HttpContext context) =>
+{
+    using var reader = new StreamReader(context.Request.Body);
+    var body = await reader.ReadToEndAsync();
 
-// Middleware
- app.UseHttpsRedirection();
+    Console.WriteLine($"🔔 Notificación: {body}");
+    return Results.Ok();
+});
+
+// ========================================
+// CONFIGURACIÓN DEL PIPELINE
+// ========================================
+app.UseDeveloperExceptionPage();
+app.UseHsts();
+app.UseHttpsRedirection();
 
 // Configuración de archivos estáticos
 var provider = new FileExtensionContentTypeProvider();
 provider.Mappings[".glb"] = "model/gltf-binary";
 
-// Usa archivos estáticos con la configuración personalizada
 app.UseStaticFiles(new StaticFileOptions
 {
     ContentTypeProvider = provider
@@ -153,12 +166,4 @@ app.MapControllerRoute(
 // Mapear Razor Pages
 app.MapRazorPages();
 
-// ========================================
-// INICIALIZACIÓN DEL SISTEMA DE RECOMENDACIONES (SIN OLLAMA)
-// ========================================
-
 app.Run();
-
-// ========================================
-// MÉTODOS AUXILIARES
-// ========================================

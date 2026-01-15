@@ -1,0 +1,77 @@
+﻿@{
+    ViewData["Title"] = "Membresías El Nacional";
+}
+
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold" style="color: #DA291C;">Hazte Socio del Bitri</h1>
+        <p class="lead">Elige el plan que mejor se adapte a tu pasión por el Rojo.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4">
+
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-header py-3 text-white text-center" style="background-color: #717073;">
+                    <h4 class="my-0 fw-normal">Plata</h4>
+                </div>
+                <div class="card-body text-center d-flex flex-column">
+                    <h1 class="card-title pricing-card-title">$10<small class="text-muted fw-light">/mes</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start">
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Acceso a noticias exclusivas</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Newsletter mensual</li>
+                        <li><i class="bi bi-x-circle-fill text-danger"></i> Descuentos en la tienda</li>
+                    </ul>
+                    <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
+                        <input type="hidden" name="plan" value="Plata" />
+                        <input type="hidden" name="precio" value="10" />
+                        <button type="submit" class="btn btn-outline-dark w-100 btn-lg">Elegir Plata</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-lg border-primary" style="border: 2px solid #D4AF37 !important;">
+                <div class="card-header py-3 text-white text-center" style="background-color: #D4AF37;">
+                    <h4 class="my-0 fw-bold">Oro</h4>
+                </div>
+                <div class="card-body text-center d-flex flex-column">
+                    <h1 class="card-title pricing-card-title">$25<small class="text-muted fw-light">/mes</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start">
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Todo lo de Plata</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> 10% Descuento en Tienda</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Preventa de entradas</li>
+                    </ul>
+                    <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
+                        <input type="hidden" name="plan" value="Oro" />
+                        <input type="hidden" name="precio" value="25" />
+                        <button type="submit" class="btn btn-danger w-100 btn-lg" style="background-color: #DA291C;">Elegir Oro</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-header py-3 text-white text-center" style="background-color: #111;">
+                    <h4 class="my-0 fw-normal">Platino</h4>
+                </div>
+                <div class="card-body text-center d-flex flex-column">
+                    <h1 class="card-title pricing-card-title">$50<small class="text-muted fw-light">/mes</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start">
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Todo lo de Oro</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> 25% Descuento en Tienda</li>
+                        <li><i class="bi bi-check-circle-fill text-success"></i> Meet & Greet con jugadores</li>
+                    </ul>
+                    <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
+                        <input type="hidden" name="plan" value="Platino" />
+                        <input type="hidden" name="precio" value="50" />
+                        <button type="submit" class="btn btn-dark w-100 btn-lg">Elegir Platino</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,29 @@
+﻿@{
+    ViewData["Title"] = "Confirmar Membresía";
+}
+
+<div class="container py-5 text-center">
+    <div class="card shadow-lg mx-auto" style="max-width: 500px; border-radius: 15px;">
+        <div class="card-header bg-dark text-white py-3">
+            <h3>Resumen de Compra</h3>
+        </div>
+        <div class="card-body">
+            <h4 class="text-muted">Membresía @ViewBag.Plan</h4>
+            <hr />
+            <div class="d-flex justify-content-between px-4 mb-4">
+                <span>Precio Mensual:</span>
+                <span class="fw-bold">$@ViewBag.Precio</span>
+            </div>
+
+            <p class="small text-muted mb-4">
+                Al hacer clic en el botón de abajo, serás redirigido a la plataforma segura de Mercado Pago para completar tu pago.
+            </p>
+
+            <div id="wallet_container">
+                <button class="btn btn-success btn-lg w-100">
+                    Pagar con Mercado Pago
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

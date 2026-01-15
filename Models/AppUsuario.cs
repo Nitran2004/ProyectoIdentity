@@ -42,5 +42,18 @@ namespace ProyectoIdentity.Models
 
         [NotMapped]
         public string? IdRol { get; set; }
+
+        [StringLength(50)]
+        public string? TipoMembresia { get; set; } // "Plata", "Oro", "Platino"
+
+        public DateTime? FechaInicioMembresia { get; set; }
+
+        public DateTime? FechaFinMembresia { get; set; }
+
+        [StringLength(100)]
+        public string? PreapprovalId { get; set; } // ID de suscripción de Mercado Pago
+
+        [StringLength(20)]
+        public string? EstadoMembresia { get; set; } // "Activa", "Pausada", "Cancelada"
     }
 }
