@@ -8,6 +8,11 @@
         <p class="lead">Elige el plan que mejor se adapte a tu pasión por el Rojo.</p>
     </div>
 
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger">@TempData["Error"]</div>
+    }
+
     <div class="row row-cols-1 row-cols-md-3 g-4">
 
         <div class="col">
@@ -23,6 +28,7 @@
                         <li><i class="bi bi-x-circle-fill text-danger"></i> Descuentos en la tienda</li>
                     </ul>
                     <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="plan" value="Plata" />
                         <input type="hidden" name="precio" value="10" />
                         <button type="submit" class="btn btn-outline-dark w-100 btn-lg">Elegir Plata</button>
@@ -44,6 +50,7 @@
                         <li><i class="bi bi-check-circle-fill text-success"></i> Preventa de entradas</li>
                     </ul>
                     <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="plan" value="Oro" />
                         <input type="hidden" name="precio" value="25" />
                         <button type="submit" class="btn btn-danger w-100 btn-lg" style="background-color: #DA291C;">Elegir Oro</button>
@@ -65,6 +72,7 @@
                         <li><i class="bi bi-check-circle-fill text-success"></i> Meet & Greet con jugadores</li>
                     </ul>
                     <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
+                        @Html.AntiForgeryToken()
                         <input type="hidden" name="plan" value="Platino" />
                         <input type="hidden" name="precio" value="50" />
                         <button type="submit" class="btn btn-dark w-100 btn-lg">Elegir Platino</button>
