@@ -1,0 +1,59 @@
+﻿@model ProyectoIdentity.Models.Partido
+@{
+    ViewData["Title"] = "Crear Partido";
+    Layout = "_Layout";
+}
+
+<div class="container mt-4" style="max-width:800px;">
+    <h2 class="mb-3">Crear Partido</h2>
+
+    <form asp-action="Crear" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label class="form-label">Fecha y hora</label>
+            <input asp-for="FechaHora" type="datetime-local" class="form-control" />
+            <span asp-validation-for="FechaHora" class="text-danger"></span>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Local</label>
+                <input asp-for="Local" class="form-control" />
+                <span asp-validation-for="Local" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Imagen Local</label>
+                <input type="file" name="archivoLocal" class="form-control" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Visitante</label>
+                <input asp-for="Visitante" class="form-control" />
+                <span asp-validation-for="Visitante" class="text-danger"></span>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label class="form-label">Imagen Visitante</label>
+                <input type="file" name="archivoVisitante" class="form-control" accept="image/*" />
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Estadio</label>
+            <input asp-for="Estadio" class="form-control" />
+        </div>
+
+        <div class="d-flex gap-2">
+            <button class="btn btn-success" type="submit">Actualizar</button>
+            <a class="btn btn-secondary" asp-action="Index">Volver</a>
+        </div>
+    </form>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

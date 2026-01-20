@@ -221,20 +221,58 @@ namespace ProyectoIdentity.Controllers
                     return View();
                 }
 
-                _logger.LogInformation($"✅ Suscripción confirmada: {subscription_id}");
+                var accessToken = await GetAccessToken();
+                var mode = _configuration["PayPal:Mode"];
+                var baseUrl = mode == "sandbox"
+                    ? "https://api-m.sandbox.paypal.com"
+                    : "https://api-m.paypal.com";
+
+                var client = _httpClientFactory.CreateClient();
+                client.DefaultRequestHeaders.Authorization =
+                    new AuthenticationHeaderValue("Bearer", accessToken);
+
+                var response = await client.GetAsync(
+                    $"{baseUrl}/v1/billing/subscriptions/{subscription_id}"
+                );
+
+                if (!response.IsSuccessStatusCode)
+                {
+                    ViewBag.Error = true;
+                    ViewBag.Mensaje = "No se pudo verificar la suscripción con PayPal";
+                    return View();
+                }
+
+                var json = JsonSerializer.Deserialize<JsonElement>(
+                    await response.Content.ReadAsStringAsync()
+                );
+
+                var status = json.GetProperty("status").GetString();
+
+                if (status != "ACTIVE")
+                {
+                    ViewBag.Error = true;
+                    ViewBag.Mensaje = $"La suscripción no está activa (estado: {status})";
+                    return View();
+                }
+
+                var nextBilling = json
+                    .GetProperty("billing_info")
+                    .GetProperty("next_billing_time")
+                    .GetDateTime();
 
                 var usuario = await _userManager.GetUserAsync(User);
 
                 usuario.TipoMembresia = plan;
                 usuario.EstadoMembresia = "Activa";
                 usuario.FechaInicioMembresia = DateTime.Now;
-                usuario.FechaFinMembresia = DateTime.Now.AddMonths(1);
+                usuario.FechaFinMembresia = nextBilling;
                 usuario.PreapprovalId = subscription_id;
 
                 await _userManager.UpdateAsync(usuario);
 
-                ViewBag.Mensaje = $"¡Bienvenido al plan {plan}! Tu membresía está activa hasta el {usuario.FechaFinMembresia:dd/MM/yyyy}";
+                ViewBag.Mensaje = $"¡Bienvenido al plan {plan}! Tu membresía está activa hasta el {nextBilling:dd/MM/yyyy}";
                 ViewBag.Plan = plan;
+                ViewBag.FechaVencimiento = nextBilling;
                 ViewBag.Error = false;
 
                 return View();
@@ -247,6 +285,8 @@ namespace ProyectoIdentity.Controllers
                 return View();
             }
         }
+
+
 
         [Authorize]
         [HttpGet]

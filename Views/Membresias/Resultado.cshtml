@@ -1,0 +1,98 @@
+﻿@{
+    ViewData["Title"] = "Resultado de Suscripción";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+
+            @if (ViewBag.Error == true)
+            {
+                <div class="card border-danger">
+                    <div class="card-header bg-danger text-white text-center">
+                        <h3>
+                            <i class="bi bi-x-circle"></i>
+                            Error en la Suscripción
+                        </h3>
+                    </div>
+                    <div class="card-body text-center">
+                        <p class="lead">@ViewBag.Mensaje</p>
+                        <a asp-action="Index" class="btn btn-primary">
+                            Volver a Intentar
+                        </a>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="card border-success">
+                    <div class="card-header bg-success text-white text-center">
+                        <h3>
+                            <i class="bi bi-check-circle"></i>
+                            ¡Suscripción Exitosa!
+                        </h3>
+                    </div>
+
+                    <div class="card-body text-center">
+                        <h4 class="text-success mb-4">
+                            @ViewBag.Mensaje
+                        </h4>
+
+                        <div class="alert alert-info">
+                            <h5 class="mb-3">
+                                <i class="bi bi-info-circle"></i>
+                                Detalles de tu Membresía
+                            </h5>
+
+                            <p>
+                                <strong>Plan:</strong>
+                                @ViewBag.Plan
+                            </p>
+
+                            <p>
+                                <strong>Válida hasta:</strong>
+                                @ViewBag.FechaVencimiento?.ToString("dd/MM/yyyy")
+                            </p>
+
+                            <p class="small mb-0">
+                                Tu pago se procesará automáticamente cada mes
+                            </p>
+                        </div>
+
+                        <div class="mt-4">
+                            <a asp-action="MiMembresia"
+                               class="btn btn-primary btn-lg me-2">
+                                <i class="bi bi-person-badge"></i>
+                                Ver Mi Membresía
+                            </a>
+
+                            <a asp-controller="Home"
+                               asp-action="Index"
+                               class="btn btn-outline-secondary btn-lg">
+                                <i class="bi bi-house"></i>
+                                Ir al Inicio
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card mt-4">
+                    <div class="card-body">
+                        <h5 class="card-title">¿Qué sigue?</h5>
+                        <ul class="list-unstyled mb-0">
+                            <li>
+                                <i class="bi bi-check2 text-success"></i>
+                                Recibirás un email de confirmación de PayPal
+                            </li>
+                            <li>
+                                <i class="bi bi-check2 text-success"></i>
+                                Puedes cancelar en cualquier momento desde "Mi Membresía"
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

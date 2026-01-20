@@ -13,11 +13,11 @@ namespace ProyectoIdentity.Controllers
     [Authorize]
     public class UsuariosController : Controller
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AppUsuario> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly ApplicationDbContext _contexto;
 
-        public UsuariosController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext contexto)
+        public UsuariosController(UserManager<AppUsuario> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext contexto)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -201,30 +201,30 @@ namespace ProyectoIdentity.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> CambiarPassword(CambiarPasswordViewModel cpViewModel, string email)
+        public async Task<IActionResult> CambiarPassword(CambiarPasswordViewModel cpViewModel)
         {
-            if (ModelState.IsValid)
-            {
-                var usuario = await _userManager.FindByEmailAsync(email);
-                if (usuario == null)
-                {
-                    return RedirectToAction("Error");
-                }
+            if (!ModelState.IsValid)
+                return View(cpViewModel);
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(usuario);
-                var resultado = await _userManager.ResetPasswordAsync(usuario, token, cpViewModel.Password);
-                if (resultado.Succeeded)
-                {
-                    return RedirectToAction("ConfirmacionCambioPassword");
-                }
-                else
-                {
-                    return View(cpViewModel);
-                }
-            }
+            var usuario = await _userManager.GetUserAsync(User);
+            if (usuario == null)
+                return RedirectToAction("Acceso", "Cuentas");
 
-            return View();
+            var resultado = await _userManager.ChangePasswordAsync(
+                usuario,
+                cpViewModel.PasswordActual,
+                cpViewModel.Password
+            );
+
+            if (resultado.Succeeded)
+                return RedirectToAction("ConfirmacionCambiarPassword");
+
+            foreach (var error in resultado.Errors)
+                ModelState.AddModelError(string.Empty, error.Description);
+
+            return View(cpViewModel);
         }
+
 
         [HttpGet]
         public IActionResult ConfirmacionCambiarPassword()
@@ -259,12 +259,15 @@ namespace ProyectoIdentity.Controllers
         {
             if (ModelState.IsValid)
             {
-                var usuario = new IdentityUser
+                var usuario = new AppUsuario
                 {
                     UserName = model.Email,
                     Email = model.Email,
                     PhoneNumber = model.Telefono,
+                    Telefono = model.Telefono,
+                    Nombre = model.Nombre
                 };
+
 
                 var resultado = await _userManager.CreateAsync(usuario, model.Password);
 
@@ -333,8 +336,8 @@ namespace ProyectoIdentity.Controllers
                     string contraseñaOriginal = usuario.PasswordHash;
 
                     // Crear usuario temporal
-                    var tempUser = new IdentityUser { UserName = usuario.UserName };
-                    var passwordHasher = new PasswordHasher<IdentityUser>();
+                    var tempUser = new AppUsuario { UserName = usuario.UserName };
+                    var passwordHasher = new PasswordHasher<AppUsuario>();
 
                     // Generar hash correcto
                     string nuevoHash = passwordHasher.HashPassword(tempUser, contraseñaOriginal);

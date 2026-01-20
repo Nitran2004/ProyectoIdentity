@@ -297,46 +297,37 @@
     }
 
     @@keyframes slideInRight {
-        from
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
 
-    {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
-
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
     }
 
     @@keyframes fadeIn {
-        from
+        from {
+            opacity: 0;
+            transform: translateY(10px);
+        }
 
-    {
-        opacity: 0;
-        transform: translateY(10px);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
     @@keyframes pulse {
-        0%, 100%
+        0%, 100% {
+            transform: scale(1);
+        }
 
-    {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.1);
-    }
-
+        50% {
+            transform: scale(1.1);
+        }
     }
 
     .btn .fa-spinner {
@@ -344,43 +335,37 @@
     }
 
     @@keyframes spin {
-        from
+        from {
+            transform: rotate(0deg);
+        }
 
-    {
-        transform: rotate(0deg);
-    }
-
-    to {
-        transform: rotate(360deg);
-    }
-
+        to {
+            transform: rotate(360deg);
+        }
     }
 
     @@media (max-width: 768px) {
-        .chat-container
-
-    {
-        padding: 10px;
-    }
-
-    .message-content {
-        max-width: 85%;
-    }
-
-    .input-group {
-        flex-direction: column;
-    }
-
-    .product-actions {
-        flex-direction: column;
-        gap: 10px;
-    }
-
-        .product-actions .btn {
-            width: 100%;
-            margin: 0;
+        .chat-container {
+            padding: 10px;
         }
 
+        .message-content {
+            max-width: 85%;
+        }
+
+        .input-group {
+            flex-direction: column;
+        }
+
+        .product-actions {
+            flex-direction: column;
+            gap: 10px;
+        }
+
+            .product-actions .btn {
+                width: 100%;
+                margin: 0;
+            }
     }
 </style>
 
@@ -455,11 +440,11 @@
 <script>
     let isProcessing = false;
 
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
         // Manejo del navbar
         const navbarDropdowns = document.querySelectorAll('.navbar .dropdown-toggle');
         navbarDropdowns.forEach(dropdown => {
-            dropdown.addEventListener('click', function(e) {
+            dropdown.addEventListener('click', function (e) {
                 e.stopPropagation();
                 document.querySelectorAll('.navbar .dropdown-menu.show').forEach(menu => {
                     if (menu !== this.nextElementSibling) {
@@ -473,7 +458,7 @@
             });
         });
 
-        document.addEventListener('click', function(e) {
+        document.addEventListener('click', function (e) {
             if (!e.target.closest('.navbar .dropdown')) {
                 document.querySelectorAll('.navbar .dropdown-menu.show').forEach(menu => {
                     menu.classList.remove('show');
@@ -551,28 +536,28 @@
             },
             body: JSON.stringify({ mensaje: mensaje })
         })
-        .then(response => response.json())
-        .then(data => {
-            loading.classList.remove('show');
+            .then(response => response.json())
+            .then(data => {
+                loading.classList.remove('show');
 
-            if (data.respuesta) {
-                agregarRespuestaBot(data);
-            } else {
-                agregarMensaje('Lo siento, la IA no pudo procesar tu mensaje. Por favor, intenta de nuevo.', 'bot');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-            loading.classList.remove('show');
-            agregarMensaje('Lo siento, no pude conectar con la IA en este momento. Por favor, intenta más tarde.', 'bot');
-        })
-        .finally(() => {
-            isProcessing = false;
-            input.disabled = false;
-            sendButton.disabled = false;
-            sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
-            input.focus();
-        });
+                if (data.respuesta) {
+                    agregarRespuestaBot(data);
+                } else {
+                    agregarMensaje('Lo siento, la IA no pudo procesar tu mensaje. Por favor, intenta de nuevo.', 'bot');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                loading.classList.remove('show');
+                agregarMensaje('Lo siento, no pude conectar con la IA en este momento. Por favor, intenta más tarde.', 'bot');
+            })
+            .finally(() => {
+                isProcessing = false;
+                input.disabled = false;
+                sendButton.disabled = false;
+                sendButton.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar';
+                input.focus();
+            });
     }
 
     function agregarMensaje(contenido, tipo) {
@@ -606,13 +591,13 @@
             productDiv.className = 'product-recommendation';
 
             let productHtml = `
-                <div class="product-name">
-                    <i class="fas fa-star"></i> ${data.nombreProducto}
-                </div>
-                <div class="product-details">
-                    <strong>Categoría:</strong> ${data.categoria}<br>
-                    <strong>Precio:</strong> <span class="product-price">$${data.precio}</span>
-            `;
+                    <div class="product-name">
+                        <i class="fas fa-star"></i> ${data.nombreProducto}
+                    </div>
+                    <div class="product-details">
+                        <strong>Categoría:</strong> ${data.categoria}<br>
+                        <strong>Precio:</strong> <span class="product-price">$${data.precio}</span>
+                `;
 
             if (data.descripcion) {
                 productHtml += `<br><strong>Descripción:</strong> ${data.descripcion}`;
@@ -623,13 +608,13 @@
             }
 
             productHtml += `
-                </div>
-                <div class="product-actions mt-3">
-                    <button type="button" class="btn btn-warning btn-sm me-2" onclick="añadirAlCarritoDesdeIA(${data.productoId}, '${data.nombreProducto.replace(/'/g, "\\'")}', ${parseFloat(data.precio).toFixed(2)})">
-                        <i class="fas fa-cart-plus"></i> Añadir al Carrito
-                    </button>
-                </div>
-            `;
+                    </div>
+                    <div class="product-actions mt-3">
+                        <button type="button" class="btn btn-warning btn-sm me-2" onclick="añadirAlCarritoDesdeIA(${data.productoId}, '${data.nombreProducto.replace(/'/g, "\\'")}', ${parseFloat(data.precio).toFixed(2)})">
+                            <i class="fas fa-cart-plus"></i> Añadir al Carrito
+                        </button>
+                    </div>
+                `;
 
             productDiv.innerHTML = productHtml;
             messageDiv.appendChild(productDiv);
@@ -722,9 +707,9 @@
         notificacion.className = 'alert alert-success alert-dismissible fade show position-fixed';
         notificacion.style.cssText = 'top: 80px; right: 20px; z-index: 1040; min-width: 300px;';
         notificacion.innerHTML = `
-            <i class="fas fa-check-circle"></i> ${mensaje}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        `;
+                <i class="fas fa-check-circle"></i> ${mensaje}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            `;
 
         document.body.appendChild(notificacion);
 

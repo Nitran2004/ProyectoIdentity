@@ -13,6 +13,8 @@ namespace ProyectoIdentity.Datos
         // ✅ DBSETS
         public DbSet<AppUsuario> AppUsuario { get; set; }
 
+        public DbSet<TablaPosicion> TablaPosiciones { get; set; }
+        public DbSet<Partido> Partidos { get; set; }
         public DbSet<Escuela> Escuelas { get; set; }
         public DbSet<SedeEscuela> SedesEscuelas { get; set; } // <--- ¡Añade esto!
         protected override void OnModelCreating(ModelBuilder modelBuilder)
