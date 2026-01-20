@@ -2,10 +2,264 @@
     ViewData["Title"] = "Membresías El Nacional";
 }
 
+@section Styles{
+<style>
+    :root{
+        --rojo:#DA291C;
+        --azul:#0033A0;
+        --gris:#111;
+        --fondo:#0b1220;
+    }
+
+    .membresias-hero{
+        border-radius: 22px;
+        background: radial-gradient(1200px 400px at 10% 10%, rgba(218,41,28,.28), transparent 60%),
+                    radial-gradient(1200px 400px at 90% 10%, rgba(0,51,160,.25), transparent 60%),
+                    linear-gradient(135deg, rgba(17,17,17,.95), rgba(7,10,18,.95));
+        padding: 42px 28px;
+        color: #fff;
+        box-shadow: 0 20px 60px rgba(0,0,0,.35);
+        border: 1px solid rgba(255,255,255,.08);
+        overflow: hidden;
+        position: relative;
+    }
+
+    .membresias-hero:before{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        background: linear-gradient(90deg, rgba(218,41,28,.35), rgba(0,51,160,.25), rgba(218,41,28,.35));
+        filter: blur(18px);
+        opacity: .35;
+        z-index:0;
+    }
+
+    .membresias-hero > *{ position:relative; z-index:1; }
+
+    .membresias-title{
+        font-weight: 900;
+        letter-spacing: .5px;
+        margin: 0;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .membresias-sub{
+        margin: 10px 0 0 0;
+        opacity: .9;
+    }
+
+    .plan-grid{
+        margin-top: 26px;
+    }
+
+    .plan-card{
+        height: 100%;
+        border-radius: 18px;
+        background: #fff;
+        border: 1px solid rgba(0,0,0,.06);
+        box-shadow: 0 14px 40px rgba(0,0,0,.10);
+        overflow: hidden;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .plan-card:hover{
+        transform: translateY(-6px);
+        box-shadow: 0 22px 70px rgba(0,0,0,.18);
+    }
+
+    .plan-head{
+        padding: 18px 18px 16px 18px;
+        color: #fff;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .plan-head:after{
+        content:"";
+        position:absolute;
+        right:-60px;
+        top:-60px;
+        width: 160px;
+        height: 160px;
+        background: rgba(255,255,255,.18);
+        border-radius: 999px;
+        filter: blur(1px);
+    }
+
+    .plan-name{
+        margin: 0;
+        font-weight: 900;
+        letter-spacing: .5px;
+        text-transform: uppercase;
+        font-size: 1rem;
+    }
+
+    .plan-badge{
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: rgba(255,255,255,.18);
+        border: 1px solid rgba(255,255,255,.25);
+        font-size: .78rem;
+        font-weight: 700;
+        margin-top: 10px;
+        width: fit-content;
+    }
+
+    .plan-body{
+        padding: 18px;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 74px);
+    }
+
+    .plan-price{
+        font-size: 2.2rem;
+        font-weight: 900;
+        margin: 0;
+        color: #111;
+        letter-spacing: -.5px;
+    }
+
+    .plan-price small{
+        font-size: .95rem;
+        color: #6c757d;
+        font-weight: 700;
+    }
+
+    .benefits{
+        margin-top: 14px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .chip{
+        display: inline-flex;
+        align-items: center;
+        padding: 8px 10px;
+        border-radius: 999px;
+        font-size: .86rem;
+        font-weight: 600;
+        line-height: 1;
+        border: 1px solid rgba(0,0,0,.08);
+        background: rgba(0,0,0,.03);
+        color: #1f2a37;
+    }
+
+    .chip--muted{
+        background: rgba(218,41,28,.06);
+        border-color: rgba(218,41,28,.18);
+        color: #7a1a14;
+    }
+
+    .plan-actions{
+        margin-top: auto;
+        padding-top: 16px;
+    }
+
+    .btn-plan{
+        width: 100%;
+        border-radius: 12px;
+        padding: 12px 14px;
+        font-weight: 800;
+        letter-spacing: .3px;
+        border: none;
+        transition: transform .2s ease, filter .2s ease;
+    }
+
+    .btn-plan:hover{ transform: translateY(-1px); filter: brightness(1.02); }
+
+    .divider-soft{
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(0,0,0,.15), transparent);
+        margin: 46px 0 26px 0;
+    }
+
+    .tabla-wrap{
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 16px 50px rgba(0,0,0,.10);
+        border: 1px solid rgba(0,0,0,.06);
+        background: #fff;
+    }
+
+    .tabla-title{
+        font-weight: 900;
+        color: var(--azul);
+        margin: 0;
+        letter-spacing: .3px;
+    }
+
+    .tabla-sub{
+        margin: 6px 0 0 0;
+        color: #6c757d;
+        font-weight: 600;
+    }
+
+    .table thead th{
+        background: #0f172a !important;
+        color: #fff !important;
+        border-color: rgba(255,255,255,.08) !important;
+        font-weight: 900;
+        letter-spacing: .3px;
+        padding: 14px 12px;
+        vertical-align: middle;
+    }
+
+    .table td{
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+    .benef-dot{
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 26px;
+        height: 26px;
+        border-radius: 999px;
+        font-weight: 900;
+        font-size: 1rem;
+    }
+
+    .benef-dot--on{
+        background: rgba(34,197,94,.12);
+        color: #15803d;
+        border: 1px solid rgba(34,197,94,.25);
+    }
+
+    .benef-dot--off{
+        background: rgba(148,163,184,.18);
+        color: #64748b;
+        border: 1px solid rgba(148,163,184,.25);
+    }
+
+    .sticky-col{
+        position: sticky;
+        left: 0;
+        background: #fff;
+        z-index: 2;
+    }
+
+    .table thead .sticky-col{
+        background: #0f172a;
+        z-index: 3;
+    }
+
+    media(max-width: 992px){
+        .sticky-col{ position: static; }
+    }
+</style>
+}
+
 <div class="container py-5">
-    <div class="text-center mb-5">
-        <h1 class="display-4 fw-bold" style="color: #DA291C;">Hazte Socio del Bitri</h1>
-        <p class="lead">Elige el plan que mejor se adapte a tu pasión por el Rojo.</p>
+
+    <div class="membresias-hero text-center mb-4">
+        <h1 class="membresias-title">Hazte Socio del Bitri</h1>
+        <p class="membresias-sub">Elige el plan que mejor se adapte a tu pasión por El Nacional.</p>
     </div>
 
     @if (TempData["Error"] != null)
@@ -13,73 +267,379 @@
         <div class="alert alert-danger">@TempData["Error"]</div>
     }
 
-    <div class="row row-cols-1 row-cols-md-3 g-4">
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4 plan-grid">
 
         <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-header py-3 text-white text-center" style="background-color: #717073;">
-                    <h4 class="my-0 fw-normal">Plata</h4>
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #0033A0, #0b1f57);">
+                    <h4 class="plan-name">Cadetes</h4>
+                    <span class="plan-badge">Plan base</span>
                 </div>
-                <div class="card-body text-center d-flex flex-column">
-                    <h1 class="card-title pricing-card-title">$10<small class="text-muted fw-light">/mes</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start">
-                        <li><i class="bi bi-check-circle-fill text-success"></i> Acceso a noticias exclusivas</li>
-                        <li><i class="bi bi-check-circle-fill text-success"></i> Newsletter mensual</li>
-                        <li><i class="bi bi-x-circle-fill text-danger"></i> Descuentos en la tienda</li>
-                    </ul>
-                    <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="plan" value="Plata" />
-                        <input type="hidden" name="precio" value="10" />
-                        <button type="submit" class="btn btn-outline-dark w-100 btn-lg">Elegir Plata</button>
-                    </form>
+                <div class="plan-body">
+                    <p class="plan-price">$5 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip chip--muted">Beneficios limitados</span>
+                        <span class="chip">Acceso a comunidad</span>
+                        <span class="chip">Info institucional</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Cadetes" />
+                            <input type="hidden" name="precio" value="5" />
+                            <button type="submit" class="btn-plan text-white" style="background: var(--azul);">Elegir Cadetes</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col">
-            <div class="card h-100 shadow-lg border-primary" style="border: 2px solid #D4AF37 !important;">
-                <div class="card-header py-3 text-white text-center" style="background-color: #D4AF37;">
-                    <h4 class="my-0 fw-bold">Oro</h4>
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #0d6efd, #003f99);">
+                    <h4 class="plan-name">Kids</h4>
+                    <span class="plan-badge">Ideal familias</span>
                 </div>
-                <div class="card-body text-center d-flex flex-column">
-                    <h1 class="card-title pricing-card-title">$25<small class="text-muted fw-light">/mes</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start">
-                        <li><i class="bi bi-check-circle-fill text-success"></i> Todo lo de Plata</li>
-                        <li><i class="bi bi-check-circle-fill text-success"></i> 10% Descuento en Tienda</li>
-                        <li><i class="bi bi-check-circle-fill text-success"></i> Preventa de entradas</li>
-                    </ul>
-                    <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="plan" value="Oro" />
-                        <input type="hidden" name="precio" value="25" />
-                        <button type="submit" class="btn btn-danger w-100 btn-lg" style="background-color: #DA291C;">Elegir Oro</button>
-                    </form>
+                <div class="plan-body">
+                    <p class="plan-price">$5 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip">Souvenirs bienvenida</span>
+                        <span class="chip">Souvenir conmemorativo</span>
+                        <span class="chip">Sorteos</span>
+                        <span class="chip">Descuentos KAO</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Kids" />
+                            <input type="hidden" name="precio" value="5" />
+                            <button type="submit" class="btn-plan text-white" style="background:#0d6efd;">Elegir Kids</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
         <div class="col">
-            <div class="card h-100 shadow-sm border-0">
-                <div class="card-header py-3 text-white text-center" style="background-color: #111;">
-                    <h4 class="my-0 fw-normal">Platino</h4>
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #8b6b00, #5a4500);">
+                    <h4 class="plan-name">Bronce</h4>
+                    <span class="plan-badge">Más valor</span>
                 </div>
-                <div class="card-body text-center d-flex flex-column">
-                    <h1 class="card-title pricing-card-title">$50<small class="text-muted fw-light">/mes</small></h1>
-                    <ul class="list-unstyled mt-3 mb-4 text-start">
-                        <li><i class="bi bi-check-circle-fill text-success"></i> Todo lo de Oro</li>
-                        <li><i class="bi bi-check-circle-fill text-success"></i> 25% Descuento en Tienda</li>
-                        <li><i class="bi bi-check-circle-fill text-success"></i> Meet & Greet con jugadores</li>
-                    </ul>
-                    <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post" class="mt-auto">
-                        @Html.AntiForgeryToken()
-                        <input type="hidden" name="plan" value="Platino" />
-                        <input type="hidden" name="precio" value="50" />
-                        <button type="submit" class="btn btn-dark w-100 btn-lg">Elegir Platino</button>
-                    </form>
+                <div class="plan-body">
+                    <p class="plan-price">$10 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip">Souvenirs</span>
+                        <span class="chip">15% entradas</span>
+                        <span class="chip">$10 escuela fútbol</span>
+                        <span class="chip">Descuentos KAO</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Bronce" />
+                            <input type="hidden" name="precio" value="10" />
+                            <button type="submit" class="btn-plan text-white" style="background:#8b6b00;">Elegir Bronce</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #717073, #2a2a2c);">
+                    <h4 class="plan-name">Plata</h4>
+                    <span class="plan-badge">Entradas + réplica</span>
+                </div>
+                <div class="plan-body">
+                    <p class="plan-price">$20 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip">Réplica anual</span>
+                        <span class="chip">1 entrada/mes</span>
+                        <span class="chip">$20 escuela fútbol</span>
+                        <span class="chip">15% entradas</span>
+                        <span class="chip">Descuentos KAO</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Plata" />
+                            <input type="hidden" name="precio" value="20" />
+                            <button type="submit" class="btn-plan text-white" style="background:#2a2a2c;">Elegir Plata</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #00bcd4, #007b8f);">
+                    <h4 class="plan-name">Titanium</h4>
+                    <span class="plan-badge">Experiencias</span>
+                </div>
+                <div class="plan-body">
+                    <p class="plan-price">$30 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip">1 entrada/mes</span>
+                        <span class="chip">Eventos</span>
+                        <span class="chip">Sorteo viajes</span>
+                        <span class="chip">Zapping 6 meses</span>
+                        <span class="chip">$30 escuela fútbol</span>
+                        <span class="chip">15% entradas</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Titanium" />
+                            <input type="hidden" name="precio" value="30" />
+                            <button type="submit" class="btn-plan text-white" style="background:#00bcd4;">Elegir Titanium</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #D4AF37, #8b6b00);">
+                    <h4 class="plan-name">Oro</h4>
+                    <span class="plan-badge">Premium</span>
+                </div>
+                <div class="plan-body">
+                    <p class="plan-price">$50 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip">Camiseta original</span>
+                        <span class="chip">Meet &amp; Greet</span>
+                        <span class="chip">1 entrada/mes</span>
+                        <span class="chip">$50 escuela fútbol</span>
+                        <span class="chip">Eventos</span>
+                        <span class="chip">Zapping 6 meses</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Oro" />
+                            <input type="hidden" name="precio" value="50" />
+                            <button type="submit" class="btn-plan text-white" style="background: var(--rojo);">Elegir Oro</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col">
+            <div class="plan-card">
+                <div class="plan-head" style="background: linear-gradient(135deg, #111, #000);">
+                    <h4 class="plan-name">VIP</h4>
+                    <span class="plan-badge">Máximo nivel</span>
+                </div>
+                <div class="plan-body">
+                    <p class="plan-price">$50 <small>/mes</small></p>
+                    <div class="benefits">
+                        <span class="chip">Palco VIP</span>
+                        <span class="chip">Entrenamiento libre</span>
+                        <span class="chip">$100 escuela fútbol</span>
+                        <span class="chip">Camiseta original</span>
+                        <span class="chip">Meet &amp; Greet</span>
+                        <span class="chip">Zapping 6 meses</span>
+                    </div>
+
+                    <div class="plan-actions">
+                        <form asp-controller="Membresias" asp-action="SeleccionarPlan" method="post">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="plan" value="Vip" />
+                            <input type="hidden" name="precio" value="50" />
+                            <button type="submit" class="btn-plan text-white" style="background:#111;">Elegir VIP</button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
 
     </div>
+
+    <div class="divider-soft"></div>
+
+    <div class="text-center mb-4">
+        <h2 class="tabla-title">Comparación de beneficios</h2>
+        <p class="tabla-sub">Resumen visual de beneficios por plan.</p>
+    </div>
+
+    <div class="tabla-wrap table-responsive">
+        <table class="table table-bordered align-middle text-center mb-0">
+            <thead>
+                <tr>
+                    <th class="text-start sticky-col">Beneficio</th>
+                    <th>Cadetes<br /><small>$5</small></th>
+                    <th>Kids<br /><small>$5</small></th>
+                    <th>Bronce<br /><small>$10</small></th>
+                    <th>Plata<br /><small>$20</small></th>
+                    <th>Titanium<br /><small>$30</small></th>
+                    <th>Oro<br /><small>$50</small></th>
+                    <th>Vip<br /><small>$50</small></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="text-start sticky-col">Camiseta del equipo (original) (1 vez/año)</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Camiseta del equipo (réplica) (1 vez/año)</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Meet &amp; Greet (1 vez/año)</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Souvenirs de bienvenida</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Souvenir conmemorativo (Junio Fiesta del Club)</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Entradas gratis (1 entrada/mes)</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><strong>Preferencia</strong></td>
+                    <td><strong>Tribuna</strong></td>
+                    <td><strong>Palco</strong></td>
+                    <td><strong>Palco VIP</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Visita a entrenamiento libre</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Descuento escuela de fútbol</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><strong>$10</strong></td>
+                    <td><strong>$20</strong></td>
+                    <td><strong>$30</strong></td>
+                    <td><strong>$50</strong></td>
+                    <td><strong>$100</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Descuento entradas partidos</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><strong>15%</strong></td>
+                    <td><strong>15%</strong></td>
+                    <td><strong>15%</strong></td>
+                    <td><strong>15%</strong></td>
+                    <td><strong>15%</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Sorteo de mascotas + visita camerino</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Acceso a eventos deportivos (lanzamiento indumentaria)</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Sorteo 2 viajes/año con el equipo</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                    <td><span class="benef-dot benef-dot--on">●</span></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Descuento KAO efectivo</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><strong>10%</strong></td>
+                    <td><strong>10%</strong></td>
+                    <td><strong>10%</strong></td>
+                    <td><strong>10%</strong></td>
+                    <td><strong>10%</strong></td>
+                    <td><strong>10%</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Descuento KAO tarjeta</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><strong>5%</strong></td>
+                    <td><strong>5%</strong></td>
+                    <td><strong>5%</strong></td>
+                    <td><strong>5%</strong></td>
+                    <td><strong>5%</strong></td>
+                    <td><strong>5%</strong></td>
+                </tr>
+                <tr>
+                    <td class="text-start sticky-col">Membresía Zapping</td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><span class="benef-dot benef-dot--off">—</span></td>
+                    <td><strong>6 meses</strong></td>
+                    <td><strong>6 meses</strong></td>
+                    <td><strong>6 meses</strong></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
 </div>

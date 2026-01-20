@@ -5,38 +5,157 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/password-toggle.css" />
+    <style>
+        .login-wrapper {
+            min-height: calc(100vh - 160px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .login-box {
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.18);
+            background: #fff;
+        }
+
+        .login-form {
+            flex: 1;
+            padding: 40px;
+        }
+
+        .login-form h2 {
+            font-weight: 900;
+            margin-bottom: 5px;
+        }
+
+        .login-form p {
+            color: #6c757d;
+            margin-bottom: 25px;
+        }
+
+        .login-form .btn {
+            border-radius: 50px;
+            font-weight: 700;
+            padding: 10px 25px;
+        }
+
+        .login-side {
+            flex: 0 0 40%;
+            background: #DA291C; /* ROJO EL NACIONAL */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .login-side img {
+            max-width: 200px;
+            width: 100%;
+            filter: drop-shadow(0 8px 20px rgba(0,0,0,0.4));
+        }
+
+        .login-side .side-text {
+            margin-top: 15px;
+            color: white;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .password-toggle {
+            position: absolute;
+            top: 38px;
+            right: 12px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: #6c757d;
+        }
+
+        media (max-width: 768px) {
+            .login-box {
+                flex-direction: column;
+            }
+
+            .login-side {
+                padding: 30px;
+            }
+
+            .login-side img {
+                max-width: 140px;
+            }
+        }
+
+        .brand-title {
+            color: #fff !important;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .brand-subtitle {
+            color: rgba(255,255,255,0.85) !important;
+            font-weight: 600;
+        }
+
+    </style>
 }
 
-<div class="d-flex justify-content-center">
-    <div class="card w-50 p-4">
-        <h2 class="card-title text-center">Inicio de sesión</h2>
-        <form asp-controller="Cuentas" asp-action="Acceso" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" role="form">
-            <div class="text-danger" asp-validation-summary="All"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="col-md-2"></label>
-                <div class="col-md-10">
+<div class="container login-wrapper">
+    <div class="login-box">
+
+        <!-- FORMULARIO -->
+        <div class="login-form">
+            <h2>Inicio de sesión</h2>
+            <p>Accede a tu cuenta de socio</p>
+
+            <form asp-controller="Cuentas"
+                  asp-action="Acceso"
+                  asp-route-returnurl="@ViewData["ReturnUrl"]"
+                  method="post">
+
+                <div asp-validation-summary="All" class="text-danger mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
                     <input asp-for="Email" class="form-control" />
                     <span asp-validation-for="Email" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group position-relative">
-                <label asp-for="Password" class="col-md-2"></label>
-                <div class="col-md-10 mb-3 position-relative">
+
+                <div class="mb-3 position-relative">
+                    <label asp-for="Password" class="form-label"></label>
                     <input asp-for="Password" type="password" class="form-control" id="password" />
                     <span asp-validation-for="Password" class="text-danger"></span>
+
                     <button type="button" id="togglePassword" class="password-toggle">
                         <i class="bi bi-eye-slash"></i>
                     </button>
                 </div>
-            </div>
-            <div class="form-group">
-                <div class="col-md-10 mb-3">
-                    <button type="submit" class="btn btn-primary">Iniciar sesión</button>
-                    <p><a asp-action="OlvidoPassword">¿Olvidaste tu contraseña?</a></p>
+
+                <button type="submit" class="btn btn-primary">
+                    Iniciar sesión
+                </button>
+
+                <div class="mt-3">
+                    <a asp-action="OlvidoPassword">¿Olvidaste tu contraseña?</a>
                 </div>
+            </form>
+        </div>
+
+        <!-- BLOQUE ROJO -->
+        <div class="login-side">
+            <div>
+                <img src="~/media/escudo.png" alt="El Nacional" />
+                <h2 class="brand-title">EL NACIONAL</h2>
+                <p class="brand-subtitle">Portal oficial de socios</p>
             </div>
-        </form>
+        </div>
+
     </div>
 </div>
 
@@ -46,17 +165,14 @@
             const togglePassword = document.getElementById('togglePassword');
             const passwordField = document.getElementById('password');
 
-            if (togglePassword && passwordField) {
-                togglePassword.addEventListener('click', function () {
-                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordField.setAttribute('type', type);
-                    this.querySelector('i').classList.toggle('bi-eye');
-                    this.querySelector('i').classList.toggle('bi-eye-slash');
-                });
-            }
+            togglePassword.addEventListener('click', function () {
+                const type = passwordField.type === 'password' ? 'text' : 'password';
+                passwordField.type = type;
+                this.querySelector('i').classList.toggle('bi-eye');
+                this.querySelector('i').classList.toggle('bi-eye-slash');
+            });
         });
     </script>
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 }

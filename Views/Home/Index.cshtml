@@ -245,23 +245,341 @@
     animation: float 6s ease-in-out infinite;
 }
 
-.card-glass-effect {
-    position: absolute;
-    bottom: -20px;
-    left: 10%;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 20px;
-    border-radius: 15px;
-    width: 80%;
-}
+        .card-glass-effect {
+            position: relative;
+            left: auto;
+            bottom: auto;
+            width: 100%;
+            max-width: 460px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            padding: 22px;
+            border-radius: 18px;
+        }
+
 
 keyframes float {
     0% { transform: translateY(0px); }
     50% { transform: translateY(-20px); }
     100% { transform: translateY(0px); }
 }
+
+
+        .tarjeta {
+            width: 320px;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+            margin: 0 auto 20px auto;
+            display: block;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* Tarjeta física */
+        .tarjeta-fisica {
+            transform: rotate(-4deg);
+            border: 2px solid rgba(255,255,255,0.25);
+        }
+
+        /* Tarjeta digital */
+        .tarjeta-digital {
+            background: linear-gradient(135deg, #b31217, #8b0000);
+            color: white;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            transform: rotate(2deg);
+            border: 2px solid rgba(255,255,255,0.25);
+        }
+
+        /* Header */
+        .tarjeta-header {
+            font-size: 0.75rem;
+            letter-spacing: 2px;
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.85;
+        }
+
+        /* Cuerpo */
+        .tarjeta-body {
+            margin-top: 25px;
+        }
+
+        .tarjeta-nombre {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .tarjeta-numero {
+            margin-top: 6px;
+            font-size: 0.9rem;
+            opacity: 0.85;
+        }
+
+        .tarjeta-vip {
+            margin-top: 10px;
+            display: inline-block;
+            background: gold;
+            color: black;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            font-size: 0.75rem;
+        }
+
+        /* Footer */
+        .tarjeta-footer {
+            margin-top: 20px;
+            font-size: 0.7rem;
+            display: flex;
+            justify-content: space-between;
+            opacity: 0.75;
+        }
+        /* TARJETA DIGITAL PREMIUM */
+        .tarjeta-digital-premium {
+            width: 100%;
+            max-width: 420px;
+            min-height: 240px;
+            height: auto;
+            border-radius: 22px;
+            padding: 22px;
+            color: white;
+            background: linear-gradient(135deg, #b31217, #8b0000, #da291c);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+            border: 2px solid rgba(255,255,255,0.25);
+            position: relative;
+            overflow: hidden;
+            transform: rotate(2deg);
+            display: flex;
+            flex-direction: column;
+        }
+
+            .tarjeta-digital-premium::before {
+                content: "";
+                position: absolute;
+                inset: -60%;
+                background: linear-gradient(120deg, rgba(255,255,255,0.12), transparent 60%);
+                transform: rotate(25deg);
+                pointer-events: none;
+                z-index: 1;
+                opacity: 0.35;
+            }
+
+            .tarjeta-digital-premium > * {
+                position: relative;
+                z-index: 2;
+            }
+
+        .tarjeta-medio {
+            margin-top: 18px;
+        }
+
+        .tarjeta-bottom {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+
+            /* Brillo tipo tarjeta bancaria */
+            .tarjeta-digital-premium::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: linear-gradient(120deg, rgba(255,255,255,0.15), transparent 60%);
+                transform: rotate(25deg);
+            }
+
+        /* Parte superior */
+        .tarjeta-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .tarjeta-escudo {
+            height: 60px;
+            filter: drop-shadow(0 6px 12px rgba(0,0,0,0.6));
+        }
+
+        .tarjeta-socio-texto {
+            font-size: 0.75rem;
+            letter-spacing: 3px;
+            opacity: 0.85;
+        }
+
+        /* Parte central */
+        .tarjeta-medio {
+            margin-top: 18px;
+        }
+
+        .tarjeta-nombre {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .tarjeta-numero {
+            margin-top: 8px;
+            font-size: 1rem;
+            letter-spacing: 3px;
+            opacity: 0.9;
+        }
+
+        /* Parte inferior */
+        .tarjeta-bottom {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+        }
+
+
+        .tarjeta-vip {
+            background: gold;
+            color: black;
+            padding: 6px 14px;
+            border-radius: 10px;
+            font-weight: 900;
+            font-size: 0.75rem;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.4);
+        }
+
+        .tarjeta-expira {
+            font-size: 0.8rem;
+            opacity: 0.85;
+        }
+        /* Texto del club */
+        .tarjeta-club {
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            font-weight: 700;
+            line-height: 1.1;
+            text-transform: uppercase;
+            opacity: 0.9;
+        }
+
+            .tarjeta-club span {
+                font-size: 1.2rem;
+                font-weight: 900;
+                letter-spacing: 3px;
+            }
+
+        /* Membresía */
+        .tarjeta-membresia {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 0.75rem;
+            opacity: 0.95;
+        }
+
+            .tarjeta-membresia span {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                width: fit-content;
+                padding: 7px 14px;
+                border-radius: 999px;
+                font-size: 0.85rem;
+                font-weight: 900;
+                letter-spacing: 1px;
+                color: #111;
+                background: linear-gradient(135deg, #f6d365, #fda085);
+                box-shadow: 0 10px 20px rgba(0,0,0,0.35);
+                border: 1px solid rgba(255,255,255,0.35);
+            }
+
+        .tarjeta-digital-premium::before {
+            opacity: 0.55;
+        }
+
+
+        /* Expiración */
+        .tarjeta-expira {
+            font-size: 0.75rem;
+            letter-spacing: 1px;
+            opacity: 0.85;
+            text-align: right;
+        }
+
+        .tarjeta-digital-premium {
+            width: 100%;
+            max-width: 420px;
+            height: 250px;
+            border-radius: 22px;
+            padding: 22px;
+            color: white;
+            background: linear-gradient(135deg, #b31217, #8b0000, #da291c);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.55);
+            border: 2px solid rgba(255,255,255,0.25);
+            position: relative;
+            overflow: hidden;
+            transform: rotate(2deg);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+            .tarjeta-digital-premium::before {
+                content: "";
+                position: absolute;
+                inset: -60%;
+                background: linear-gradient(120deg, rgba(255,255,255,0.14), transparent 60%);
+                transform: rotate(25deg);
+                pointer-events: none;
+                z-index: 1;
+            }
+
+            .tarjeta-digital-premium > * {
+                position: relative;
+                z-index: 2;
+            }
+
+        .tarjeta-fisica {
+            width: 100%;
+            max-width: 360px;
+            border-radius: 18px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.45);
+            display: block;
+            margin: 0 auto 14px auto;
+            transform: rotate(-4deg);
+            border: 2px solid rgba(255,255,255,0.25);
+        }
+
+        .texto-apoyo {
+            margin-top: 10px;
+            text-align: center;
+            font-size: 0.95rem;
+            color: rgba(255,255,255,0.9);
+        }
+
+        .membership-text {
+    padding-left: 210px;
+}
+
+media (max-width: 991px) {
+    .membership-text {
+        padding-left: 20px;
+        padding-right: 20px;
+        text-align: center;
+    }
+}
+
+        .membership-container {
+            max-width: 1250px;
+        }
+
+
     </style>
 }
 
@@ -275,7 +593,7 @@ keyframes float {
 
     <div class="hero-content">
         <h1 class="titulo-bi-tri">La Gloria del Fútbol</h1>
-        <p class="mt-3 text-light h5">La Máquina Gris | Puros Criollos</p>
+        <p class="mt-3 text-light h5">La Máquina Gris | El Único Bi Tricampeón</p>
 
         <div class="d-flex justify-content-center align-items-center gap-3">
             <a href="https://www.superticket.ec/equipos/cd-nacional" target="_blank" class="btn-nacional m-0">
@@ -295,44 +613,74 @@ keyframes float {
     <div class="membership-bg" style="background-image: url('/media/nac1.png');"></div>
     <div class="membership-overlay"></div>
 
-    <div class="container membership-container">
-        <div class="row align-items-center">
-            <div class="col-lg-6 membership-text">
-                <h2 class="display-4 fw-bold mb-4">ÚNETE AL <span class="text-rojo">BI-TRI</span></h2>
-                <h3 class="h4 mb-5">HAZTE SOCIO HOY</h3>
+    <div class="row align-items-center">
+        <div class="col-lg-6 membership-text">
+            <h2 class="display-4 fw-bold mb-4">ÚNETE AL <span class="text-rojo">BI-TRI</span></h2>
+            <h3 class="h4 mb-5">HAZTE SOCIO HOY</h3>
 
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
-                    <div class="benefit-content">
-                        <h4>Identidad Pura</h4>
-                        <p>Sé parte de la historia del único Bi-tri campeon del futbol ecuatoriano. Forma parte de la pasión y orgullo de la "Máquina Gris".</p>
-                    </div>
+            <div class="benefit-item">
+                <div class="benefit-icon"><i class="fas fa-shield-alt"></i></div>
+                <div class="benefit-content">
+                    <h4>Identidad Pura</h4>
+                    <p>Sé parte de la historia del único Bi-tri campeon del futbol ecuatoriano. Forma parte de la pasión y orgullo de la "Máquina Gris".</p>
                 </div>
-
-                <div class="benefit-item">
-                    <div class="benefit-icon"><i class="fas fa-star"></i></div>
-                    <div class="benefit-content">
-                        <h4>Beneficios Exclusivos</h4>
-                        <p>Acceso preferencial a entradas, descuentos en Kao Sports y eventos especiales.</p>
-                    </div>
-                </div>
-
-                <a href="#" class="btn-membership mt-4">
-                    QUIERO SER SOCIO <i class="fas fa-chevron-right ms-2"></i>
-                </a>
             </div>
 
-            <div class="col-lg-6 d-none d-lg-block">
-                <div class="membership-card-visual">
-                    <img src="~/media/jugador-socio.png" alt="Socio El Nacional" class="img-fluid floating-img">
-                    <div class="card-glass-effect">
-                        <img src="~/media/escudo.png" height="80" alt="Escudo">
-                        <p class="mt-3 fw-bold">MEMBRESÍA DIGITAL OFICIAL</p>
-                    </div>
+            <div class="benefit-item">
+                <div class="benefit-icon"><i class="fas fa-star"></i></div>
+                <div class="benefit-content">
+                    <h4>Beneficios Exclusivos</h4>
+                    <p>Acceso preferencial a entradas, descuentos en Kao Sports y eventos especiales.</p>
                 </div>
+            </div>
+
+            <a href="#" class="btn-membership mt-4">
+                QUIERO SER SOCIO <i class="fas fa-chevron-right ms-2"></i>
+            </a>
+        </div>
+
+        <div class="col-lg-6 d-flex justify-content-center">
+            <div class="card-glass-effect">
+
+                <img src="~/media/socio.png" class="tarjeta-fisica" alt="Tarjeta física El Nacional">
+                <p class="mt-2 fw-bold text-center">MEMBRESÍA FÍSICA OFICIAL</p>
+
+                <div class="tarjeta-digital-premium">
+
+                    <div class="tarjeta-top">
+                        <div class="tarjeta-club">
+                            CLUB DEPORTIVO<br>
+                            <span>EL NACIONAL</span>
+                        </div>
+                        <img src="~/media/digital.png" class="tarjeta-escudo" alt="Escudo El Nacional">
+                    </div>
+
+                    <div class="tarjeta-medio">
+                        <div class="tarjeta-nombre">JUAN PÉREZ GARCÍA</div>
+                        <div class="tarjeta-numero">1234 5678 9000</div>
+                    </div>
+
+                    <div class="tarjeta-bottom">
+                        <div class="tarjeta-membresia">
+                            TIPO DE MEMBRESÍA
+                            <span>VIP</span>
+                        </div>
+
+                        <div class="tarjeta-expira">
+                            VENCE<br>
+                            <strong>NOV / 2025</strong>
+                        </div>
+                    </div>
+
+                </div>
+
+                <p class="mt-3 fw-bold text-center">MEMBRESÍA DIGITAL OFICIAL</p>
+                <div class="texto-apoyo">Si seleccionas digital estás ayudando al club</div>
+
             </div>
         </div>
     </div>
+
 </section>
 
 <section class="match-banner">
