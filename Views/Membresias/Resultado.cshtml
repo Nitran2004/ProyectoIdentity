@@ -38,26 +38,37 @@
                             @ViewBag.Mensaje
                         </h4>
 
-                        <div class="alert alert-info">
-                            <h5 class="mb-3">
-                                <i class="bi bi-info-circle"></i>
-                                Detalles de tu Membresía
+                        <div class="alert alert-info text-center">
+                            <h5 class="mb-3 fw-bold">
+                                <i></i>
+                                ¡Bienvenido a la familia de El Nacional!
                             </h5>
 
-                            <p>
-                                <strong>Plan:</strong>
-                                @ViewBag.Plan
+                            <p class="mb-3">
+                                Gracias por apoyar al <strong>Bi-Tri</strong>. Desde hoy formas parte
+                                de la comunidad de socios que impulsa la historia y el futuro del club.
                             </p>
 
-                            <p>
-                                <strong>Válida hasta:</strong>
-                                @ViewBag.FechaVencimiento?.ToString("dd/MM/yyyy")
-                            </p>
+                            <div class="border rounded p-3 mb-3 bg-white text-start">
+                                <p class="mb-1">
+                                    <strong>Tipo de membresía:</strong>
+                                    <span class="badge bg-danger ms-1">@ViewBag.Plan</span>
+                                </p>
 
-                            <p class="small mb-0">
-                                Tu pago se procesará automáticamente cada mes
+                                <p class="mb-1">
+                                    <strong>Válida hasta:</strong>
+                                    @ViewBag.FechaVencimiento?.ToString("dd/MM/yyyy")
+                                </p>
+                            </div>
+
+                            <p class="small text-muted mb-0">
+                                Tu pago se procesará automáticamente cada mes.
+                                Puedes administrar o cancelar tu membresía en cualquier momento desde
+                                <strong>Mi Membresía</strong>.
                             </p>
                         </div>
+
+
 
                         <div class="mt-4">
                             <a asp-action="MiMembresia"

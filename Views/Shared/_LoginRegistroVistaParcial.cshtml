@@ -24,22 +24,6 @@
                 </a>
             </li>
         }
-        else if (User.IsInRole("Cajero"))
-        {
-            <li class="nav-item">
-                <span class="nav-link text-white">
-                    <strong>Cajero</strong>
-                </span>
-            </li>
-        }
-        else
-        {
-            <li class="nav-item">
-                <span class="nav-link text-white">
-                    <strong>Registrado</strong>
-                </span>
-            </li>
-        }
 
         <!-- Dropdown Mi Cuenta según roles -->
         <!-- Dropdown Mi Cuenta según roles -->
@@ -55,8 +39,16 @@
                         Hola, @usuario?.Nombre
                         <br />
                         <small class="text-light">
-                            Socio @usuario?.TipoMembresia
+                            @if (!string.IsNullOrWhiteSpace(usuario?.TipoMembresia))
+                            {
+                                <span class="badge bg-success">Socio @usuario.TipoMembresia</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">Aún no eres socio</span>
+                            }
                         </small>
+
                     </span>
                 </li>
                 <li>
@@ -67,23 +59,6 @@
                 </li>
 
 
-
-                <!-- PARA CAJERO - Solo editar y cambiar contraseña -->
-                @if (User.IsInRole("Cajero"))
-                {
-                    <li><hr class="dropdown-divider"></li>
-                    <li>
-                        <a class="dropdown-item" asp-controller="Usuarios" asp-action="EditarPerfil"
-                           asp-route-id="@UserManager.GetUserId(User)">
-                            <i class="fas fa-edit text-primary"></i> Editar Perfil
-                        </a>
-                    </li>
-                    <li>
-                        <a class="dropdown-item" asp-controller="Usuarios" asp-action="CambiarPassword">
-                            <i class="fas fa-lock text-danger"></i> Cambiar Contraseña
-                        </a>
-                    </li>
-                }
 
                 <!-- PARA ADMIN Y REGISTRADO - Más opciones -->
                 @if (User.IsInRole("Administrador") || User.IsInRole("Registrado"))

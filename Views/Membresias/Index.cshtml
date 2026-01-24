@@ -3,6 +3,7 @@
 }
 
 @section Styles{
+
 <style>
     :root{
         --rojo:#DA291C;
@@ -13,9 +14,10 @@
 
     .membresias-hero{
         border-radius: 22px;
-        background: radial-gradient(1200px 400px at 10% 10%, rgba(218,41,28,.28), transparent 60%),
-                    radial-gradient(1200px 400px at 90% 10%, rgba(0,51,160,.25), transparent 60%),
-                    linear-gradient(135deg, rgba(17,17,17,.95), rgba(7,10,18,.95));
+        background:
+            radial-gradient(1200px 400px at 10% 10%, rgba(218,41,28,.28), transparent 60%),
+            radial-gradient(1200px 400px at 90% 10%, rgba(0,51,160,.25), transparent 60%),
+            linear-gradient(135deg, rgba(17,17,17,.95), rgba(7,10,18,.95));
         padding: 42px 28px;
         color: #fff;
         box-shadow: 0 20px 60px rgba(0,0,0,.35);
@@ -48,18 +50,19 @@
         opacity: .9;
     }
 
-    .plan-grid{
-        margin-top: 26px;
-    }
+    .plan-grid{ margin-top: 26px; }
 
     .plan-card{
         height: 100%;
+        min-height: 520px;
         border-radius: 18px;
         background: #fff;
         border: 1px solid rgba(0,0,0,.06);
         box-shadow: 0 14px 40px rgba(0,0,0,.10);
         overflow: hidden;
         transition: transform .25s ease, box-shadow .25s ease;
+        display: flex;
+        flex-direction: column;
     }
 
     .plan-card:hover{
@@ -112,7 +115,7 @@
         padding: 18px;
         display: flex;
         flex-direction: column;
-        height: calc(100% - 74px);
+        flex: 1;
     }
 
     .plan-price{
@@ -134,7 +137,14 @@
         display: flex;
         flex-wrap: wrap;
         gap: 8px;
+        max-height: 175px;
+        overflow: auto;
+        padding-right: 6px;
     }
+
+    .benefits::-webkit-scrollbar{ width: 8px; }
+    .benefits::-webkit-scrollbar-thumb{ background: rgba(0,0,0,.15); border-radius: 999px; }
+    .benefits::-webkit-scrollbar-track{ background: rgba(0,0,0,.04); border-radius: 999px; }
 
     .chip{
         display: inline-flex;
@@ -147,6 +157,7 @@
         border: 1px solid rgba(0,0,0,.08);
         background: rgba(0,0,0,.03);
         color: #1f2a37;
+        white-space: nowrap;
     }
 
     .chip--muted{
@@ -249,11 +260,15 @@
         z-index: 3;
     }
 
-    media(max-width: 992px){
+    @@media (max-width: 992px){
         .sticky-col{ position: static; }
+        .plan-card{ min-height: 480px; }
+        .benefits{ max-height: none; overflow: visible; }
+    }
     }
 </style>
 }
+
 
 <div class="container py-5">
 

@@ -46,6 +46,11 @@ namespace ProyectoIdentity.Controllers
                 await _roleManager.CreateAsync(new IdentityRole("Administrador"));
             }
 
+            if (!await _roleManager.RoleExistsAsync("Registrado"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Registrado"));
+            }
+
             // Crear rol Cajero
             if (!await _roleManager.RoleExistsAsync("Platino"))
             {
