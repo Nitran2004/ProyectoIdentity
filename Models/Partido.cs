@@ -19,5 +19,7 @@ namespace ProyectoIdentity.Models
         public byte[]? ImagenLocal { get; set; }
 
         public byte[]? ImagenVisitante { get; set; }
+
+        public string? EntradasLink { get; set; }
     }
 }

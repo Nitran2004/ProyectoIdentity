@@ -21,7 +21,7 @@
 
     @foreach (var escuela in Model)
     {
-        <div class="mb-5 p-4 bg-white shadow-sm border-start border-danger border-4">
+        <div class="mb-5 p-4 bg-white shadow-sm border-start border-danger border-4 rounded-end">
             <h3 class="fw-bold mb-4 text-dark text-uppercase">@escuela.Nombre</h3>
 
             <div class="row g-4">
@@ -30,16 +30,39 @@
                     <div class="col-md-6 col-lg-4">
                         <div class="card h-100 border-0 shadow-sm" style="background-color: #f9f9f9;">
                             <div class="card-body">
-                                <span class="badge bg-primary mb-2">@sede.Ciudad</span>
-                                <p class="mb-2"><strong><i class="fas fa-map-marker-alt"></i> Dirección:</strong><br> @sede.Direccion</p>
-                                <p class="mb-2"><strong><i class="fas fa-clock"></i> Horarios:</strong><br> @sede.Horarios</p>
-                                <p class="mb-2"><strong><i class="fas fa-user"></i> Coord:</strong> @(sede.Responsable ?? "N/A")</p>
-                                <p class="mb-0"><strong><i class="fas fa-phone"></i> Telf:</strong> @(sede.Telefono ?? "N/A")</p>
+
+                                @if (!string.IsNullOrWhiteSpace(sede.Ciudad))
+                                {
+                                    <span class="badge bg-primary mb-2">@sede.Ciudad</span>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(sede.Direccion))
+                                {
+                                    <p class="mb-2"><strong><i class="fas fa-map-marker-alt text-danger"></i> Dirección:</strong><br> @sede.Direccion</p>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(sede.Horarios))
+                                {
+                                    <p class="mb-2"><strong><i class="fas fa-clock text-primary"></i> Horarios:</strong><br> @sede.Horarios</p>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(sede.Responsable))
+                                {
+                                    <p class="mb-2"><strong><i class="fas fa-user text-secondary"></i> Coord:</strong> @sede.Responsable</p>
+                                }
+
+                                @if (!string.IsNullOrWhiteSpace(sede.Telefono))
+                                {
+                                    <p class="mb-0"><strong><i class="fas fa-phone text-success"></i> Telf:</strong> @sede.Telefono</p>
+                                }
                             </div>
-                            @if (!string.IsNullOrEmpty(sede.MapaLink))
+
+                            @if (!string.IsNullOrWhiteSpace(sede.MapaLink))
                             {
                                 <div class="card-footer bg-transparent border-0 pt-0">
-                                    <a href="@sede.MapaLink" target="_blank" class="btn btn-outline-danger btn-sm w-100 mt-2">Ver en Mapa</a>
+                                    <a href="@sede.MapaLink" target="_blank" class="btn btn-outline-danger btn-sm w-100 mt-2">
+                                        <i class="fas fa-external-link-alt me-1"></i> Ver en Mapa
+                                    </a>
                                 </div>
                             }
                         </div>

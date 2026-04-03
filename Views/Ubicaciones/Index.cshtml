@@ -1,0 +1,79 @@
+﻿@model IEnumerable<ProyectoIdentity.Models.Ubicacion>
+
+@{
+    ViewData["Title"] = "Nuestros Locales";
+}
+
+<div class="container mt-4">
+    <div class="row mb-4 align-items-center">
+        <div class="col-md-4">
+            <h2 class="text-danger">Locales</h2>
+        </div>
+
+        <div class="col-md-5">
+            <form asp-action="Index" method="get" class="d-flex shadow-sm">
+                <input type="text" name="buscarCiudad" class="form-control"
+                       placeholder="Buscar por ciudad..." value="@ViewData["FiltroActual"]" />
+                <button type="submit" class="btn btn-danger">Buscar</button>
+            </form>
+        </div>
+
+        <div class="col-md-3 text-end">
+            @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+            {
+                <a asp-action="Crear" class="btn btn-success shadow-sm">Agregar Local</a>
+            }
+        </div>
+    </div>
+
+    @if (!Model.Any())
+    {
+        <div class="alert alert-info">No se encontraron locales.</div>
+    }
+    else
+    {
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card h-100 border-danger shadow-sm">
+                        <div class="card-header bg-danger text-white d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0 text-truncate">@item.Nombre</h5>
+                            <span class="badge bg-white text-danger">@item.Ciudad</span>
+                        </div>
+
+                        <div class="card-body">
+                            <p class="card-text"><strong>Direccion:</strong> @item.Direccion</p>
+                            <p class="card-text mb-1"><strong>Celular:</strong> @item.Celular</p>
+                            <p class="card-text mb-1"><strong>Horario:</strong> <small class="text-muted">@item.Horario</small></p>
+                        </div>
+
+                        <div class="card-footer bg-transparent border-top-0 pb-3">
+                            <div class="d-grid gap-2">
+                                @if (!string.IsNullOrEmpty(item.Link))
+                                {
+                                    <a href="@item.Link" target="_blank" class="btn btn-outline-info btn-sm">Ver Ubicacion</a>
+                                }
+
+                                @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+                                {
+                                    <div class="d-flex gap-2">
+                                        <a asp-action="Crear" asp-route-id="@item.Id" class="btn btn-primary btn-sm flex-fill">
+                                            <i class="fas fa-edit"></i> Editar
+                                        </a>
+                                        <form asp-action="Borrar" asp-route-id="@item.Id" method="post" class="flex-fill">
+                                            <button type="submit" class="btn btn-danger btn-sm w-100"
+                                                    onclick="return confirm('¿Eliminar local?');">
+                                                Borrar
+                                            </button>
+                                        </form>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

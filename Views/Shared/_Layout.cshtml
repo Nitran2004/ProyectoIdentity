@@ -156,6 +156,76 @@
                 color: white !important;
                 padding-left: 25px; /* Efecto sutil de movimiento */
             }
+
+            /* EFECTO HOVER PARA DROPDOWNS */
+@@media (min-width: 992px) {
+    /* Muestra el menú al pasar el mouse por el contenedor li */
+    .nav-item.dropdown:hover > .dropdown-menu {
+        display: block;
+        margin-top: 0; /* Evita saltos visuales */
+        opacity: 1;
+        visibility: visible;
+        transform: translateY(0);
+        transition: all 0.3s ease;
+    }
+
+    /* Pequeño ajuste para que no se cierre el menú al intentar bajar el mouse */
+    .dropdown-menu {
+        margin-top: 0;
+        display: block;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(10px);
+        transition: all 0.3s ease;
+    }
+}
+
+        /* ESTILOS FOOTER */
+        .sponsor-img {
+            height: 40px;
+            filter: grayscale(100%) brightness(0.8);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+            .sponsor-img:hover {
+                filter: grayscale(0%) brightness(1);
+                transform: scale(1.1);
+            }
+
+        .footer-logo {
+            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
+        }
+
+        .grayscale-logo {
+            filter: brightness(0) invert(1);
+            opacity: 0.6;
+            transition: opacity 0.3s;
+        }
+
+            .grayscale-logo:hover {
+                opacity: 1;
+            }
+
+        .social-icons a i {
+            transition: transform 0.3s, color 0.3s;
+        }
+
+        .social-icons a:hover i {
+            color: var(--nacional-rojo);
+            transform: scale(1.2);
+        }
+
+        /* Para asegurar que el footer siempre este abajo */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .main-content {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -172,29 +242,47 @@
 
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav me-auto align-items-center">
-                    <li class="nav-item"><a class="nav-link" href="#">Noticias</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">El Club</a></li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or" target="_blank">
+
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle text-uppercase fw-bold"
+                           href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or"
+                           id="navbarTienda"
+                           target="_blank"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
                             Tienda
                         </a>
+
+                        <ul class="dropdown-menu shadow border-0" aria-labelledby="navbarTienda">
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Ubicaciones" asp-action="Index">
+                                    Donde puedo encontrar camisetas ?
+                                </a>
+                            </li>
+
+                            @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
+                            {
+                                <li><hr class="dropdown-divider bg-secondary"></li>
+                                <li>
+                                    <a class="dropdown-item py-2" asp-controller="Ubicaciones" asp-action="Index">
+                                        Gestionar Ubicaciones
+                                    </a>
+                                </li>
+                            }
+                        </ul>
                     </li>
+
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle text-uppercase fw-bold" href="#" id="navbarEscuelas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             Escuelas
                         </a>
-                        <ul class="dropdown-menu dropdown-menu-dark shadow border-0" aria-labelledby="navbarEscuelas">
-                            <li>
-                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Sierra">CDN SIERRA</a>
-                            </li>
+                        <ul class="dropdown-menu shadow border-0" aria-labelledby="navbarEscuelas">
+                            <li><a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Sierra">CDN SIERRA</a></li>
                             <li><hr class="dropdown-divider bg-secondary"></li>
-                            <li>
-                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Costa">CDN COSTA</a>
-                            </li>
+                            <li><a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Costa">CDN COSTA</a></li>
                             <li><hr class="dropdown-divider bg-secondary"></li>
-                            <li>
-                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Oriente">CDN ORIENTE</a>
-                            </li>
+                            <li><a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Oriente">CDN ORIENTE</a></li>
                         </ul>
                     </li>
                     @if (User.IsInRole("Administrador"))
@@ -216,10 +304,15 @@
                                         <i class="fas fa-futbol me-2"></i> Partidos
                                     </a>
                                 </li>
+                                <li><hr class="dropdown-divider bg-secondary"></li>
+                                <li>
+                                    <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Create">
+                                        <i class="fas fa-school me-2"></i> Escuelas
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     }
-
                 </ul>
 
                 <div class="d-flex align-items-center gap-3">
@@ -240,10 +333,74 @@
         </main>
     </div>
 
-    <footer class="bg-dark text-white py-5 mt-5">
+    <footer class="bg-dark text-white pt-5 pb-4 mt-5 border-top border-danger border-3">
         <div class="container text-center">
-            <img src="~/media/escudo.png" height="60" class="mb-3 grayscale" style="filter: brightness(0) invert(1); opacity: 0.5;">
-            <p class="small text-muted">&copy; 2026 Club Deportivo El Nacional - Todos los derechos reservados.</p>
+
+            <div class="row mb-5 text-center">
+                <div class="col-12">
+                    <h6 class="text-uppercase fw-bold mb-4" style="color: var(--nacional-rojo); letter-spacing: 2px;">Sponsors Oficiales</h6>
+
+                    <div class="d-flex flex-wrap gap-4 justify-content-center align-items-center">
+
+                        <a href="https://fibramax.ec/" target="_blank">
+                            <img src="~/media/fibramax.png" alt="Fibramax" class="sponsor-img" style="height: 80px;">
+                        </a>
+
+                        <a href="https://medinuclear.com.ec/" target="_blank">
+                            <img src="~/media/medi.png" alt="Medinuclear" class="sponsor-img" style="height: 150px;">
+                        </a>
+
+                        <a href="https://tecmanecuador.com/" target="_blank">
+                            <img src="~/media/tecman.png" alt="Tecman" class="sponsor-img" style="height: 100px;">
+                        </a>
+
+                        <a href="https://proassislife.com/" target="_blank">
+                            <img src="~/media/proassislife.png" alt="Proassislife" class="sponsor-img" style="height: 50px;">
+                        </a>
+
+                        <img src="~/media/lotto.png" alt="Lotto" class="sponsor-img" style="height: 120px;">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mb-5 text-center">
+                <div class="col-12">
+                    <h6 class="text-uppercase fw-bold mb-3" style="color: var(--nacional-gris);">Con el apoyo de</h6>
+                    <a href="https://naniecheandia.com/inicio/" target="_blank">
+                        <img src="~/media/NEF.png" alt="NEF" height="70" class="grayscale-logo">
+                    </a>
+                </div>
+            </div>
+
+            <div class="row mb-4">
+                <div class="col-12">
+                    <h6 class="text-uppercase fw-bold mb-4" style="color: var(--nacional-rojo);">Síguenos en redes</h6>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/elnacionalecu" target="_blank" class="mx-3 text-white fs-2"><i class="bi bi-facebook"></i></a>
+                        <a href="https://www.instagram.com/elnacionalec/" target="_blank" class="mx-3 text-white fs-2"><i class="bi bi-instagram"></i></a>
+                        <a href="https://x.com/elnacionalec" target="_blank" class="mx-3 text-white fs-2"><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://www.tiktok.com/@@elnacionalec" target="_blank" class="mx-3 text-white fs-2">
+                            <i class="bi bi-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <hr class="bg-secondary opacity-25">
+
+            <div class="row">
+                <div class="col-12">
+                    <p class="small text-muted mb-0">&copy; 2026 Club Deportivo El Nacional - Todos los derechos reservados.</p>
+                    <p class="small text-muted mb-0">
+                        Detalles de Ubicación:
+                        Sede Social/Administrativa: Calle Yasuní e Isla San Cristóbal, Quito, Ecuador, 170501.
+                    </p>
+
+                    <p class="small text-muted">Desarrollado para el Bitricampeón.</p>
+                </div>
+            </div>
+
         </div>
     </footer>
 

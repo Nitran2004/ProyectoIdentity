@@ -189,6 +189,112 @@
         margin: 46px 0 26px 0;
     }
 
+    .ubicacion-card{
+        border-radius: 22px;
+        background:
+            radial-gradient(1200px 400px at 10% 10%, rgba(218,41,28,.12), transparent 60%),
+            radial-gradient(1200px 400px at 90% 10%, rgba(0,51,160,.15), transparent 60%),
+            linear-gradient(135deg, rgba(17,17,17,.95), rgba(7,10,18,.95));
+        padding: 42px 28px;
+        color: #fff;
+        box-shadow: 0 20px 60px rgba(0,0,0,.35);
+        border: 1px solid rgba(255,255,255,.08);
+        overflow: hidden;
+        position: relative;
+        margin-bottom: 46px;
+    }
+
+    .ubicacion-card:before{
+        content:"";
+        position:absolute;
+        inset:-2px;
+        background: linear-gradient(90deg, rgba(218,41,28,.25), rgba(0,51,160,.20), rgba(218,41,28,.25));
+        filter: blur(18px);
+        opacity: .25;
+        z-index:0;
+    }
+
+    .ubicacion-card > *{ position:relative; z-index:1; }
+
+    .ubicacion-title{
+        font-weight: 900;
+        letter-spacing: .5px;
+        margin: 0;
+        font-size: clamp(1.5rem, 3vw, 2.2rem);
+        margin-bottom: 12px;
+    }
+
+    .ubicacion-subtitle{
+        margin: 0 0 24px 0;
+        opacity: .9;
+        font-size: 1.05rem;
+    }
+
+    .ubicacion-content{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 32px;
+        padding: 24px;
+        background: rgba(255,255,255,.08);
+        border-radius: 16px;
+        border: 1px solid rgba(255,255,255,.12);
+        backdrop-filter: blur(10px);
+    }
+
+    .ubicacion-item{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ubicacion-item-icon{
+        font-size: 2.2rem;
+        margin-bottom: 12px;
+    }
+
+    .ubicacion-item-label{
+        margin: 0;
+        font-size: 0.95rem;
+        opacity: 0.85;
+        margin-bottom: 6px;
+        text-transform: uppercase;
+        letter-spacing: .3px;
+        font-weight: 600;
+    }
+
+    .ubicacion-item-valor{
+        margin: 0;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: #fff;
+    }
+
+    .ubicacion-item-detalle{
+        margin: 4px 0 0 0;
+        opacity: 0.85;
+        font-size: 0.95rem;
+    }
+
+    .ubicacion-divider{
+        height: 80px;
+        width: 1px;
+        background: linear-gradient(180deg, transparent, rgba(255,255,255,.2), transparent);
+        justify-self: center;
+    }
+
+    @@media (max-width: 768px){
+        .ubicacion-content{
+            grid-template-columns: 1fr;
+            gap: 24px;
+        }
+
+        .ubicacion-divider{
+            height: 1px;
+            width: 100%;
+        }
+    }
+
     .tabla-wrap{
         border-radius: 18px;
         overflow: hidden;
@@ -479,6 +585,30 @@
             </div>
         </div>
 
+    </div>
+
+    <!-- Sección de Ubicación y Horarios -->
+    <div class="ubicacion-card text-center">
+        <h2 class="ubicacion-title">¡Visítanos en persona!</h2>
+        <p class="ubicacion-subtitle">También puedes hacerte socio visitando nuestras instalaciones</p>
+
+        <div class="ubicacion-content">
+            <div class="ubicacion-item">
+                <div class="ubicacion-item-icon">📍</div>
+                <p class="ubicacion-item-label">Ubicación</p>
+                <p class="ubicacion-item-valor">Calle Yasuní e Isla San Cristóbal</p>
+                <p class="ubicacion-item-detalle">Quito, Ecuador, 170501</p>
+            </div>
+
+            <div class="ubicacion-divider"></div>
+
+            <div class="ubicacion-item">
+                <div class="ubicacion-item-icon">🕐</div>
+                <p class="ubicacion-item-label">Horarios</p>
+                <p class="ubicacion-item-valor">Lunes a Viernes</p>
+                <p class="ubicacion-item-detalle">8:00 AM - 5:00 PM</p>
+            </div>
+        </div>
     </div>
 
     <div class="divider-soft"></div>

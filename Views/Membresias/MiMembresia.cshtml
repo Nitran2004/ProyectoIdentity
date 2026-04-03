@@ -1,0 +1,37 @@
+﻿<div id="paypal-button-container-P-37959320JU970671LNF5PFGQ"></div>
+
+<script src="https://www.paypal.com/sdk/js?client-id=Abj8nLB5C2Ua-CEykvAbW22MPvmvRgZ1SJl-ZnLcwhjI2ED6t2unaB-xGYslxeZ1clX46atIm00cFOi_&vault=true&intent=subscription" data-sdk-integration-source="button-factory"></script>
+
+<script>
+    paypal.Buttons({
+        style: {
+            shape: 'pill',
+            color: 'gold',
+            layout: 'vertical',
+            label: 'subscribe'
+        },
+        createSubscription: function (data, actions) {
+            return actions.subscription.create({
+                plan_id: 'P-37959320JU970671LNF5PFGQ'
+            });
+        },
+        onApprove: async function (data, actions) {
+            const resp = await fetch('/Membresias/ConfirmarSuscripcionPayPal', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    payPalSuscripcionId: data.subscriptionID,
+                    payPalPlanId: 'P-37959320JU970671LNF5PFGQ',
+                    tipoMembresia: 'Plata'
+                })
+            });
+
+            const json = await resp.json();
+            if (json.ok) {
+                window.location.href = '/Membresias/MiMembresia';
+            } else {
+                alert(json.mensaje || 'No se pudo confirmar.');
+            }
+        }
+    }).render('#paypal-button-container-P-37959320JU970671LNF5PFGQ');
+</script>

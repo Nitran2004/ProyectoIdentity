@@ -29,10 +29,9 @@ public class PartidosController : Controller
         if (!ModelState.IsValid)
             return View(partido);
 
-        var existente = await _context.Partidos
-            .OrderBy(p => p.Id)
-            .FirstOrDefaultAsync();
+        var existente = await _context.Partidos.OrderBy(p => p.Id).FirstOrDefaultAsync();
 
+        // Logica de imagenes (se mantiene igual)
         if (archivoLocal != null && archivoLocal.Length > 0)
         {
             using var ms = new MemoryStream();
@@ -41,7 +40,7 @@ public class PartidosController : Controller
         }
         else if (existente != null)
         {
-            partido.ImagenLocal = existente.ImagenLocal; // conserva si no sube nueva
+            partido.ImagenLocal = existente.ImagenLocal;
         }
 
         if (archivoVisitante != null && archivoVisitante.Length > 0)
@@ -52,7 +51,7 @@ public class PartidosController : Controller
         }
         else if (existente != null)
         {
-            partido.ImagenVisitante = existente.ImagenVisitante; // conserva si no sube nueva
+            partido.ImagenVisitante = existente.ImagenVisitante;
         }
 
         if (existente == null)
@@ -67,6 +66,8 @@ public class PartidosController : Controller
             existente.Estadio = partido.Estadio;
             existente.ImagenLocal = partido.ImagenLocal;
             existente.ImagenVisitante = partido.ImagenVisitante;
+            // Guardamos el nuevo link
+            existente.EntradasLink = partido.EntradasLink;
 
             _context.Partidos.Update(existente);
         }

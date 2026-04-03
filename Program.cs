@@ -147,17 +147,6 @@ app.UseAuthorization();
 // Mapeo de rutas para APIs
 app.MapControllers();
 
-// Rutas específicas para el sistema de chat
-app.MapControllerRoute(
-    name: "chatApi",
-    pattern: "api/chat/{action}",
-    defaults: new { controller = "Home" });
-
-app.MapControllerRoute(
-    name: "recomendacionesApi",
-    pattern: "api/recomendaciones/{action}",
-    defaults: new { controller = "Recomendaciones" });
-
 // Ruta por defecto
 app.MapControllerRoute(
     name: "default",

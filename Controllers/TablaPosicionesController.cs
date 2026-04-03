@@ -48,5 +48,43 @@ namespace ProyectoIdentity.Controllers
 
             return RedirectToAction("Index");
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Editar(TablaPosicion model, IFormFile? archivoImagen)
+        {
+            var registro = await _context.TablaPosiciones.FindAsync(model.Id);
+            if (registro == null)
+                return NotFound();
+
+            // Actualizar campos
+            registro.Posicion = model.Posicion;
+            registro.Club = model.Club;
+            registro.Puntos = model.Puntos;
+
+            // Solo reemplazar imagen si se sube una nueva
+            if (archivoImagen != null && archivoImagen.Length > 0)
+            {
+                using var ms = new MemoryStream();
+                await archivoImagen.CopyToAsync(ms);
+                registro.ImagenClub = ms.ToArray();
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var registro = await _context.TablaPosiciones.FindAsync(id);
+            if (registro != null)
+            {
+                _context.TablaPosiciones.Remove(registro);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction("Index");
+        }
     }
 }

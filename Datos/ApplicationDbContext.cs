@@ -12,10 +12,15 @@ namespace ProyectoIdentity.Datos
 
         // ✅ DBSETS
         public DbSet<AppUsuario> AppUsuario { get; set; }
-
+        public DbSet<SuscripcionUsuario> SuscripcionesUsuario { get; set; }
+        public DbSet<PlanMembresia> PlanesMembresia { get; set; }
+        public DbSet<PagoSuscripcion> PagosSuscripcion { get; set; }
+        public DbSet<WebhookPayPal> WebhooksPayPal { get; set; }
         public DbSet<TablaPosicion> TablaPosiciones { get; set; }
         public DbSet<Partido> Partidos { get; set; }
         public DbSet<Escuela> Escuelas { get; set; }
+        public DbSet<Ubicacion> Ubicaciones { get; set; }
+
         public DbSet<SedeEscuela> SedesEscuelas { get; set; } // <--- ¡Añade esto!
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

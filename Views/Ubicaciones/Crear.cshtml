@@ -1,0 +1,73 @@
+﻿@model ProyectoIdentity.Models.Ubicacion
+
+@{
+    bool esEdicion = Model != null && Model.Id > 0;
+    ViewData["Title"] = esEdicion ? "Editar Ubicacion" : "Crear Ubicacion";
+}
+
+<div class="container mt-4">
+    <h2>@(esEdicion ? "Editar Ubicacion" : "Crear Nueva Ubicacion")</h2>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <form asp-action="Crear" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                @if (esEdicion)
+                {
+                    <input type="hidden" asp-for="Id" />
+                }
+
+                <div class="form-group mb-3">
+                    <label asp-for="Nombre" class="control-label"></label>
+                    <input asp-for="Nombre" class="form-control" placeholder="Ej. Sucursal Centro" />
+                    <span asp-validation-for="Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Ciudad" class="control-label"></label>
+                    <input asp-for="Ciudad" class="form-control" placeholder="Ej. Quito" />
+                    <span asp-validation-for="Ciudad" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Direccion" class="control-label"></label>
+                    <textarea asp-for="Direccion" class="form-control" rows="2"></textarea>
+                    <span asp-validation-for="Direccion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Celular" class="control-label"></label>
+                    <input asp-for="Celular" class="form-control" />
+                    <span asp-validation-for="Celular" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-3">
+                    <label asp-for="Horario" class="control-label"></label>
+                    <input asp-for="Horario" class="form-control" placeholder="Ej. Lunes a Viernes de 9am a 6pm" />
+                    <span asp-validation-for="Horario" class="text-danger"></span>
+                </div>
+
+                <div class="form-group mb-4">
+                    <label asp-for="Link" class="control-label"></label>
+                    <input asp-for="Link" class="form-control" placeholder="Enlace de Google Maps" />
+                    <span asp-validation-for="Link" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">
+                        @(esEdicion ? "Guardar Cambios" : "Crear Registro")
+                    </button>
+                    <a asp-action="Index" class="btn btn-secondary">Cancelar</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

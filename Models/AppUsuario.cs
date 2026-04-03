@@ -33,7 +33,6 @@ namespace ProyectoIdentity.Models
         [StringLength(50)]
         public string? Estado { get; set; }
 
-        // Propiedades auxiliares para la UI (no se mapean a la base de datos)
         [NotMapped]
         public string? Rol { get; set; }
 
@@ -44,16 +43,20 @@ namespace ProyectoIdentity.Models
         public string? IdRol { get; set; }
 
         [StringLength(50)]
-        public string? TipoMembresia { get; set; } // "Plata", "Oro", "Platino"
+        public string? TipoMembresia { get; set; }
 
         public DateTime? FechaInicioMembresia { get; set; }
 
         public DateTime? FechaFinMembresia { get; set; }
 
-        [StringLength(100)]
-        public string? PreapprovalId { get; set; } // ID de suscripción de Mercado Pago
-
         [StringLength(20)]
-        public string? EstadoMembresia { get; set; } // "Activa", "Pausada", "Cancelada"
+        public string? EstadoMembresia { get; set; }
+
+        [StringLength(100)]
+        public string? PayPalSuscripcionId { get; set; }
+
+        [StringLength(100)]
+        public string? PayPalPlanId { get; set; }
+
     }
 }

@@ -30,7 +30,19 @@ namespace ProyectoIdentity.Controllers
         }
 
         // Formulario de creación
-        public IActionResult Create() => View();
+        // GET: Escuelas/Create (Ahora es el panel principal)
+        public async Task<IActionResult> Create(int? id)
+        {
+            // Listado para mostrar abajo de la página
+            ViewBag.TodasLasEscuelas = await _context.Escuelas.Include(e => e.Sedes).ToListAsync();
+
+            if (id == null) return View(new Escuela());
+
+            var escuela = await _context.Escuelas.Include(e => e.Sedes).FirstOrDefaultAsync(m => m.Id == id);
+            if (escuela == null) return NotFound();
+
+            return View(escuela);
+        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -38,11 +50,37 @@ namespace ProyectoIdentity.Controllers
         {
             if (ModelState.IsValid)
             {
-                _context.Escuelas.Add(escuela);
+                if (escuela.Id == 0)
+                {
+                    _context.Escuelas.Add(escuela); // Crear nuevo
+                }
+                else
+                {
+                    // Para editar: Primero borramos las sedes viejas y subimos las nuevas (evita duplicados)
+                    var sedesViejas = _context.SedesEscuelas.Where(s => s.EscuelaId == escuela.Id);
+                    _context.SedesEscuelas.RemoveRange(sedesViejas);
+
+                    _context.Update(escuela); // Actualizar escuela y sus nuevas sedes
+                }
+
                 await _context.SaveChangesAsync();
-                return RedirectToAction("Index", new { region = escuela.Region });
+                return RedirectToAction(nameof(Create));
             }
+            ViewBag.TodasLasEscuelas = await _context.Escuelas.Include(e => e.Sedes).ToListAsync();
             return View(escuela);
+        }
+
+        // Acción para eliminar
+        [HttpPost]
+        public async Task<IActionResult> Eliminar(int id)
+        {
+            var escuela = await _context.Escuelas.FindAsync(id);
+            if (escuela != null)
+            {
+                _context.Escuelas.Remove(escuela);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Create));
         }
     }
 }

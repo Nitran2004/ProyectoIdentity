@@ -44,7 +44,15 @@
             <label class="form-label">Estadio</label>
             <input asp-for="Estadio" class="form-control" />
         </div>
-
+        <div class="mb-4">
+            <label class="form-label fw-bold text-primary">
+                <i class="bi bi-link-45deg"></i> Link de Superticket / Entradas
+            </label>
+            <input asp-for="EntradasLink" class="form-control border-primary"
+                   placeholder="https://superticket.ec/..." />
+            <div class="form-text">Pega aqui la URL directa para la compra de boletos.</div>
+            <span asp-validation-for="EntradasLink" class="text-danger"></span>
+        </div>
         <div class="d-flex gap-2">
             <button class="btn btn-success" type="submit">Actualizar</button>
             <a class="btn btn-secondary" asp-action="Index">Volver</a>
