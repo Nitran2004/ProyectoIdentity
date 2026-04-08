@@ -3,110 +3,363 @@
 @{
     ViewData["Title"] = "Panel del Socio";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var partido = ViewBag.ProximoPartido as ProyectoIdentity.Models.Partido;
 }
 
-<div class="container py-4">
+<style>
+    .hero-socio {
+        background: linear-gradient(135deg, #000000, #2d0a0a, #DA291C);
+        padding: 50px 0;
+        color: white;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+    }
 
-    <div class="card shadow-sm mb-4" style="border-left: 6px solid #d10000;">
-        <div class="card-body d-flex align-items-center justify-content-between flex-wrap gap-3">
+    .estado-badge {
+        background: rgba(255,255,255,0.15);
+        padding: 10px 20px;
+        border-radius: 50px;
+        font-weight: bold;
+        backdrop-filter: blur(10px);
+    }
+
+    .menu-socio {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .menu-item {
+        background: white;
+        padding: 10px 18px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-decoration: none;
+        color: #333;
+        transition: all 0.25s ease;
+        cursor: pointer;
+    }
+
+    .menu-item:hover {
+        background: #DA291C;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .menu-item.active {
+        background: #DA291C;
+        color: white;
+    }
+
+    .menu-item.soporte {
+        background: #000;
+        color: white;
+    }
+
+    .card-socio {
+        background: white;
+        border-radius: 18px;
+        padding: 25px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+    }
+
+    .card-socio:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 20px 40px rgba(218,41,28,0.3);
+    }
+
+    .btn-socio {
+        display: inline-block;
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: #DA291C;
+        color: white;
+        border-radius: 50px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    /* BENEFICIOS */
+    #beneficiosSection {
+        display: none;
+        margin-top: 30px;
+        animation: fadeIn 0.4s ease;
+    }
+
+    @@keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+
+    .beneficio-card {
+        background: white;
+        border-radius: 16px;
+        padding: 25px 15px;
+        box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .beneficio-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 15px 35px rgba(218,41,28,0.3);
+    }
+
+    .beneficio-img {
+        height: 60px;
+        object-fit: contain;
+        margin-bottom: 15px;
+    }
+</style>
+
+<div class="container-fluid p-0">
+
+    <!-- 🔴 HERO ORIGINAL -->
+    <div class="hero-socio">
+        <div class="container d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div>
-                <h3 class="mb-1">Bienvenido/a, @Model?.Nombre</h3>
-                <div class="text-muted">
-                    Socio: <strong>@(Model?.TipoMembresia ?? "Sin plan")</strong> ·
-                    Estado: <strong>@(Model?.EstadoMembresia ?? "Sin estado")</strong>
-                    @if (Model?.FechaFinMembresia != null)
-                    {
-                        <span> · Válida hasta: <strong>@Model.FechaFinMembresia?.ToString("dd/MM/yyyy")</strong></span>
-                    }
-                </div>
+                <h2>Panel del Socio</h2>
+                <p>Bienvenido, @Model?.Nombre</p>
             </div>
 
-            <div class="d-flex gap-2 flex-wrap">
-                <a class="btn btn-danger" asp-controller="Membresias" asp-action="MiMembresia">
-                    <i class="bi bi-person-badge me-1"></i> Ver mi membresía
-                </a>
-                <a class="btn btn-outline-danger" asp-controller="Usuarios" asp-action="EditarPerfil" asp-route-id="@Model?.Id">
-                    <i class="bi bi-pencil-square me-1"></i> Editar perfil
-                </a>
+            <div class="estado-badge">
+                @Model?.TipoMembresia
             </div>
         </div>
     </div>
 
-    <div class="d-flex flex-wrap gap-4 justify-content-center">
+    <div class="container mt-4">
 
-        <div class="card shadow-sm" style="width: 330px;">
-            <div class="card-header text-white" style="background:#d10000;">
-                <strong>MI PLAN</strong>
-            </div>
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-star-fill" style="font-size:40px;"></i>
-                </div>
+        <!-- 🔥 MENU ORIGINAL COMPLETO -->
+        <div class="menu-socio mb-4">
 
-                <h5 class="mb-2">@((Model?.TipoMembresia ?? "Aún no tienes plan"))</h5>
+            <a class="menu-item active" id="btnHome">
+                <i class="fas fa-home"></i> HOME
+            </a>
 
-                @if (Model?.EstadoMembresia == "Activa" && Model?.FechaFinMembresia != null)
-                {
-                    <div class="text-muted mb-3">
-                        Válida hasta: <strong>@Model.FechaFinMembresia?.ToString("dd/MM/yyyy")</strong>
+            <a href="#" class="menu-item">
+                <i class="fas fa-user"></i> MI CUENTA
+            </a>
+
+            <a asp-controller="Membresias" asp-action="Index" class="menu-item">
+                <i class="fas fa-id-card"></i> PLANES
+            </a>
+
+            <a class="menu-item" id="btnBeneficios">
+                <i class="fas fa-gift"></i> BENEFICIOS
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fas fa-ticket-alt"></i> ENTRADAS
+            </a>
+
+            <a href="#" class="menu-item">
+                <i class="fas fa-history"></i> LEGADO
+            </a>
+
+            <a href="#" class="menu-item soporte">
+                <i class="fas fa-headset"></i> SOPORTE
+            </a>
+
+        </div>
+
+        <!-- 🔥 DASHBOARD ORIGINAL -->
+        <div id="dashboardSection">
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+                    <div class="card-socio">
+                        <h5>@(Model?.TipoMembresia ?? "Sin plan")</h5>
+
+                        <p>
+                            @(Model?.EstadoMembresia == "Activa"
+                                ? "Activa hasta " + Model.FechaFinMembresia?.ToString("dd/MM/yyyy")
+                                : "Activa tu membresía")
+                        </p>
+
+                        <a class="btn-socio" asp-controller="Membresias" asp-action="Index">
+                            Ver planes
+                        </a>
                     </div>
-                }
-                else
-                {
-                    <div class="text-muted mb-3">Contrata tu plan para activar tus beneficios.</div>
-                }
+                </div>
 
-                <a class="btn btn-danger w-100" asp-controller="Membresias" asp-action="Index">
-                    <i class="bi bi-lightning-charge me-1"></i> Ver planes
-                </a>
+                <div class="col-md-4">
+                    <div class="card-socio">
+
+                        @if (partido != null)
+                        {
+                            <!-- ESCUDOS -->
+                            <div class="d-flex align-items-center justify-content-center mb-2">
+
+                                @if (partido.ImagenLocal != null)
+                                {
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(partido.ImagenLocal)"
+                                         style="width:50px; height:50px; object-fit:contain;" />
+                                }
+
+                                <span class="mx-2 fw-bold">VS</span>
+
+                                @if (partido.ImagenVisitante != null)
+                                {
+                                    <img src="data:image/png;base64,@Convert.ToBase64String(partido.ImagenVisitante)"
+                                         style="width:50px; height:50px; object-fit:contain;" />
+                                }
+
+                            </div>
+
+                            <!-- PARTIDO -->
+                            <h6 class="fw-bold">@partido.Local vs @partido.Visitante</h6>
+
+                            <p class="mb-1">
+                                <i class="bi bi-calendar-event"></i>
+                                @partido.FechaHora.ToString("dd/MM HH:mm")
+                            </p>
+
+                            <p class="text-muted" style="font-size:0.85rem;">
+                                <i class="bi bi-geo-alt"></i>
+                                @partido.Estadio
+                            </p>
+
+                            <!-- 🔥 ENTRADAS -->
+                            @if (!string.IsNullOrEmpty(partido.EntradasLink))
+                            {
+                                <a class="btn-socio w-100 mt-2"
+                                   href="@partido.EntradasLink"
+                                   target="_blank">
+                                    Comprar entradas
+                                </a>
+                            }
+                            else
+                            {
+                                <button class="btn btn-secondary w-100 mt-2" disabled>
+                                    <i class="bi bi-info-circle"></i>
+                                    @if (partido.Visitante == "El Nacional")
+                                    {
+                                        @:Visitante - No disponible
+                                    }
+                                    else
+                                    {
+                                        @:No disponible
+                                    }
+                                </button>
+                            }
+                        }
+                        else
+                        {
+                            <div class="card-top">
+                                <i class="bi bi-ticket-perforated-fill"></i>
+                            </div>
+
+                            <h5>Próximo partido</h5>
+                            <p>Próximamente</p>
+                        }
+
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="card-socio">
+                        <h5>Carnet digital</h5>
+                        <a class="btn-socio" asp-controller="Socio" asp-action="Carnet">
+                            Ver carnet
+                        </a>
+                    </div>
+                </div>
+
             </div>
+
         </div>
 
-        <div class="card shadow-sm" style="width: 330px;">
-            <div class="card-header text-white" style="background:#d10000;">
-                <strong>ENTRADAS</strong>
-            </div>
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-ticket-perforated-fill" style="font-size:40px;"></i>
+        <!-- 🔥 BENEFICIOS -->
+        <div id="beneficiosSection">
+
+            <h5 class="text-center mb-4 fw-bold" style="color:#DA291C;">
+                BENEFICIOS EXCLUSIVOS
+            </h5>
+
+            <div class="row g-4 justify-content-center">
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="beneficio-card text-center">
+                        <img src="~/media/fibramax.png" class="beneficio-img" />
+                        <h6>FIBRAMAX</h6>
+                        <p>Internet de alta velocidad</p>
+                    </div>
                 </div>
 
-                <div class="text-muted mb-3">
-                    Próximo partido: <strong>Próximamente</strong>
+                <div class="col-md-4 col-sm-6">
+                    <div class="beneficio-card text-center">
+                        <img src="~/media/medi.png" class="beneficio-img" />
+                        <h6>MEDINUCLEAR</h6>
+                        <p>Servicios médicos</p>
+                    </div>
                 </div>
 
-                <a class="btn btn-outline-danger w-100" href="#">
-                    <i class="bi bi-cart-check me-1"></i> Comprar entradas
-                </a>
-            </div>
-        </div>
-
-        <div class="card shadow-sm" style="width: 330px;">
-            <div class="card-header text-white" style="background:#d10000;">
-                <strong>MI CARNET DE SOCIO</strong>
-            </div>
-            <div class="card-body text-center">
-                <div class="mb-3">
-                    <i class="bi bi-credit-card-2-front-fill" style="font-size:40px;"></i>
+                <div class="col-md-4 col-sm-6">
+                    <div class="beneficio-card text-center">
+                        <img src="~/media/tecman.png" class="beneficio-img" />
+                        <h6>TECMAN</h6>
+                        <p>Soluciones tecnológicas</p>
+                    </div>
                 </div>
 
-                <div class="text-muted mb-3">
-                    @if (Model?.EstadoMembresia == "Activa")
-                    {
-                        <span>Carnet disponible para socios activos.</span>
-                    }
-                    else
-                    {
-                        <span>Activa tu membresía para generar tu carnet.</span>
-                    }
+                <div class="col-md-4 col-sm-6">
+                    <div class="beneficio-card text-center">
+                        <img src="~/media/proassislife.png" class="beneficio-img" />
+                        <h6>PROASSIS LIFE</h6>
+                        <p>Planes de asistencia</p>
+                    </div>
                 </div>
 
-                <a class="btn btn-danger w-100" href="#">
-                    <i class="bi bi-qr-code-scan me-1"></i> Ver carnet
-                </a>
+                <div class="col-md-4 col-sm-6">
+                    <div class="beneficio-card text-center">
+                        <img src="~/media/lotto.png" class="beneficio-img" />
+                        <h6>LOTTO</h6>
+                        <p>Indumentaria deportiva</p>
+                    </div>
+                </div>
+
+                <div class="col-md-4 col-sm-6">
+                    <div class="beneficio-card text-center">
+                        <img src="~/media/escudo.png" class="beneficio-img" />
+                        <h6>EL NACIONAL</h6>
+                        <p>Beneficios del club</p>
+                    </div>
+                </div>
+
             </div>
+
         </div>
 
     </div>
-
 </div>
+
+<script>
+    const btnHome = document.getElementById("btnHome");
+    const btnBeneficios = document.getElementById("btnBeneficios");
+    const dashboard = document.getElementById("dashboardSection");
+    const beneficios = document.getElementById("beneficiosSection");
+
+    btnBeneficios.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        dashboard.style.display = "none";
+        beneficios.style.display = "block";
+
+        btnBeneficios.classList.add("active");
+        btnHome.classList.remove("active");
+    });
+
+    btnHome.addEventListener("click", (e) => {
+        e.preventDefault();
+
+        dashboard.style.display = "block";
+        beneficios.style.display = "none";
+
+        btnHome.classList.add("active");
+        btnBeneficios.classList.remove("active");
+    });
+</script>

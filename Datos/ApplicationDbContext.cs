@@ -21,6 +21,7 @@ namespace ProyectoIdentity.Datos
         public DbSet<Escuela> Escuelas { get; set; }
         public DbSet<Ubicacion> Ubicaciones { get; set; }
 
+
         public DbSet<SedeEscuela> SedesEscuelas { get; set; } // <--- ¡Añade esto!
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

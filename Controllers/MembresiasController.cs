@@ -75,8 +75,21 @@ namespace ProyectoIdentity.Controllers
             return View();
         }
 
-        [Authorize]
-        public async Task<IActionResult> MiMembresia()
+        //Pay pal sandbox 
+        //[Authorize]
+        //public async Task<IActionResult> MiMembresia()
+        //{
+        //    var usuario = await _userManager.GetUserAsync(User);
+
+        //    var suscripcion = await _context.SuscripcionesUsuario
+        //        .Include(s => s.Plan)
+        //        .Where(s => s.UsuarioId == usuario.Id && s.EsActual)
+        //        .FirstOrDefaultAsync();
+
+        //    return View(suscripcion);
+        //}
+
+        public async Task<IActionResult> MiMembresia(string plan, string paypalPlanId, decimal? precio)
         {
             var usuario = await _userManager.GetUserAsync(User);
 
@@ -84,6 +97,10 @@ namespace ProyectoIdentity.Controllers
                 .Include(s => s.Plan)
                 .Where(s => s.UsuarioId == usuario.Id && s.EsActual)
                 .FirstOrDefaultAsync();
+
+            ViewBag.PlanSeleccionado = plan;
+            ViewBag.PayPalPlanId = paypalPlanId;
+            ViewBag.PrecioPlan = precio;          // ← NUEVO: pasa el precio a la vista
 
             return View(suscripcion);
         }
@@ -349,6 +366,154 @@ namespace ProyectoIdentity.Controllers
             }
         }
 
+        //[Authorize]
+        //[HttpPost]
+        //public async Task<IActionResult> SeleccionarPlan(string plan, decimal precio)
+        //{
+        //    try
+        //    {
+        //        var usuario = await _userManager.GetUserAsync(User);
+        //        if (usuario == null) return Unauthorized();
+
+        //        var accessToken = await GetAccessToken();
+
+        //        var mode = _configuration["PayPal:Mode"];
+        //        var baseUrl = mode == "sandbox"
+        //            ? "https://api-m.sandbox.paypal.com"
+        //            : "https://api-m.paypal.com";
+
+        //        var client = _httpClientFactory.CreateClient();
+        //        client.DefaultRequestHeaders.Authorization =
+        //            new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", accessToken);
+
+        //        // 🔹 CREAR PRODUCTO
+        //        var producto = new
+        //        {
+        //            name = $"Membresía {plan}",
+        //            type = "SERVICE"
+        //        };
+
+        //        var productoResponse = await client.PostAsync(
+        //            $"{baseUrl}/v1/catalogs/products",
+        //            new StringContent(JsonSerializer.Serialize(producto), Encoding.UTF8, "application/json")
+        //        );
+
+        //        var productoJson = JsonSerializer.Deserialize<JsonElement>(
+        //            await productoResponse.Content.ReadAsStringAsync()
+        //        );
+
+        //        var productoId = productoJson.GetProperty("id").GetString();
+
+        //        // 🔹 CREAR PLAN
+        //        // 🔹 CREAR PLAN
+        //        var planData = new
+        //        {
+        //            product_id = productoId,
+        //            name = $"Plan {plan}",
+        //            description = $"Suscripción mensual {plan}",
+        //            status = "ACTIVE",
+        //            billing_cycles = new[]
+        //            {
+        //                new
+        //                {
+        //                    frequency = new
+        //                    {
+        //                        interval_unit = "MONTH",
+        //                        interval_count = 1
+        //                    },
+        //                    tenure_type = "REGULAR",
+        //                    sequence = 1,
+        //                    total_cycles = 0,
+        //                    pricing_scheme = new
+        //                    {
+        //                        fixed_price = new
+        //                        {
+        //                            value = precio.ToString("F2", System.Globalization.CultureInfo.InvariantCulture),
+        //                            currency_code = "USD"
+        //                        }
+        //                    }
+        //                }
+        //            },
+        //            payment_preferences = new
+        //            {
+        //                auto_bill_outstanding = true,
+        //                setup_fee_failure_action = "CONTINUE",
+        //                payment_failure_threshold = 3
+        //            }
+        //        };
+
+        //        // ✅ PRIMERO haces el POST
+        //        var planResponse = await client.PostAsync(
+        //            $"{baseUrl}/v1/billing/plans",
+        //            new StringContent(JsonSerializer.Serialize(planData), Encoding.UTF8, "application/json")
+        //        );
+
+        //        // ✅ LUEGO lees la respuesta
+        //        var planResult = await planResponse.Content.ReadAsStringAsync();
+
+        //        // ✅ VALIDAS ERROR
+        //        if (!planResponse.IsSuccessStatusCode)
+        //        {
+        //            _logger.LogError("❌ Error creando plan PayPal: " + planResult);
+        //            throw new Exception("Error PayPal: " + planResult);
+        //        }
+
+        //        // ✅ PARSEAS JSON
+        //        var planJson = JsonSerializer.Deserialize<JsonElement>(planResult);
+        //        var planId = planJson.GetProperty("id").GetString();
+
+        //        // 🔹 CREAR SUSCRIPCIÓN
+        //        var suscripcion = new
+        //        {
+        //            plan_id = planId,
+        //            application_context = new
+        //            {
+        //                return_url = Url.Action(
+        //                "Resultado",
+        //                "Membresias",
+        //                new { plan = plan },
+        //                Request.Scheme
+        //            ),
+        //                cancel_url = _configuration["PayPal:CancelUrl"]
+        //            }
+        //        };
+
+        //        var suscripcionResponse = await client.PostAsync(
+        //            $"{baseUrl}/v1/billing/subscriptions",
+        //            new StringContent(JsonSerializer.Serialize(suscripcion), Encoding.UTF8, "application/json")
+        //        );
+
+        //        var suscripcionResult = await suscripcionResponse.Content.ReadAsStringAsync();
+
+        //        if (!suscripcionResponse.IsSuccessStatusCode)
+        //        {
+        //            _logger.LogError("❌ Error creando suscripción: " + suscripcionResult);
+        //            throw new Exception("Error PayPal: " + suscripcionResult);
+        //        }
+
+        //        var suscripcionJson = JsonSerializer.Deserialize<JsonElement>(suscripcionResult);
+
+        //        var approveLink = suscripcionJson.GetProperty("links")
+        //            .EnumerateArray()
+        //            .First(l => l.GetProperty("rel").GetString() == "approve")
+        //            .GetProperty("href").GetString();
+
+        //        // 🔥 REDIRECCIÓN A PAYPAL PILAS
+        //        //return Redirect(approveLink);
+
+        //        TempData["PayPalLink"] = approveLink;
+
+        //        // 👉 Redirigimos a tu flujo normal
+        //        return RedirectToAction("MiMembresia");
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        _logger.LogError(ex, "Error en SeleccionarPlan");
+        //        TempData["Error"] = "Error al procesar el pago";
+        //        return RedirectToAction("Index");
+        //    }
+        //}
+
         [Authorize]
         [HttpPost]
         public async Task<IActionResult> SeleccionarPlan(string plan, decimal precio)
@@ -388,13 +553,13 @@ namespace ProyectoIdentity.Controllers
                 var productoId = productoJson.GetProperty("id").GetString();
 
                 // 🔹 CREAR PLAN
-                // 🔹 CREAR PLAN
                 var planData = new
                 {
                     product_id = productoId,
                     name = $"Plan {plan}",
                     description = $"Suscripción mensual {plan}",
                     status = "ACTIVE",
+
                     billing_cycles = new[]
                     {
         new
@@ -417,76 +582,48 @@ namespace ProyectoIdentity.Controllers
             }
         }
     },
+
                     payment_preferences = new
                     {
                         auto_bill_outstanding = true,
                         setup_fee_failure_action = "CONTINUE",
                         payment_failure_threshold = 3
+                    },
+
+                    taxes = new
+                    {
+                        percentage = "0",
+                        inclusive = false
                     }
                 };
 
-                // ✅ PRIMERO haces el POST
                 var planResponse = await client.PostAsync(
                     $"{baseUrl}/v1/billing/plans",
                     new StringContent(JsonSerializer.Serialize(planData), Encoding.UTF8, "application/json")
                 );
 
-                // ✅ LUEGO lees la respuesta
                 var planResult = await planResponse.Content.ReadAsStringAsync();
 
-                // ✅ VALIDAS ERROR
                 if (!planResponse.IsSuccessStatusCode)
                 {
-                    _logger.LogError("❌ Error creando plan PayPal: " + planResult);
-                    throw new Exception("Error PayPal: " + planResult);
+                    _logger.LogError("❌ ERROR PAYPAL PLAN: " + planResult);
+                    throw new Exception(planResult);
                 }
 
-                // ✅ PARSEAS JSON
                 var planJson = JsonSerializer.Deserialize<JsonElement>(planResult);
                 var planId = planJson.GetProperty("id").GetString();
 
-                // 🔹 CREAR SUSCRIPCIÓN
-                var suscripcion = new
+                // 🔥 GUARDAMOS PARA LA VISTA
+                TempData["PlanSeleccionado"] = plan;
+                return RedirectToAction("MiMembresia", new
                 {
-                    plan_id = planId,
-                    application_context = new
-                    {
-                        return_url = Url.Action(
-                        "Resultado",
-                        "Membresias",
-                        new { plan = plan },
-                        Request.Scheme
-                    ),
-                        cancel_url = _configuration["PayPal:CancelUrl"]
-                    }
-                };
-
-                var suscripcionResponse = await client.PostAsync(
-                    $"{baseUrl}/v1/billing/subscriptions",
-                    new StringContent(JsonSerializer.Serialize(suscripcion), Encoding.UTF8, "application/json")
-                );
-
-                var suscripcionResult = await suscripcionResponse.Content.ReadAsStringAsync();
-
-                if (!suscripcionResponse.IsSuccessStatusCode)
-                {
-                    _logger.LogError("❌ Error creando suscripción: " + suscripcionResult);
-                    throw new Exception("Error PayPal: " + suscripcionResult);
-                }
-
-                var suscripcionJson = JsonSerializer.Deserialize<JsonElement>(suscripcionResult);
-
-                var approveLink = suscripcionJson.GetProperty("links")
-                    .EnumerateArray()
-                    .First(l => l.GetProperty("rel").GetString() == "approve")
-                    .GetProperty("href").GetString();
-
-                // 🔥 REDIRECCIÓN A PAYPAL
-                return Redirect(approveLink);
+                    plan = plan,
+                    paypalPlanId = planId,
+                    precio = precio          // ← NUEVO: incluye el precio en la ruta
+                });
             }
-            catch (Exception ex)
+            catch
             {
-                _logger.LogError(ex, "Error en SeleccionarPlan");
                 TempData["Error"] = "Error al procesar el pago";
                 return RedirectToAction("Index");
             }

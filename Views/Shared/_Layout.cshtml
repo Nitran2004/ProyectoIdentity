@@ -6,12 +6,13 @@
     <title>@ViewData["Title"] - El Nacional</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">   
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
     <link rel="icon" type="image/png" href="~/media/escudo.png" />
     <link rel="apple-touch-icon" href="~/media/escudo.png" />
     @await RenderSectionAsync("Styles", required: false)
+
     <style>
         :root {
             --nacional-rojo: #DA291C;
@@ -19,18 +20,27 @@
             --nacional-gris: #A2AAAD;
         }
 
+        /* ===================== BODY ===================== */
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #f8f9fa;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
         }
 
-        /* NAVBAR PREMIUM */
+        .main-content {
+            flex: 1;
+            min-height: 80vh;
+        }
+
+        /* ===================== NAVBAR ===================== */
         .navbar-custom {
-            background: rgba(0, 0, 0, 0.8) !important; /* Fondo oscuro traslúcido */
-            backdrop-filter: blur(15px); /* Efecto cristal esmerilado */
+            background: rgba(0, 0, 0, 0.88) !important;
+            backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-bottom: 2px solid var(--nacional-rojo);
-            padding: 15px 0;
+            padding: 12px 0;
             transition: all 0.4s ease;
         }
 
@@ -39,27 +49,29 @@
         }
 
         .navbar-brand:hover img {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
+        /* Links del nav */
         .nav-link {
             color: white !important;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             letter-spacing: 1px;
-            margin: 0 10px;
+            margin: 0 6px;
             position: relative;
             transition: color 0.3s ease;
+            padding: 8px 4px !important;
         }
 
-            /* Línea animada debajo de los links (EXCEPTO dropdown) */
+            /* Línea animada debajo (excepto dropdown-toggle) */
             .nav-link:not(.dropdown-toggle)::after {
                 content: '';
                 position: absolute;
                 width: 0;
                 height: 2px;
-                bottom: -5px;
+                bottom: 0;
                 left: 0;
                 background-color: var(--nacional-rojo);
                 transition: width 0.3s ease;
@@ -90,39 +102,92 @@
                 transition: border-top-color 0.3s ease !important;
             }
 
-            /* Cambiar color de flecha en hover - sin animación de línea */
             .nav-link.dropdown-toggle:hover::after {
                 border-top-color: var(--nacional-rojo) !important;
                 width: auto !important;
             }
 
-        /* Botón de Socio en el Nav */
+        /* ===================== DROPDOWN MENU ===================== */
+        .dropdown-menu {
+            background-color: var(--nacional-azul);
+            border: none;
+            border-top: 3px solid var(--nacional-rojo);
+            border-radius: 0 0 6px 6px;
+            padding: 6px 0;
+        }
+
+        .dropdown-item {
+            color: white !important;
+            font-weight: 500;
+            font-size: 0.83rem;
+            padding: 10px 20px;
+            transition: all 0.25s;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+            .dropdown-item:hover {
+                background-color: var(--nacional-rojo) !important;
+                color: white !important;
+                padding-left: 26px;
+            }
+
+        .dropdown-divider {
+            border-color: rgba(255,255,255,0.15) !important;
+            margin: 2px 0;
+        }
+
+        /* Hover para abrir dropdown en desktop */
+        @@media (min-width: 992px) {
+            .nav-item.dropdown:hover > .dropdown-menu {
+                display: block;
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .dropdown-menu {
+                margin-top: 0;
+                display: block;
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(10px);
+                transition: all 0.25s ease;
+                pointer-events: none;
+            }
+
+            .nav-item.dropdown:hover > .dropdown-menu {
+                pointer-events: auto;
+            }
+        }
+
+        /* ===================== BOTÓN SOCIO ===================== */
         .btn-nav-socio {
             background-color: var(--nacional-rojo);
             color: white !important;
             border-radius: 50px;
-            padding: 8px 20px !important;
+            padding: 8px 18px !important;
             font-weight: 700 !important;
-            box-shadow: 0 4px 15px rgba(218, 41, 28, 0.3);
+            font-size: 0.78rem !important;
+            letter-spacing: 0.8px;
+            box-shadow: 0 4px 15px rgba(218, 41, 28, 0.35);
+            transition: all 0.3s ease;
+            white-space: nowrap;
         }
 
             .btn-nav-socio:hover {
                 background-color: white;
                 color: var(--nacional-rojo) !important;
                 transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(218, 41, 28, 0.45);
             }
 
-        /* Para que no haya saltos de diseño */
-        .main-content {
-            min-height: 80vh;
-        }
-
-        /* Estilo para los links dentro del partial de login */
+        /* ===================== AUTH LINKS ===================== */
         .navbar-custom .login-partial-link {
             color: white !important;
             font-weight: 600;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             text-decoration: none;
             transition: color 0.3s;
         }
@@ -131,56 +196,64 @@
                 color: var(--nacional-rojo) !important;
             }
 
-        /* Separador visual entre Iniciar Sesión y Registro si están juntos */
         .auth-separator {
             color: rgba(255,255,255,0.3);
             margin: 0 5px;
         }
 
-        /* Estilo para el menú desplegable */
-        .dropdown-menu {
-            background-color: #0033A0; /* Azul Nacional */
-            border: none;
-            border-top: 3px solid #DA291C; /* Línea superior Roja */
-        }
-
-        .dropdown-item {
-            color: white !important;
-            font-weight: 500;
-            padding: 10px 20px;
-            transition: all 0.3s;
-        }
-
-            .dropdown-item:hover {
-                background-color: #DA291C; /* Fondo rojo al pasar el mouse */
-                color: white !important;
-                padding-left: 25px; /* Efecto sutil de movimiento */
+        /* ===================== RESPONSIVE MOBILE ===================== */
+        @@media (max-width: 991px) {
+            .navbar-collapse {
+                background: rgba(0, 0, 0, 0.97);
+                padding: 16px 12px;
+                border-radius: 0 0 10px 10px;
+                margin-top: 8px;
+                border-top: 2px solid var(--nacional-rojo);
             }
 
-            /* EFECTO HOVER PARA DROPDOWNS */
-@@media (min-width: 992px) {
-    /* Muestra el menú al pasar el mouse por el contenedor li */
-    .nav-item.dropdown:hover > .dropdown-menu {
-        display: block;
-        margin-top: 0; /* Evita saltos visuales */
-        opacity: 1;
-        visibility: visible;
-        transform: translateY(0);
-        transition: all 0.3s ease;
-    }
+            .nav-link {
+                margin: 2px 0;
+                padding: 10px 8px !important;
+                border-bottom: 1px solid rgba(255,255,255,0.06);
+            }
 
-    /* Pequeño ajuste para que no se cierre el menú al intentar bajar el mouse */
-    .dropdown-menu {
-        margin-top: 0;
-        display: block;
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(10px);
-        transition: all 0.3s ease;
-    }
-}
+                .nav-link:last-child {
+                    border-bottom: none;
+                }
+            /* En móvil los dropdowns se abren con click (Bootstrap por defecto) */
+            .dropdown-menu {
+                opacity: 1 !important;
+                visibility: visible !important;
+                transform: none !important;
+                pointer-events: auto !important;
+                background-color: rgba(0, 51, 160, 0.6);
+                border-top: 2px solid var(--nacional-rojo);
+                margin-top: 4px;
+            }
 
-        /* ESTILOS FOOTER */
+            .navbar-end-section {
+                flex-direction: column;
+                align-items: flex-start !important;
+                gap: 12px !important;
+                padding-top: 12px;
+                border-top: 1px solid rgba(255,255,255,0.1);
+                margin-top: 8px;
+                width: 100%;
+            }
+
+            .btn-nav-socio {
+                display: inline-block;
+                width: auto;
+            }
+        }
+
+        @@media (max-width: 576px) {
+            .navbar-custom {
+                padding: 10px 0;
+            }
+        }
+
+        /* ===================== SPONSORS ===================== */
         .sponsor-img {
             height: 40px;
             filter: grayscale(100%) brightness(0.8);
@@ -193,10 +266,6 @@
                 transform: scale(1.1);
             }
 
-        .footer-logo {
-            filter: drop-shadow(0 0 10px rgba(255,255,255,0.1));
-        }
-
         .grayscale-logo {
             filter: brightness(0) invert(1);
             opacity: 0.6;
@@ -207,6 +276,7 @@
                 opacity: 1;
             }
 
+        /* ===================== FOOTER ===================== */
         .social-icons a i {
             transition: transform 0.3s, color 0.3s;
         }
@@ -216,95 +286,160 @@
             transform: scale(1.2);
         }
 
-        /* Para asegurar que el footer siempre este abajo */
-        body {
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+        @@media (max-width: 576px) {
+            .sponsor-img {
+                height: 35px !important;
+            }
         }
 
-        .main-content {
-            flex: 1;
-        }
+
     </style>
 </head>
 <body>
 
+    <!-- ==================== NAVBAR ==================== -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom sticky-top">
         <div class="container">
+
+            <!-- LOGO / BRAND -->
             <a class="navbar-brand" asp-controller="Home" asp-action="Index">
                 <img src="~/media/escudo.png" height="50" alt="El Nacional">
             </a>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <!-- BOTÓN HAMBURGUESA (móvil) -->
+            <button class="navbar-toggler border-0" type="button"
+                    data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Menú">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
+            <!-- CONTENIDO COLAPSABLE -->
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto align-items-center">
 
+                <!-- LINKS IZQUIERDA -->
+                <ul class="navbar-nav me-auto align-items-lg-center">
+
+                    <!-- CANALES -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-uppercase fw-bold"
-                           href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or"
-                           id="navbarTienda"
-                           target="_blank"
-                           role="button"
-                           data-bs-toggle="dropdown"
-                           aria-expanded="false">
-                            Tienda
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarCanales" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Canales
                         </a>
-
-                        <ul class="dropdown-menu shadow border-0" aria-labelledby="navbarTienda">
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarCanales">
                             <li>
-                                <a class="dropdown-item py-2" asp-controller="Ubicaciones" asp-action="Index">
-                                    Donde puedo encontrar camisetas ?
+                                <a class="dropdown-item py-2 d-flex align-items-center"
+                                   href="https://www.facebook.com/elnacionalecu" target="_blank">
+                                    <i class="bi bi-facebook me-2" style="color:#4267B2;"></i> Facebook
                                 </a>
                             </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2 d-flex align-items-center"
+                                   href="https://www.instagram.com/elnacionalec/" target="_blank">
+                                    <i class="bi bi-instagram me-2" style="color:#E1306C;"></i> Instagram
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2 d-flex align-items-center"
+                                   href="https://x.com/elnacionalec" target="_blank">
+                                    <i class="bi bi-twitter-x me-2"></i> Twitter / X
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2 d-flex align-items-center"
+                                   href="https://www.tiktok.com/@@elnacionalec" target="_blank">
+                                    <i class="bi bi-tiktok me-2"></i> TikTok
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
 
+                    <!-- TIENDA -->
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarTienda" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
+                            Tienda
+                        </a>
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarTienda">
+                            <li>
+                                <a class="dropdown-item py-2"
+                                   href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or"
+                                   target="_blank">
+                                    <i class="bi bi-bag me-2"></i> Ir a la tienda
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Ubicaciones" asp-action="Index">
+                                    <i class="bi bi-geo-alt me-2"></i> ¿Dónde comprar camisetas?
+                                </a>
+                            </li>
                             @if (User.Identity.IsAuthenticated && User.IsInRole("Administrador"))
                             {
-                                <li><hr class="dropdown-divider bg-secondary"></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item py-2" asp-controller="Ubicaciones" asp-action="Index">
-                                        Gestionar Ubicaciones
+                                        <i class="bi bi-pencil-square me-2"></i> Gestionar Ubicaciones
                                     </a>
                                 </li>
                             }
                         </ul>
                     </li>
 
+                    <!-- ESCUELAS -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle text-uppercase fw-bold" href="#" id="navbarEscuelas" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#"
+                           id="navbarEscuelas" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">
                             Escuelas
                         </a>
-                        <ul class="dropdown-menu shadow border-0" aria-labelledby="navbarEscuelas">
-                            <li><a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Sierra">CDN SIERRA</a></li>
-                            <li><hr class="dropdown-divider bg-secondary"></li>
-                            <li><a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Costa">CDN COSTA</a></li>
-                            <li><hr class="dropdown-divider bg-secondary"></li>
-                            <li><a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Oriente">CDN ORIENTE</a></li>
+                        <ul class="dropdown-menu shadow" aria-labelledby="navbarEscuelas">
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Sierra">
+                                    <i class="bi bi-geo me-2"></i> CDN Sierra
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Costa">
+                                    <i class="bi bi-geo me-2"></i> CDN Costa
+                                </a>
+                            </li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Index" asp-route-region="Oriente">
+                                    <i class="bi bi-geo me-2"></i> CDN Oriente
+                                </a>
+                            </li>
                         </ul>
                     </li>
+
+                    <!-- ADMINISTRACIÓN (solo admin) -->
                     @if (User.IsInRole("Administrador"))
                     {
                         <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle text-uppercase fw-bold" href="#" id="navbarAdmin" role="button"
+                            <a class="nav-link dropdown-toggle" href="#"
+                               id="navbarAdmin" role="button"
                                data-bs-toggle="dropdown" aria-expanded="false">
                                 Administración
                             </a>
-                            <ul class="dropdown-menu dropdown-menu-dark shadow border-0" aria-labelledby="navbarAdmin">
+                            <ul class="dropdown-menu shadow" aria-labelledby="navbarAdmin">
                                 <li>
                                     <a class="dropdown-item py-2" asp-controller="TablaPosiciones" asp-action="Index">
                                         <i class="fas fa-list-ol me-2"></i> Tabla de posiciones
                                     </a>
                                 </li>
-                                <li><hr class="dropdown-divider bg-secondary"></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item py-2" asp-controller="Partidos" asp-action="Crear">
                                         <i class="fas fa-futbol me-2"></i> Partidos
                                     </a>
                                 </li>
-                                <li><hr class="dropdown-divider bg-secondary"></li>
+                                <li><hr class="dropdown-divider"></li>
                                 <li>
                                     <a class="dropdown-item py-2" asp-controller="Escuelas" asp-action="Create">
                                         <i class="fas fa-school me-2"></i> Escuelas
@@ -313,58 +448,98 @@
                             </ul>
                         </li>
                     }
+
                 </ul>
 
-                <div class="d-flex align-items-center gap-3">
-                    <a class="nav-link btn-nav-socio m-0" asp-controller="Membresias" asp-action="Index">Hazte Socio</a>
-                    <partial name="_LoginRegistroVistaParcial" />
-                </div>
-            </div>
-        </div>
+                <div class="collapse navbar-collapse" id="navbarNav">
+
+                    @if (User.Identity.IsAuthenticated && User.IsInRole("Socio"))
+                    {
+                        <ul class="navbar-nav mx-auto align-items-lg-center">
+                            <li class="nav-item">
+                                <a class="nav-link @(ViewContext.RouteData.Values["Action"]?.ToString() == "Home" ? "active" : "")"
+                                   asp-controller="Socio" asp-action="Home">HOME</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">MI CUENTA</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" asp-controller="Membresias" asp-action="Index">PLANES</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">MIS BENEFICIOS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">EXPERIENCIAS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">ENTRADAS</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">MI LEGADO</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-danger fw-bold" href="#">ATENCIÓN AL SOCIO</a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav me-auto align-items-lg-center">
+                        </ul>
+                    }
+
+                    <div class="d-flex align-items-center gap-3 navbar-end-section">
+                        @if (!User.IsInRole("Socio"))
+                        {
+                            <a class="nav-link btn-nav-socio m-0" asp-controller="Membresias" asp-action="Index">
+                                Quiero Ser Socio
+                            </a>
+                        }
+                        <partial name="_LoginRegistroVistaParcial" />
+                    </div>
+
+            </div><!-- /navbar-collapse -->
+        </div><!-- /container -->
     </nav>
 
-    @{
-        bool esInicio = (ViewData["Title"]?.ToString()?.Contains("Inicio") ?? false);
-    }
-
+    <!-- ==================== CONTENIDO PRINCIPAL ==================== -->
     <div class="main-content">
         <main role="main">
             @RenderBody()
         </main>
     </div>
 
+    <!-- ==================== FOOTER ==================== -->
     <footer class="bg-dark text-white pt-5 pb-4 mt-5 border-top border-danger border-3">
         <div class="container text-center">
 
-            <div class="row mb-5 text-center">
+            <!-- Sponsors -->
+            <div class="row mb-5">
                 <div class="col-12">
-                    <h6 class="text-uppercase fw-bold mb-4" style="color: var(--nacional-rojo); letter-spacing: 2px;">Sponsors Oficiales</h6>
-
+                    <h6 class="text-uppercase fw-bold mb-4" style="color: var(--nacional-rojo); letter-spacing: 2px;">
+                        Sponsors Oficiales
+                    </h6>
                     <div class="d-flex flex-wrap gap-4 justify-content-center align-items-center">
-
                         <a href="https://fibramax.ec/" target="_blank">
-                            <img src="~/media/fibramax.png" alt="Fibramax" class="sponsor-img" style="height: 80px;">
+                            <img src="~/media/fibramax.png" alt="Fibramax" class="sponsor-img" style="height:80px;">
                         </a>
-
                         <a href="https://medinuclear.com.ec/" target="_blank">
-                            <img src="~/media/medi.png" alt="Medinuclear" class="sponsor-img" style="height: 150px;">
+                            <img src="~/media/medi.png" alt="Medinuclear" class="sponsor-img" style="height:150px;">
                         </a>
-
                         <a href="https://tecmanecuador.com/" target="_blank">
-                            <img src="~/media/tecman.png" alt="Tecman" class="sponsor-img" style="height: 100px;">
+                            <img src="~/media/tecman.png" alt="Tecman" class="sponsor-img" style="height:100px;">
                         </a>
-
                         <a href="https://proassislife.com/" target="_blank">
-                            <img src="~/media/proassislife.png" alt="Proassislife" class="sponsor-img" style="height: 50px;">
+                            <img src="~/media/proassislife.png" alt="Proassislife" class="sponsor-img" style="height:50px;">
                         </a>
-
-                        <img src="~/media/lotto.png" alt="Lotto" class="sponsor-img" style="height: 120px;">
-
+                        <img src="~/media/lotto.png" alt="Lotto" class="sponsor-img" style="height:120px;">
                     </div>
                 </div>
             </div>
 
-            <div class="row mb-5 text-center">
+            <!-- Apoyo -->
+            <div class="row mb-5">
                 <div class="col-12">
                     <h6 class="text-uppercase fw-bold mb-3" style="color: var(--nacional-gris);">Con el apoyo de</h6>
                     <a href="https://naniecheandia.com/inicio/" target="_blank">
@@ -373,13 +548,20 @@
                 </div>
             </div>
 
+            <!-- Redes sociales -->
             <div class="row mb-4">
                 <div class="col-12">
                     <h6 class="text-uppercase fw-bold mb-4" style="color: var(--nacional-rojo);">Síguenos en redes</h6>
                     <div class="social-icons">
-                        <a href="https://www.facebook.com/elnacionalecu" target="_blank" class="mx-3 text-white fs-2"><i class="bi bi-facebook"></i></a>
-                        <a href="https://www.instagram.com/elnacionalec/" target="_blank" class="mx-3 text-white fs-2"><i class="bi bi-instagram"></i></a>
-                        <a href="https://x.com/elnacionalec" target="_blank" class="mx-3 text-white fs-2"><i class="bi bi-twitter-x"></i></a>
+                        <a href="https://www.facebook.com/elnacionalecu" target="_blank" class="mx-3 text-white fs-2">
+                            <i class="bi bi-facebook"></i>
+                        </a>
+                        <a href="https://www.instagram.com/elnacionalec/" target="_blank" class="mx-3 text-white fs-2">
+                            <i class="bi bi-instagram"></i>
+                        </a>
+                        <a href="https://x.com/elnacionalec" target="_blank" class="mx-3 text-white fs-2">
+                            <i class="bi bi-twitter-x"></i>
+                        </a>
                         <a href="https://www.tiktok.com/@@elnacionalec" target="_blank" class="mx-3 text-white fs-2">
                             <i class="bi bi-tiktok"></i>
                         </a>
@@ -389,14 +571,13 @@
 
             <hr class="bg-secondary opacity-25">
 
+            <!-- Copyright -->
             <div class="row">
                 <div class="col-12">
                     <p class="small text-muted mb-0">&copy; 2026 Club Deportivo El Nacional - Todos los derechos reservados.</p>
                     <p class="small text-muted mb-0">
-                        Detalles de Ubicación:
                         Sede Social/Administrativa: Calle Yasuní e Isla San Cristóbal, Quito, Ecuador, 170501.
                     </p>
-
                     <p class="small text-muted">Desarrollado para el Bitricampeón.</p>
                 </div>
             </div>
@@ -407,5 +588,6 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

@@ -262,21 +262,16 @@
         }
 
 
-        keyframes float {
-            0%
-
-        {
-            transform: translateY(0px);
-        }
-
-        50% {
-            transform: translateY(-20px);
-        }
-
-        100% {
-            transform: translateY(0px);
-        }
-
+@@keyframes float {
+            0% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+            100% {
+                transform: translateY(0px);
+            }
         }
 
 
@@ -580,9 +575,9 @@
             padding-left: 210px;
         }
 
-        media (max-width: 991px) {
+        @@media (max-width: 991px) {
             .membership-text
-
+        
         {
             padding-left: 20px;
             padding-right: 20px;
@@ -594,6 +589,7 @@
         .membership-container {
             max-width: 1250px;
         }
+
 
         /* SECCIÓN BI-TRI */
 /* SECCION BI-TRI - REEMPLAZO COMPLETO */
@@ -811,6 +807,7 @@
         .swiper-slide {
             display: flex;
             justify-content: center;
+        }
 
         .titulo-card {
             text-align: center;
@@ -839,7 +836,6 @@
                 text-transform: uppercase;
             }
 
-        <style >
         .container-narrow {
             max-width: 1200px !important; /* Ajusta este número (1100px o 1200px) según tu gusto */
             margin-right: auto !important;
@@ -1067,7 +1063,6 @@
             border-radius: 5px;
         }
 
-        <style >
         /* Contenedor estrecho para centrar la tienda */
         .container-narrow {
             max-width: 1200px;
@@ -1133,10 +1128,9 @@
             padding: 0 40px;
         }
     </style>
-    </style>
-    </style>
 
-    }
+    
+
 }
 
 <header class="hero-section">
@@ -1297,8 +1291,17 @@
                     }
                     else
                     {
-                        <button class="btn btn-secondary btn-lg px-5 py-3 disabled" style="border-radius: 50px;">
-                            Entradas no disponibles
+                        <button class="btn btn-secondary btn-lg px-5 py-3 disabled"
+                                style="border-radius: 50px; font-size: 1.2rem; opacity: 0.8;">
+                            <i class="bi bi-info-circle me-2"></i>
+                            @if (Model.ProximoPartido.Visitante.Contains("Nacional"))
+                            {
+                                @:Visitante - No disponible
+                            }
+                            else
+                            {
+                                @:Entradas no disponibles
+                            }
                         </button>
                     }
                 </div>
@@ -1312,17 +1315,34 @@
         }
     </div>
 </section>
-<section class="store-section py-5" style="background: linear-gradient(to bottom, rgba(218, 41, 28, 0.08), rgba(255,255,255,1));">
+<section class="store-section py-5" style="background: linear-gradient(to bottom, rgba(218, 41, 28, 0.6) 0%, rgba(169, 169, 169, 0.5) 45%, rgba(34, 139, 34, 0.4) 100%);">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
             <div class="d-flex align-items-center">
-                <img src="~/media/Kao-Sport.png" alt="Tiendas Kao" style="height: 100px; margin-right: 55px;">
-                <h4 class="mb-0 fw-bold" style="color: #003366;">El Nacional <br><span class="text-secondary fs-6 fw-normal">Tiendas Kao</span></h4>
+                <img src="~/media/Kao-Sport.png" alt="Tiendas Kao" style="height: 150px; margin-right: 55px;">
+                <h4 class="mb-0 fw-bold" style="color: white;">
+                    El Nacional <br>
+                    <span class="text-white fs-6 fw-normal" style="opacity: 0.9;">Tiendas Kao</span>
+                </h4>
             </div>
             <div class="d-none d-md-block">
-                <a href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or" class="btn btn-outline-secondary me-2"><i class="bi bi-cart"></i> Tienda online</a>
-                <a href="#" class="btn btn-outline-secondary me-2"><i class="bi bi-geo-alt"></i> Encuentra la tienda</a>
-                <a href="#" class="btn btn-success btn-productos-dropdown">Productos <i class="bi bi-chevron-down"></i></a>
+                <a href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or"
+                   class="btn fw-bold me-2 px-3 shadow"
+                   style="background-color: #DA291C; color: white; border: none;" target="_blank">
+                    <i class="bi bi-cart"></i> Tienda online
+                </a>
+
+                <a asp-controller="Ubicaciones" asp-action="Index"
+                   class="btn fw-bold me-2 px-3 shadow"
+                   style="background-color: #6c757d; color: white; border: none;">
+                    <i class="bi bi-geo-alt"></i> Encuentra la tienda
+                </a>
+
+                <a href="https://www.kaosport.com/club-deportivo-el-nacional/nacional,%20cuenca,%20aucas,quito?_q=nacional,%20cuenca,%20aucas,quito&fuzzy=auto&initialMap=ft&initialQuery=nacional,%20cuenca,%20aucas,quito&map=category-2,ft&operator=or"
+                   class="btn btn-success fw-bold shadow px-3"
+                   target="_blank">
+                    Productos
+                </a>
             </div>
         </div>
 
