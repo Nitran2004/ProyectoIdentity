@@ -79,18 +79,6 @@
             color: #DA291C; /* Rojo */
         }
 
-        .hero-video {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            min-width: 100%;
-            min-height: 100%;
-            width: auto;
-            height: auto;
-            transform: translate(-50%, -50%);
-            object-fit: cover; /* CLAVE: Estira el video para cubrir todo */
-            z-index: 0;
-        }
 
         .hero-overlay {
             position: absolute;
@@ -1127,6 +1115,17 @@
             position: relative;
             padding: 0 40px;
         }
+
+        .hero-video-mobile {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            z-index: 0;
+        }
     </style>
 
     
@@ -1134,11 +1133,16 @@
 }
 
 <header class="hero-section">
-    <video class="hero-video" autoplay muted loop playsinline poster="/images/poster-frame.jpg">
-        <source src="~/media/inicial.mp4" type="video/mp4">
-        Tu navegador no soporta video HTML5.
+    <!-- En móvil solo se muestra la imagen poster, no el video -->
+    <video class="hero-video d-none d-md-block"
+           autoplay muted loop playsinline
+           poster="/images/poster-frame.jpg">
+        <source src="~/media/inicial.webm" type="video/webm">
+        <source src="~/media/inicial_opt.mp4" type="video/mp4">
     </video>
-
+    <div class="hero-video-mobile d-block d-md-none"
+         style="background-image: url('/images/poster-frame.jpg')">
+    </div>
     <div class="hero-overlay"></div>
 
     <div class="hero-content">
@@ -1622,7 +1626,7 @@
                 <p class="nombre">Segundo Título Nacional</p>
             </div>
             <div class="swiper-slide titulo-card">
-                <img src="/media/copa1.jpg" alt="Copa Ecuador">
+                <img src="/media/copa1.png" alt="Copa Ecuador">
                 <p class="año">1970</p>
                 <p class="nombre">Primer Campeón Copa Ecuador</p>
             </div>

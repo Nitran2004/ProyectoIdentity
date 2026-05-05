@@ -588,6 +588,28 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
+    <div id="lastDiv"></div>
 
+    <script>
+$(document).ready(function () {
+    // Limpieza inicial
+    $("#lastDiv").nextAll("div, center, table, script[src*='somee']").remove();
+
+    // Observador continuo - detecta cualquier inserción futura
+    const observer = new MutationObserver(() => {
+        $("#lastDiv").nextAll("div, center, table").remove();
+        // Eliminar iframes de publicidad
+        $("iframe").each(function() {
+            const src = $(this).attr("src") || "";
+            if (src.includes("somee") || src.includes("ads")) $(this).remove();
+        });
+    });
+
+    observer.observe(document.body, { 
+        childList: true, 
+        subtree: true 
+    });
+});
+    </script>
 </body>
 </html>

@@ -122,8 +122,18 @@ app.MapPost("/webhook", async (HttpContext context) =>
 // ========================================
 // CONFIGURACIÓN DEL PIPELINE
 // ========================================
-app.UseDeveloperExceptionPage();
-app.UseHsts();
+//app.UseDeveloperExceptionPage();
+//app.UseHsts();
+
+// AHORA (NET 8)
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+}
+else
+{
+    app.UseHsts();
+}
 app.UseHttpsRedirection();
 
 // Configuración de archivos estáticos
