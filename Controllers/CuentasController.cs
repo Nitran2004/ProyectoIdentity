@@ -107,7 +107,7 @@ namespace ProyectoIdentity.Controllers
                 var resultado = await _userManager.CreateAsync(usuario, rgViewModel.Password);
                 if (resultado.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(usuario, "Administrador");
+                    await _userManager.AddToRoleAsync(usuario, "Registrado");
 
                     // --- INICIO DE LÓGICA DE VALIDACIÓN ---
 
