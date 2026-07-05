@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.AspNetCore.RateLimiting;
+using ProyectoIdentity.Helpers;
 using ProyectoIdentity.Models;
 using System.Runtime.InteropServices;
 
@@ -85,11 +87,23 @@ namespace ProyectoIdentity.Controllers
         [HttpPost]
         [ValidateAntiForgeryToken]
         [AllowAnonymous]
-        public async Task<IActionResult> Registro(RegistroViewModel rgViewModel, string returnurl = null)
+        [EnableRateLimiting("RegistroPolicy")]
+        public async Task<IActionResult> Registro(RegistroViewModel rgViewModel, string returnurl = null, string trap = null)
         {
+            // 1. Honeypot
+            if (!string.IsNullOrEmpty(trap))
+                return View("RegistroConfirmacionEspera");
+
+            // 2. Rate limit manual por IP
+            var ip = HttpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown";
+            if (RateLimiterManual.IsBlocked($"registro:{ip}"))
+            {
+                ModelState.AddModelError("", "Demasiados intentos. Espera un momento.");
+                return View(rgViewModel);
+            }
+
             ViewData["ReturnUrl"] = returnurl;
             returnurl = returnurl ?? Url.Content("~/");
-
             if (ModelState.IsValid)
             {
                 var usuario = new AppUsuario
@@ -107,34 +121,20 @@ namespace ProyectoIdentity.Controllers
                 var resultado = await _userManager.CreateAsync(usuario, rgViewModel.Password);
                 if (resultado.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(usuario, "Administrador");
-
-                    // --- INICIO DE LÓGICA DE VALIDACIÓN ---
-
-                    // 1. Generar el token de confirmación
+                    await _userManager.AddToRoleAsync(usuario, "Registrado");
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(usuario);
-
-                    // 2. Crear el link que apunta a una nueva acción 'ConfirmarEmail'
                     var callbackUrl = Url.Action("ConfirmarEmail", "Cuentas",
                         new { userId = usuario.Id, code = code }, Request.Scheme);
-
-                    // 3. Diseño del correo (Estilo El Nacional)
                     string cuerpoHtml = $@"
-                <div style='font-family: Arial; border: 1px solid #ddd; padding: 20px; max-width: 600px;'>
-                    <h2 style='color: #DA291C;'>¡Bienvenido al Bitri!</h2>
-                    <p>Gracias por registrarte. Para activar tu cuenta, por favor confirma tu correo:</p>
-                    <a href='{callbackUrl}' style='background-color: #111; color: white; padding: 10px 20px; text-decoration: none;'>
-                        CONFIRMAR MI CUENTA
-                    </a>
-                </div>";
-
-                    // 4. Enviar el correo
+        <div style='font-family: Arial; border: 1px solid #ddd; padding: 20px; max-width: 600px;'>
+            <h2 style='color: #DA291C;'>¡Bienvenido al Bitri!</h2>
+            <p>Gracias por registrarte. Para activar tu cuenta, por favor confirma tu correo:</p>
+            <a href='{callbackUrl}' style='background-color: #111; color: white; padding: 10px 20px; text-decoration: none;'>
+                CONFIRMAR MI CUENTA
+            </a>
+        </div>";
                     await _emailSender.SendEmailAsync(rgViewModel.Email, "Confirma tu cuenta - El Nacional", cuerpoHtml);
-
-                    // 5. IMPORTANTE: NO hacemos SignInAsync. Redirigimos a una página de aviso.
                     return View("RegistroConfirmacionEspera");
-
-                    // --- FIN DE LÓGICA DE VALIDACIÓN ---
                 }
                 ValidarErrores(resultado);
             }

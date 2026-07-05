@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Localization;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.AspNetCore.StaticFiles;
 using Microsoft.EntityFrameworkCore;
 using ProyectoIdentity.Datos;
@@ -93,6 +94,23 @@ builder.Logging.SetMinimumLevel(LogLevel.Information);
 // ========================================
 // CONSTRUCCIÓN DE LA APLICACIÓN (AQUÍ SE CREA 'app')
 // ========================================
+
+builder.Services.AddRateLimiter(options =>
+{
+    options.AddFixedWindowLimiter("RegistroPolicy", opt =>
+    {
+        opt.PermitLimit = 3;
+        opt.Window = TimeSpan.FromMinutes(1);
+        opt.QueueLimit = 0;
+    });
+
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = 429;
+        await context.HttpContext.Response.WriteAsync(
+            "Demasiados intentos. Espera un momento.", token);
+    };
+});
 var app = builder.Build();
 
 // ========================================
@@ -153,7 +171,7 @@ app.UseSession();
 app.UseRequestLocalization();
 app.UseAuthentication();
 app.UseAuthorization();
-
+app.UseRateLimiter();
 // Mapeo de rutas para APIs
 app.MapControllers();
 
